@@ -19,28 +19,29 @@ class OAward
 	// Hard-coded CRUD actions FTW!
 	protected static $actions = array('create', 'read', 'update', 'delete');
 	protected $error = false;
-	protected $columns = array('award_id', 'user_id', 'name', 'image', 'description');
+	protected $columns = array('award_id', 'award_user_id', 'award_name', 'award_image', 'award_description');
 
 	public function __construct()
 	{
 		global $smcFunc;
 
+		// Load the very useful language strings
 		loadLanguage(self::$name);
 
+		// Yeah, we're using superglobals directly, ugly but when in Rome, do as the Romans do...
 		$this->_data = $_REQUEST;
 		$this->_smcFunc = $smcFunc;
 	}
 
 	public function ajax()
 	{
-		// Yeah, we're using superglobals directly, ugly but when in Rome, do as the Romans do...
-		$sa = trim(htmlspecialchars($_GET['sa'], ENT_QUOTES));
+		$this->sanitize('sa');
 
 		// Time to instantiate yourself pal... did it here because we need a single text string and only if someone mess things up, yeah, talk about been efficient!
 		$do = new self();
 
 		// Nothing to see here, move on...
-		if (empty($sa) or !in_array($sa, self::$actions))
+		if (empty($this->_data['sa']) or !in_array($this->_data['sa'], self::$actions))
 			fatal_lang_error(self::$name .'_error_no_valid_action', false);
 
 		// Leave to each case to solve things on their own...
@@ -50,7 +51,7 @@ class OAward
 		if (!empty($this->error))
 			fatal_lang_error(self::$name .'_error_'. $this->error, false);
 
-		// Everything went better than expected
+		// Everything went better than expected, send the response back to the client
 		else
 			$this->respond();
 	}
@@ -103,5 +104,42 @@ class OAward
 
 		// Done, keep the MVC thingy as much as we can!
 		return template_main();
+	}
+
+	protected function sanitize($var)
+	{
+		// Don't waste my time
+		if (empty($this->_data))
+			return false;
+
+		// Is this an array?
+		if (is_array($var))
+			foreach ($var as $item)
+			{
+				if (empty(trim($this->_data[$item])))
+					$this->_data[$item] = false;
+
+				else
+				{
+					if (is_numeric($item))
+						$this->_data[$item] = (int) trim($this->_data[$item]);
+
+					elseif (is_string($item))
+						$this->_data[$item] = trim(htmlspecialchars($this->_data[$item], ENT_QUOTES));
+				}
+			}
+
+		// No? a single item then, check it boy, check it!
+		elseif (empty(trim($this->_data[$var])))
+			return false;
+
+		else
+		{
+			if (is_numeric($var))
+				$this->_data[$var] = (int) trim($this->_data[$var]);
+
+			elseif (is_string($var))
+				$this->_data[$var] = trim(htmlspecialchars($this->_data[$var], ENT_QUOTES));
+		}
 	}
 }

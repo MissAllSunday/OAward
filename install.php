@@ -50,25 +50,25 @@
 					'auto' => true
 				),
 				array(
-					'name' => 'user_id',
+					'name' => 'award_user_id',
 					'type' => 'int',
 					'size' => 5,
 					'null' => false
 				),
 				array(
-					'name' => 'name',
+					'name' => 'award_name',
 					'type' => 'varchar',
 					'size' => 255,
 					'default' => '',
 				),
 				array(
-					'name' => 'image',
+					'name' => 'award_image',
 					'type' => 'varchar',
 					'size' => 255,
 					'default' => '',
 				),
 				array(
-					'name' => 'description',
+					'name' => 'award_description',
 					'type' => 'text',
 					'size' => '',
 					'default' => '',
