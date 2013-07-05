@@ -21,6 +21,7 @@ class OAward
 	protected $error = false;
 	protected $columns = array('award_id', 'award_user_id', 'award_name', 'award_image', 'award_description');
 	protected = $user = 0;
+	public $awards = array();
 
 	public function __construct($user)
 	{
@@ -89,7 +90,33 @@ class OAward
 
 	public function read()
 	{
+		// Use the cache please...
+		if (($this->awards = cache_get_data(OAward::$name .'-User-' . $this->user, 120)) == null)
+		{
+			$result = $this->_smcFunc['db_query']('', '
+				SELECT '. (implode(',', self::$columns)) .'
+				FROM {db_prefix}' . (strtolower(self::$name)) . '
+				WHERE award_user_id = {int:user}
+				', array(
+					'user' => $this->user,
+				)
+			);
 
+			// Populate the array like a boss!
+			while ($row = $this->_smcFunc['db_fetch_assoc']($result))
+				$this->awards[$row['id']] = array(
+				'award_id' => $row[]'award_id',
+				'award_user_id' => $row['award_user_id'],
+				'award_name' => $row['award_name'],
+				'award_image' => $row['award_image'],
+				'award_description' => $row['award_description'],
+			),;
+
+			$this->_smcFunc['db_free_result']($result);
+
+			// Cache this beauty
+			cache_put_data(OAward::$name .'-User-' . $this->user, $this->awards, 120);
+		}
 	}
 
 	public function update()
