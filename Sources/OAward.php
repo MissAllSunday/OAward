@@ -25,12 +25,12 @@ class OAward
 		// Yeah, we're using superglobals directly, ugly but when in Rome, do as the Romans do...
 		$sa = trim(htmlspecialchars($_GET['sa'], ENT_QUOTES));
 
+		// Time to instantiate yourself pal... did it here because we need  some text strings...
+		$do = new self();
+
 		// Nothing to see here, move on...
 		if (empty($sa) or !in_array($sa, self::$actions))
 			fatal_lang_error(self::$name .'_error_no_valid_action', false);
-
-		// Time to instantiate yourself pal...
-		$do = new self();
 
 		// Leave to each case to solve things on their own...
 		$do->$sa();
@@ -41,15 +41,17 @@ class OAward
 
 		// Everything went better than expected
 		else
-			// od stuff here!
+			$this->respond();
 	}
 
 	public function __construct()
 	{
+		global $smcFunc;
+
 		loadLanguage(self::$name);
 
 		$this->_data = $_REQUEST;
-
+		$this->_smcFunc = $smcFunc;
 	}
 
 	public function create()
@@ -70,5 +72,18 @@ class OAward
 	public function delete()
 	{
 
+	}
+	protected function respond()
+	{
+		global $context;
+
+		loadTemplate(self::$name);
+
+		// Pass everything to the template
+		$context['template_layers'] = array();
+		$context['sub_template'] = 'respond';
+
+		// Done, keep the MVC thingy as much as we can!
+		return template_main();
 	}
 }
