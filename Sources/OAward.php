@@ -19,13 +19,24 @@ class OAward
 	// Hard-coded CRUD actions FTW!
 	protected static $actions = array('create', 'read', 'update', 'delete');
 	protected $error = false;
+	protected $columns = array('award_id', 'user_id', 'name', 'image', 'description');
+
+	public function __construct()
+	{
+		global $smcFunc;
+
+		loadLanguage(self::$name);
+
+		$this->_data = $_REQUEST;
+		$this->_smcFunc = $smcFunc;
+	}
 
 	public function ajax()
 	{
 		// Yeah, we're using superglobals directly, ugly but when in Rome, do as the Romans do...
 		$sa = trim(htmlspecialchars($_GET['sa'], ENT_QUOTES));
 
-		// Time to instantiate yourself pal... did it here because we need  some text strings...
+		// Time to instantiate yourself pal... did it here because we need a single text string and only if someone mess things up, yeah, talk about been efficient!
 		$do = new self();
 
 		// Nothing to see here, move on...
@@ -44,19 +55,26 @@ class OAward
 			$this->respond();
 	}
 
-	public function __construct()
-	{
-		global $smcFunc;
-
-		loadLanguage(self::$name);
-
-		$this->_data = $_REQUEST;
-		$this->_smcFunc = $smcFunc;
-	}
-
 	public function create()
 	{
+		// You don't say...
+		$array = array();
 
+		// Some logic here...
+
+
+		// Insert!
+		$this->_smcFunc['db_insert']('replace', '{db_prefix}' . (strtolower(self::$name)) .
+			'',
+			array(
+				'award_id' => 'int',
+				'user_id' => 'int',
+				'name' => 'string',
+				'image' => 'string',
+				'description' => 'string',
+			),
+			$array, array('award_id', )
+		);
 	}
 
 	public function read()
