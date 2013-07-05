@@ -26,9 +26,6 @@ class OAward
 	{
 		global $smcFunc;
 
-		// Load the very useful language strings
-		loadLanguage(self::$name);
-
 		// Yeah, we're using superglobals directly, ugly but when in Rome, do as the Romans do...
 		$this->_data = $_REQUEST;
 		$this->_smcFunc = $smcFunc;
@@ -47,24 +44,17 @@ class OAward
 
 		// Nothing to see here, move on...
 		if (empty($this->_data['sa']) or !in_array($this->_data['sa'], self::$actions))
-			fatal_lang_error(self::$name .'_error_no_valid_action', false);
+			$this->setError('no_valid_action');
 
 		// Leave to each case to solve things on their own...
 		$do->$sa();
 
-		// We got an issue...
-		if (!empty($this->error))
-			fatal_lang_error(self::$name .'_error_'. $this->error, false);
-
 		// Everything went better than expected, send the response back to the client
-		else
-			$this->respond();
+		$this->respond();
 	}
 
 	public function create()
 	{
-		global $txt;
-
 		// You don't say...
 		$array = array();
 
@@ -81,12 +71,7 @@ class OAward
 
 		// Are there any errors? if so, send them all at once!
 		if (!empty($tempError) && is_array($tempError))
-		{
-			$this->error = vsprintf($txt[self::$name .'_error_multiple_empty_values'], $tempError);
-
-			// Stop the process
-			die;
-		}
+			$this->setError('multiple_empty_values'], $tempError)
 
 		// Insert!
 		$this->_smcFunc['db_insert']('replace', '{db_prefix}' . (strtolower(self::$name)) .
@@ -117,23 +102,15 @@ class OAward
 		$this->sanitize('award_id');
 
 		if (empty($this->_data['award_id']))
-		{
 			$this->setError('no_valid_id');
-
-			// End it
-			die;
-		}
 
 		// Does the entry exist?
 		$this->read();
 
 		if (empty($this->awards[$this->_data['award_id']]))
-		{
 			$this->setError('no_valid_id');
-			die;
-		}
 
-
+		// All  good!
 		$this->_smcFunc['db_query']('', '
 			DELETE FROM {db_prefix}' . (strtolower(self::$name)) . '
 			WHERE award_id = {int:id}', array('id' => $this->_data['award_id'], ));
@@ -153,9 +130,19 @@ class OAward
 		return template_main();
 	}
 
-	protected function setError($error, $optional = array())
+	protected function setError($error, $optionalData = array())
 	{
+		global $xt;
 
+		// Load the very useful language strings
+		loadLanguage(self::$name);
+
+		// Is there any special cases?
+		if (!empty($optionalData))
+			fatal_lang_error(vfprintf(self::$name .'_error_'. $error, $optionalData), false);
+
+		else
+			fatal_lang_error(self::$name .'_error_'. $error, false);
 	}
 
 	protected function sanitize($var)
