@@ -20,8 +20,9 @@ class OAward
 	protected static $actions = array('create', 'read', 'update', 'delete');
 	protected $error = false;
 	protected $columns = array('award_id', 'award_user_id', 'award_name', 'award_image', 'award_description');
+	protected = $user = 0;
 
-	public function __construct()
+	public function __construct($user)
 	{
 		global $smcFunc;
 
@@ -31,6 +32,9 @@ class OAward
 		// Yeah, we're using superglobals directly, ugly but when in Rome, do as the Romans do...
 		$this->_data = $_REQUEST;
 		$this->_smcFunc = $smcFunc;
+
+		// The user we're handling the awards for
+		$this->user = $user;
 	}
 
 	public function ajax()
@@ -110,8 +114,31 @@ class OAward
 
 	public function delete()
 	{
+		$this->sanitize('award_id');
 
+		if (empty($this->_data['award_id']))
+		{
+			$this->setError('no_valid_id');
+
+			// End it
+			die;
+		}
+
+		// Does the entry exist?
+		$this->read();
+
+		if (empty($this->awards[$this->_data['award_id']]))
+		{
+			$this->setError('no_valid_id');
+			die;
+		}
+
+
+		$this->_smcFunc['db_query']('', '
+			DELETE FROM {db_prefix}' . (strtolower(self::$name)) . '
+			WHERE award_id = {int:id}', array('id' => $this->_data['award_id'], ));
 	}
+
 	protected function respond()
 	{
 		global $context;
@@ -124,6 +151,11 @@ class OAward
 
 		// Done, keep the MVC thingy as much as we can!
 		return template_main();
+	}
+
+	protected function setError($error, $optional = array())
+	{
+
 	}
 
 	protected function sanitize($var)
