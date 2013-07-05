@@ -141,6 +141,11 @@ class OAward
 
 				else
 				{
+					// Delete stuff we don't need...
+					foreach ($this->_data as $all)
+						if (!in_array($all, $var))
+							unset($this->_data[$all]);
+
 					if (is_numeric($item))
 						$this->_data[$item] = (int) trim($this->_data[$item]);
 
@@ -155,6 +160,11 @@ class OAward
 
 		else
 		{
+			// Delete stuff we don't need...
+			foreach ($this->_data as $all)
+				if ($all != $var)
+					unset($this->_data[$all]);
+
 			if (is_numeric($var))
 				$this->_data[$var] = (int) trim($this->_data[$var]);
 
