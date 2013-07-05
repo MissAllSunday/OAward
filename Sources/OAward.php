@@ -1,7 +1,7 @@
 <?php
 /**
  *
- * @package awards mod
+ * @package OAwards mod
  * @version 1.0
  * @author Jessica González <suki@missallsunday.com>
  * @copyright Copyright (c) 2013, Jessica González
@@ -35,10 +35,11 @@ class OAward
 
 	public function ajax()
 	{
-		$this->sanitize('sa');
-
 		// Time to instantiate yourself pal... did it here because we need a single text string and only if someone mess things up, yeah, talk about been efficient!
 		$do = new self();
+
+		// Call the inquisition squad!
+		$this->sanitize('sa');
 
 		// Nothing to see here, move on...
 		if (empty($this->_data['sa']) or !in_array($this->_data['sa'], self::$actions))
@@ -58,23 +59,42 @@ class OAward
 
 	public function create()
 	{
+		global $txt;
+
 		// You don't say...
 		$array = array();
 
-		// Some logic here...
+		// Used for collecting possible errors
+		$tempError = array();
 
+		// Get the data
+		$this->sanitize(self::$columns);
+
+		// Lets check if everything is in order...
+		foreach (self::$columns as $value)
+			if (empty($this->_data[$value]))
+				$tempError[] = $value;
+
+		// Are there any errors? if so, send them all at once!
+		if (!empty($tempError) && is_array($tempError))
+		{
+			$this->error = vsprintf($txt[self::$name .'_error_multiple_empty_values'], $tempError);
+
+			// Stop the process
+			die;
+		}
 
 		// Insert!
 		$this->_smcFunc['db_insert']('replace', '{db_prefix}' . (strtolower(self::$name)) .
 			'',
 			array(
 				'award_id' => 'int',
-				'user_id' => 'int',
-				'name' => 'string',
-				'image' => 'string',
-				'description' => 'string',
+				'award_user_id' => 'int',
+				'award_name' => 'string',
+				'award_image' => 'string',
+				'award_description' => 'string',
 			),
-			$array, array('award_id', )
+			$this->_data, array('award_id', )
 		);
 	}
 
