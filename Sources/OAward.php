@@ -22,6 +22,7 @@ class OAward
 	protected $columns = array('award_id', 'award_user_id', 'award_name', 'award_image', 'award_description');
 	protected = $user = 0;
 	public $awards = array();
+	protected $currentAction = '';
 
 	public function __construct($user)
 	{
@@ -33,6 +34,28 @@ class OAward
 
 		// The user we're handling the awards for
 		$this->user = $user;
+	}
+
+	public function showAwards($type)
+	{
+		// Load the text strings
+		loadLanguage(self::$name);
+
+		// Get the awards
+		$awards = $this->read();
+
+		// No goodies? :(
+		if (empty($awards))
+			return false;
+
+		// Pass everything to the template
+		$context['template_layers'] = array();
+		$context['sub_template'] = 'show_display';
+
+		// Logic here
+
+		// Done
+		return template_show_display();
 	}
 
 	public function ajax()
@@ -48,7 +71,11 @@ class OAward
 			$this->setError('no_valid_action');
 
 		// Leave to each case to solve things on their own...
-		$do->$sa();
+		else
+		{
+			$this->currentAction = $this->_data['sa'];
+			$do->$sa();
+		}
 
 		// Everything went better than expected, send the response back to the client
 		$this->respond();
