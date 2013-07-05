@@ -110,6 +110,9 @@ class OAward
 			),
 			$this->_data, array('award_id', )
 		);
+
+		// Clean the cache
+		$this->cleanCache();
 	}
 
 	public function read()
@@ -177,6 +180,9 @@ class OAward
 				'description' => $this->_data['award_description'],
 			)
 		);
+
+		// Clean the cache
+		$this->cleanCache();
 	}
 
 	public function delete()
@@ -196,6 +202,9 @@ class OAward
 		$this->_smcFunc['db_query']('', '
 			DELETE FROM {db_prefix}' . (strtolower(self::$name)) . '
 			WHERE award_id = {int:id}', array('id' => $this->_data['award_id']));
+
+		// Clean the cache
+		$this->cleanCache();
 	}
 
 	protected function respond()
@@ -272,5 +281,10 @@ class OAward
 			elseif (is_string($var))
 				$this->_data[$var] = trim(htmlspecialchars($this->_data[$var], ENT_QUOTES));
 		}
+	}
+
+	protected function cleanCache()
+	{
+		cache_put_data(OAward::$name .'-User-' . $this->user, null, 120);
 	}
 }
