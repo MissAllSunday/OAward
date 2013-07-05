@@ -13,7 +13,7 @@ if (!defined('SMF'))
 
 class OAward
 {
-	// Set a nice name to avoid having to write the same thing over anf over again...
+	// Set a nice name to avoid having to write the same thing over and over again...
 	public static $name = 'OAward';
 
 	// Hard-coded CRUD actions FTW!
@@ -56,9 +56,6 @@ class OAward
 
 	public function create()
 	{
-		// You don't say...
-		$array = array();
-
 		// Used for collecting possible errors
 		$tempError = array();
 
@@ -72,7 +69,7 @@ class OAward
 
 		// Are there any errors? if so, send them all at once!
 		if (!empty($tempError) && is_array($tempError))
-			$this->setError('multiple_empty_values'], $tempError)
+			$this->setError('multiple_empty_values'], $tempError);
 
 		// Insert!
 		$this->_smcFunc['db_insert']('replace', '{db_prefix}' . (strtolower(self::$name)) .
@@ -110,7 +107,7 @@ class OAward
 				'award_name' => $row['award_name'],
 				'award_image' => $row['award_image'],
 				'award_description' => $row['award_description'],
-			),;
+			);
 
 			$this->_smcFunc['db_free_result']($result);
 
@@ -121,7 +118,38 @@ class OAward
 
 	public function update()
 	{
+		// Used for collecting possible errors
+		$tempError = array();
 
+		// Get the data
+		$this->sanitize(self::$columns);
+
+		// Lets check if everything is in order...
+		foreach (self::$columns as $value)
+			if (empty($this->_data[$value]))
+				$tempError[] = $value;
+
+		// Are there any errors? if so, send them all at once!
+		if (!empty($tempError) && is_array($tempError))
+			$this->setError('multiple_empty_values'], $tempError);
+
+		// Does the entry exist?
+		$this->read();
+
+		if (empty($this->awards[$this->_data['award_id']]))
+			$this->setError('no_valid_id');
+
+		$this->_smcFunc['db_query']('', '
+			UPDATE {db_prefix}' . (strtolower(self::$name)) . '
+			SET award_name = {string:name}, award_image = {string:image}, award_descripion = {string:description}
+			WHERE id = {int:id}',
+			array(
+				'id' => $this->_data['award_id'],
+				'name' => $this->_data['award_name'],
+				'image' => $this->_data['award_image'],
+				'description' => $this->_data['award_description'],
+			)
+		);
 	}
 
 	public function delete()
@@ -140,7 +168,7 @@ class OAward
 		// All  good!
 		$this->_smcFunc['db_query']('', '
 			DELETE FROM {db_prefix}' . (strtolower(self::$name)) . '
-			WHERE award_id = {int:id}', array('id' => $this->_data['award_id'], ));
+			WHERE award_id = {int:id}', array('id' => $this->_data['award_id']));
 	}
 
 	protected function respond()
