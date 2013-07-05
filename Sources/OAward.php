@@ -102,10 +102,10 @@ class OAward
 				)
 			);
 
-			// Populate the array like a boss!
+			// Populate the array
 			while ($row = $this->_smcFunc['db_fetch_assoc']($result))
-				$this->awards[$row['id']] = array(
-				'award_id' => $row[]'award_id',
+				$this->awards[$row['award_id']] = array(
+				'award_id' => $row['award_id'],
 				'award_user_id' => $row['award_user_id'],
 				'award_name' => $row['award_name'],
 				'award_image' => $row['award_image'],
