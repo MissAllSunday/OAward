@@ -42,10 +42,10 @@ class OAward
 		loadLanguage(self::$name);
 
 		// Get the awards
-		$awards = $this->read();
+		$context['OAwards'] = $this->read();
 
 		// No goodies? :(
-		if (empty($awards))
+		if (empty($context['OAwards']))
 			return false;
 
 		// Pass everything to the template
@@ -238,6 +238,9 @@ class OAward
 
 	protected function sanitize($var)
 	{
+		// An extra check!
+		$this->_data = $_REQUEST;
+
 		// Don't waste my time
 		if (empty($this->_data))
 			return false;
