@@ -67,18 +67,15 @@ class OAward
 		$do->sanitize('sa');
 
 		// Nothing to see here, move on...
-		if (empty($this->data('sa')) or !in_array($this->_data['sa'], self::$actions))
-			$this->setError('no_valid_action');
+		if (empty($do->data('sa')) or !in_array($do->data('sa'), self::$actions))
+			$do->setError('no_valid_action');
 
 		// Leave to each case to solve things on their own...
 		else
-		{
-			$this->currentAction = $this->_data['sa'];
 			$do->$sa();
-		}
 
 		// Everything went better than expected, send the response back to the client
-		$this->respond();
+		// $this->respond();
 	}
 
 	public function create()
