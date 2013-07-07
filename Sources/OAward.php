@@ -64,10 +64,10 @@ class OAward
 		$do = new self();
 
 		// Call the inquisition squad!
-		$this->sanitize('sa');
+		$do->sanitize('sa');
 
 		// Nothing to see here, move on...
-		if (empty($this->_data['sa']) or !in_array($this->_data['sa'], self::$actions))
+		if (empty($this->data('sa')) or !in_array($this->_data['sa'], self::$actions))
 			$this->setError('no_valid_action');
 
 		// Leave to each case to solve things on their own...
@@ -236,7 +236,7 @@ class OAward
 			fatal_lang_error(self::$name .'_error_'. $error, false);
 	}
 
-	protected function sanitize($var)
+	public function sanitize($var)
 	{
 		// An extra check!
 		$this->_data = $_REQUEST;
@@ -289,5 +289,10 @@ class OAward
 	protected function cleanCache()
 	{
 		cache_put_data(OAward::$name .'-User-' . $this->user, null, 120);
+	}
+	
+	public function data($var)
+	{
+		return !empty($this->_data[$var]) ? $this->_data[$var] : false;
 	}
 }
