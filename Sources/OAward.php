@@ -84,17 +84,19 @@ class OAward
 		// Used for collecting possible errors
 		$tempError = array();
 
-		// Get the data
-		$this->sanitize(self::$columns);
+		// Get the data, we don't need the ID as it doesn't exists yet!
+		$temp = $this->columns;
+		$cast_away = array_shift($temp);
+		$this->sanitize($temp);
 
 		// Lets check if everything is in order...
-		foreach (self::$columns as $value)
+		foreach ($this->columns as $value)
 			if (empty($this->_data[$value]))
 				$tempError[] = $value;
 
 		// Are there any errors? if so, send them all at once!
 		if (!empty($tempError) && is_array($tempError))
-			$this->setError('multiple_empty_values', $tempError);
+			$this->setError('multiple_empty_values', implode(',', $tempError));
 
 		// Insert!
 		$this->_smcFunc['db_insert']('replace', '{db_prefix}' . (strtolower(self::$name)) .
@@ -119,7 +121,7 @@ class OAward
 		if (($this->awards = cache_get_data(OAward::$name .'-User-' . $this->user, 120)) == null)
 		{
 			$result = $this->_smcFunc['db_query']('', '
-				SELECT '. (implode(',', self::$columns)) .'
+				SELECT '. (implode(',', $this->columns)) .'
 				FROM {db_prefix}' . (strtolower(self::$name)) . '
 				WHERE award_user_id = {int:user}
 				', array(
@@ -150,10 +152,10 @@ class OAward
 		$tempError = array();
 
 		// Get the data
-		$this->sanitize(self::$columns);
+		$this->sanitize($this->columns);
 
 		// Lets check if everything is in order...
-		foreach (self::$columns as $value)
+		foreach ($this->columns as $value)
 			if (empty($this->_data[$value]))
 				$tempError[] = $value;
 
@@ -228,7 +230,7 @@ class OAward
 
 		// Is there any special cases?
 		if (!empty($optionalData))
-			fatal_lang_error(vfprintf(self::$name .'_error_'. $error, $optionalData), false);
+			fatal_lang_error(sprintf(self::$name .'_error_'. $error, $optionalData), false);
 
 		else
 			fatal_lang_error(self::$name .'_error_'. $error, false);
