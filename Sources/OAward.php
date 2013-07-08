@@ -51,14 +51,14 @@ class OAward
 
 		// Done
 		return array(
-			'placement' => 2,
+			'placement' => 1,
 			'value' =>  template_display_awards() . (!empty($output['member']['custom_fields']) && count($output['member']['custom_fields']) > 0 ? '<hr />' : ''),
 		);
 	}
 
 	public static function ajax()
 	{
-		// Time to instantiate yourself pal... did it here because we need a single text string and only if someone mess things up, yeah, talk about been efficient!
+		// Time to instantiate yourself pal...
 		$do = new self();
 
 		// Call the inquisition squad!
