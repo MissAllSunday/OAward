@@ -12,6 +12,13 @@ global $txt;
 
 $txt['OAward_'] = '';
 
+// UI
+$txt['OAward_ui_add_new_award'] = 'Add a new award';
+$txt['OAward_ui_cancel'] = 'Cancel';
+$txt['OAward_ui_name'] = 'Name: ';
+$txt['OAward_ui_image'] = 'Image: ';
+$txt['OAward_ui_desc'] = 'Desc: ';
+ 
 // Errors
 $txt['OAward_error_multiple_empty_values'] = 'The following fields were left empty: %s';
 $txt['OAward_error_no_valid_action'] = 'There\'s no such action';

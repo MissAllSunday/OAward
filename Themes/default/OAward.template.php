@@ -11,7 +11,7 @@
 
 function template_display_awards()
 {
-	global $txt, $context, $settings;
+	global $txt, $context, $settings, $scripturl;
 
 	// Set a nice empty var, named it return because I like to state the obvious...
 	$return = '
@@ -34,8 +34,22 @@ function template_display_awards()
 	$return .= '
 		</ul>';
 
+	// Add a nice form
+	$return .= '
+		<a onmousedown="toggleDiv(\'oa_add_'. $context['unique_id'] .'\', this);">'. $txt['OAward_ui_add_new_award'] .'</a><br />
+		<div id="oa_add_'. $context['unique_id'] .'" style="display:none;">
+			<form method="post" action="'. $scripturl .'?action=oaward;sa=create">
+				award_user_id: <input type="text" name="award_user_id">
+				name: <input type="text" name="award_name">
+				image: <input type="text" name="award_image">
+				description: <input type="text" name="award_description">
+				<input type="submit" value="Submit">
+			</form>
+		</div>';
+
 	// Close the entire div
-	$return .= '</div>';
+	$return .= '
+	</div>';
 
 
 	// Return the data... you don't say!

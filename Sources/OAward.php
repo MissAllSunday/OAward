@@ -48,10 +48,11 @@ class OAward
 
 		// Assign them to a context var
 		$context['OAwards'] = $this->awards;
+		$context['unique_id'] = $output['id'];
 
 		// Done
 		return array(
-			'placement' => 1,
+			'placement' => 2,
 			'value' =>  template_display_awards() . (!empty($output['member']['custom_fields']) && count($output['member']['custom_fields']) > 0 ? '<hr />' : ''),
 		);
 	}
@@ -303,5 +304,39 @@ class OAward
 
 		// A whole new action just for some ajax calls...
 		$actions['oaward'] = array('OAward.php', 'OAward::ajax');
+	}
+
+	public static function setHeaders()
+	{
+		global $context, $txt, $settings;
+
+		loadTemplate('OAward');
+		loadLanguage(self::$name);
+
+		$context['html_headers'] .= '
+	<script type="text/javascript">!window.jQuery && document.write(unescape(\'%3Cscript src="http://code.jquery.com/jquery-1.9.1.min.js"%3E%3C/script%3E\'))</script>
+	<script type="text/javascript"><!-- // --><![CDATA[
+		var oa_add_new_award = '. JavaScriptEscape($txt['OAward_ui_add_new_award']) .';
+		var oa_cancel = '. JavaScriptEscape($txt['OAward_ui_cancel']) .';
+		var oa_name = '. JavaScriptEscape($txt['OAward_ui_name']) .';
+		var oa_image = '. JavaScriptEscape($txt['OAward_ui_image']) .';
+		var oa_desc = '. JavaScriptEscape($txt['OAward_ui_desc']) .';
+		function toggleDiv(divid, obj){
+			jQuery(\'#\' + divid).slideToggle();
+
+			if (obj.innerHTML == oa_add_new_award)
+			{
+				obj.innerHTML = oa_cancel;
+			}
+
+			else
+			{
+				obj.innerHTML = oa_add_new_award;
+			}
+		}
+	// ]]></script>';
+
+		// Load the template
+		loadTemplate('OAward');
 	}
 }
