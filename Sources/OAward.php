@@ -58,7 +58,7 @@ class OAward
 		return template_show_display();
 	}
 
-	public function ajax()
+	public static function ajax()
 	{
 		// Time to instantiate yourself pal... did it here because we need a single text string and only if someone mess things up, yeah, talk about been efficient!
 		$do = new self();
@@ -75,7 +75,7 @@ class OAward
 			$do->$sa();
 
 		// Everything went better than expected, send the response back to the client
-		// $this->respond();
+		$do->respond();
 	}
 
 	public function create()
