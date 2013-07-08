@@ -24,16 +24,16 @@ class OAward
 	public $awards = array();
 	protected $currentAction = '';
 
-	public function __construct($user)
+	public function __construct($user = false)
 	{
-		global $smcFunc;
+		global $smcFunc, $user_info;
 
 		// Yeah, we're using superglobals directly, ugly but when in Rome, do as the Romans do...
 		$this->_data = $_REQUEST;
 		$this->_smcFunc = $smcFunc;
 
 		// The user we're handling the awards for
-		$this->user = $user;
+		$this->user = !empty($user) ? $user : $user_info['id'];
 	}
 
 	public function showAwards($type)
@@ -65,9 +65,10 @@ class OAward
 
 		// Call the inquisition squad!
 		$do->sanitize('sa');
+		$sa = $do->data('sa');
 
 		// Nothing to see here, move on...
-		if ($do->data('sa') or !in_array($do->data('sa'), self::$actions))
+		if (!$sa or !in_array($sa, self::$actions))
 			$do->setError('no_valid_action');
 
 		// Leave to each case to solve things on their own...
@@ -235,12 +236,11 @@ class OAward
 
 	public function sanitize($var)
 	{
+		if (empty($var))
+			return false;
+
 		// An extra check!
 		$this->_data = $_REQUEST;
-
-		// Don't waste my time
-		if (empty($this->_data))
-			return false;
 
 		// Is this an array?
 		if (is_array($var))
@@ -263,7 +263,7 @@ class OAward
 			}
 
 		// No? a single item then, check it boy, check it!
-		elseif (!$this->_data[$var])
+		elseif (empty($this->_data[$var]))
 			return false;
 
 		else
@@ -286,9 +286,13 @@ class OAward
 		cache_put_data(OAward::$name .'-User-' . $this->user, null, 120);
 	}
 
-	public function data($var)
+	public function data($var = false)
 	{
-		return !empty($this->_data[$var]) ? $this->_data[$var] : false;
+		if ($var)
+			return !empty($this->_data[$var]) ? $this->_data[$var] : false;
+
+		else
+			return $this->_data;
 	}
 
 	public static function actions(&$actions)
@@ -296,6 +300,6 @@ class OAward
 		global $sourcedir;
 
 		// A whole new action just for some ajax calls...
-		$actions['oaward'] = array($sourcedir . '/OAward.php', 'OAward::ajax');
+		$actions['oaward'] = array('OAward.php', 'OAward::ajax');
 	}
 }
