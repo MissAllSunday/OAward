@@ -36,13 +36,21 @@ class OAward
 		$this->user = !empty($user) ? $user : $user_info['id'];
 	}
 
-	public function showAwards($type)
+	public static function showAwards($user)
 	{
+		static $oawardUsers = array();
+
+		if (empty($user))
+			return false;
+
 		// Load the text strings
 		loadLanguage(self::$name);
 
+		if (empty($users[$user]))
+			$oawardUsers[$user] = new OAward($user);
+
 		// Get the awards
-		$context['OAwards'] = $this->read();
+		$context['OAwards'] = $oawardUsers[$user]->read();
 
 		// No goodies? :(
 		if (empty($context['OAwards']))
@@ -90,7 +98,7 @@ class OAward
 		$this->sanitize($temp);
 
 		// Lets check if everything is in order...
-		foreach ($this->columns as $value)
+		foreach ($temp as $value)
 			if (empty($this->_data[$value]))
 				$tempError[] = $value;
 
@@ -98,17 +106,19 @@ class OAward
 		if (!empty($tempError) && is_array($tempError))
 			$this->setError('multiple_empty_values', implode(',', $tempError));
 
+		// Everything is nice and dandy, now remove the stuff we don't need, SMF need the exact same amount of fields, blame array_combine()...
+		$insert = array_splice($this->data(), 0, - count($temp) + 1);
+
 		// Insert!
 		$this->_smcFunc['db_insert']('replace', '{db_prefix}' . (strtolower(self::$name)) .
 			'',
 			array(
-				'award_id' => 'int',
 				'award_user_id' => 'int',
 				'award_name' => 'string',
 				'award_image' => 'string',
 				'award_description' => 'string',
 			),
-			$this->_data, array('award_id', )
+			$insert, array('award_id', )
 		);
 
 		// Clean the cache
@@ -218,7 +228,7 @@ class OAward
 		$context['sub_template'] = 'respond';
 
 		// Done, keep the MVC thingy as much as we can!
-		return template_main();
+		return template_respond();
 	}
 
 	protected function setError($error, $optionalData = array())
@@ -230,7 +240,7 @@ class OAward
 
 		// Is there any special cases?
 		if (!empty($optionalData))
-			fatal_lang_error(sprintf(self::$name .'_error_'. $error, $optionalData), false);
+			fatal_lang_error(self::$name .'_error_'. $error, false, $optionalData);
 
 		else
 			fatal_lang_error(self::$name .'_error_'. $error, false);
