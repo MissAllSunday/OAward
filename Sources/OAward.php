@@ -20,7 +20,7 @@ class OAward
 	protected static $actions = array('create', 'read', 'update', 'delete');
 	protected $error = false;
 	protected $columns = array('award_id', 'award_user_id', 'award_name', 'award_image', 'award_description');
-	protected = $user = 0;
+	protected $user = 0;
 	public $awards = array();
 	protected $currentAction = '';
 
@@ -67,7 +67,7 @@ class OAward
 		$do->sanitize('sa');
 
 		// Nothing to see here, move on...
-		if (empty($do->data('sa')) or !in_array($do->data('sa'), self::$actions))
+		if ($do->data('sa') or !in_array($do->data('sa'), self::$actions))
 			$do->setError('no_valid_action');
 
 		// Leave to each case to solve things on their own...
@@ -93,7 +93,7 @@ class OAward
 
 		// Are there any errors? if so, send them all at once!
 		if (!empty($tempError) && is_array($tempError))
-			$this->setError('multiple_empty_values'], $tempError);
+			$this->setError('multiple_empty_values', $tempError);
 
 		// Insert!
 		$this->_smcFunc['db_insert']('replace', '{db_prefix}' . (strtolower(self::$name)) .
@@ -158,7 +158,7 @@ class OAward
 
 		// Are there any errors? if so, send them all at once!
 		if (!empty($tempError) && is_array($tempError))
-			$this->setError('multiple_empty_values'], $tempError);
+			$this->setError('multiple_empty_values', $tempError);
 
 		// Does the entry exist?
 		$this->read();
@@ -246,26 +246,24 @@ class OAward
 		if (is_array($var))
 			foreach ($var as $item)
 			{
-				if (empty(trim($this->_data[$item])))
-					$this->_data[$item] = false;
+				if (!$this->_data[$item])
+					continue;
 
-				else
-				{
-					// Delete stuff we don't need...
-					foreach ($this->_data as $all)
-						if (!in_array($all, $var))
-							unset($this->_data[$all]);
+				// Delete stuff we don't need...
+				foreach ($this->_data as $all)
+					if (!in_array($all, $var))
+						unset($this->_data[$all]);
 
-					if (is_numeric($item))
-						$this->_data[$item] = (int) trim($this->_data[$item]);
+				if (is_numeric($item))
+					$this->_data[$item] = (int) trim($this->_data[$item]);
 
-					elseif (is_string($item))
-						$this->_data[$item] = trim(htmlspecialchars($this->_data[$item], ENT_QUOTES));
-				}
+				elseif (is_string($item))
+					$this->_data[$item] = trim(htmlspecialchars($this->_data[$item], ENT_QUOTES));
+
 			}
 
 		// No? a single item then, check it boy, check it!
-		elseif (empty(trim($this->_data[$var])))
+		elseif (!$this->_data[$var])
 			return false;
 
 		else
