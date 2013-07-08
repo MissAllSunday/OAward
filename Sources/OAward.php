@@ -52,7 +52,7 @@ class OAward
 
 		// Done
 		return array(
-			'placement' => 2,
+			'placement' => 1,
 			'value' =>  template_display_awards() . (!empty($output['member']['custom_fields']) && count($output['member']['custom_fields']) > 0 ? '<hr />' : ''),
 		);
 	}
@@ -324,15 +324,11 @@ class OAward
 		function toggleDiv(divid, obj){
 			jQuery(\'#\' + divid).slideToggle();
 
-			if (obj.innerHTML == oa_add_new_award)
-			{
-				obj.innerHTML = oa_cancel;
-			}
+			if (obj.innerHTML == oa_add_new_award){
+				obj.innerHTML = oa_cancel;}
 
-			else
-			{
-				obj.innerHTML = oa_add_new_award;
-			}
+			else{
+				obj.innerHTML = oa_add_new_award;}
 		}
 	// ]]></script>';
 
