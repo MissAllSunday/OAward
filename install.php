@@ -17,9 +17,6 @@
 
 	global $smcFunc, $context;
 
-	// Breeze needs php 5.3 or greater
-	BreezeCheck();
-
 	db_extend('packages');
 
 	if (empty($context['uninstalling']))

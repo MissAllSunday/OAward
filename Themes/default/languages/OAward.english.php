@@ -14,3 +14,4 @@ $txt['OAward_'] = '';
 
 // Errors
 $txt['OAward_error_multiple_empty_alues'] = 'The following fields were left empty: ';
+$txt['OAward_error_no_valid_action'] = 'There\'s no such action';
