@@ -9,7 +9,7 @@
  */
 
 
-function template_show_display()
+function template_display_awards()
 {
 	global $txt, $context, $settings;
 
@@ -19,7 +19,7 @@ function template_show_display()
 		<ul class="reset">';
 
 	// A bunch of HTML here
-	if !empty($context['OAwards'])
+	if (!empty($context['OAwards']))
 		foreach ($context['OAwards'] as $award)
 		{
 			$return .= '<li>';

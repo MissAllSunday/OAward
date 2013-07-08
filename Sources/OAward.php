@@ -26,7 +26,10 @@ class OAward
 
 	public function __construct($user = false)
 	{
-		global $smcFunc, $user_info;
+		global $smcFunc, $user_info, $themedir;
+
+		// Load the text strings
+		loadLanguage(self::$name);
 
 		// Yeah, we're using superglobals directly, ugly but when in Rome, do as the Romans do...
 		$this->_data = $_REQUEST;
@@ -36,34 +39,21 @@ class OAward
 		$this->user = !empty($user) ? $user : $user_info['id'];
 	}
 
-	public static function showAwards($user)
+	public function showAwards($output)
 	{
-		static $oawardUsers = array();
-
-		if (empty($user))
-			return false;
-
-		// Load the text strings
-		loadLanguage(self::$name);
-
-		if (empty($users[$user]))
-			$oawardUsers[$user] = new OAward($user);
+		global $context;
 
 		// Get the awards
-		$context['OAwards'] = $oawardUsers[$user]->read();
+		$this->read();
 
-		// No goodies? :(
-		if (empty($context['OAwards']))
-			return false;
-
-		// Pass everything to the template
-		$context['template_layers'] = array();
-		$context['sub_template'] = 'show_display';
-
-		// Logic here
+		// Assign them to a context var
+		$context['OAwards'] = $this->awards;
 
 		// Done
-		return template_show_display();
+		return array(
+			'placement' => 2,
+			'value' =>  template_display_awards() . (!empty($output['member']['custom_fields']) && count($output['member']['custom_fields']) > 0 ? '<hr />' : ''),
+		);
 	}
 
 	public static function ajax()
