@@ -18,7 +18,7 @@
 
 	// Everybody likes hooks
 	$hooks = array(
-		'integrate_actions' => 'OAward::ajax',
+		'integrate_actions' => 'OAward::actions',
 	);
 
 	// Uninstall please

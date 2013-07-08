@@ -287,9 +287,17 @@ class OAward
 	{
 		cache_put_data(OAward::$name .'-User-' . $this->user, null, 120);
 	}
-	
+
 	public function data($var)
 	{
 		return !empty($this->_data[$var]) ? $this->_data[$var] : false;
+	}
+
+	public static function actions(&$actions)
+	{
+		global $sourcedir;
+
+		// A whole new action just for some ajax calls...
+		$actions['oaward'] = array($sourcedir . '/OAward.php', 'OAward::ajax');
 	}
 }

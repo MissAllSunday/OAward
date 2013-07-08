@@ -16,7 +16,7 @@
 
 	// Everybody likes hooks
 	$hooks = array(
-		'integrate_actions' => 'OAward::ajax',
+		'integrate_actions' => 'OAward::actions',
 	);
 
 	$call = 'add_integration_function';
