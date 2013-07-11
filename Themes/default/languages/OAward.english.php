@@ -10,7 +10,7 @@
 
 global $txt;
 
-$txt['OAward_'] = '';
+$txt['OAward_main'] = 'O Award mod';
 
 // UI
 $txt['OAward_ui_add_new_award'] = 'Add a new award';

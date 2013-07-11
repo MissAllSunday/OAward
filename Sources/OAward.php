@@ -298,14 +298,6 @@ class OAward
 			return $this->_data;
 	}
 
-	public static function actions(&$actions)
-	{
-		global $sourcedir;
-
-		// A whole new action just for some ajax calls...
-		$actions['oaward'] = array('OAward.php', 'OAward::ajax');
-	}
-
 	public static function setHeaders()
 	{
 		global $context, $txt, $settings;
