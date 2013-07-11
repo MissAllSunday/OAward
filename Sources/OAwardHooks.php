@@ -24,7 +24,7 @@ function OAward_admin_areas(&$areas)
 	global $txt;
 
 	if (!isset($txt['OAward_main']))
-		loadLanguage(self::$name);
+		loadLanguage(OAward::$name);
 
 	$areas['config']['areas']['modsettings']['subsections']['oaward'] = array($txt['OAward_main']);
 }
@@ -33,7 +33,7 @@ function OAward_modifications(&$sub_actions)
 {
 	global $context;
 
-	$sub_actions['faq'] = 'OAward_settings';
+	$sub_actions['oaward'] = 'OAward_settings';
 	$context[$context['admin_menu_name']]['tab_data']['tabs']['oaward'] = array();
 }
 
@@ -64,10 +64,14 @@ function OAward_settings(&$return_config = false)
 
 	if (isset($_GET['save']))
 	{
+		// Gotta check if the user typed a dot...
+		if (strstr($_POST['OAward_admin_images_ext'], '.') !== false)
+			$_POST['OAward_admin_images_ext'] = str_replace('.', '', $_POST['OAward_admin_images_ext']);
+
 		checkSession();
 		$save_vars = $config_vars;
 		saveDBSettings($save_vars);
-		redirectexit('action=admin;area=modsettings;sa=faq');
+		redirectexit('action=admin;area=modsettings;sa=oaward');
 	}
 
 	prepareDBSettingContext($config_vars);
