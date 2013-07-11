@@ -38,3 +38,7 @@ Thumbs.db
 /nbproject/private/
 /nbproject/
 /.project
+
+# Other files/folders #
+######################
+/Themes/default/images/medals

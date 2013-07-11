@@ -23,7 +23,7 @@ function template_display_awards()
 		foreach ($context['OAwards'] as $award)
 		{
 			$return .= '<li>';
-			$return .=  $award['award_image'] . '<br />';
+			$return .=  $settings['default_images_url'] . '/medals/'. $award['award_image'] . '<br />';
 			$return .=  $award['award_name'] . '<br />';
 
 			// End the li
