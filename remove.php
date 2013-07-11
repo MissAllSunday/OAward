@@ -19,6 +19,7 @@
 	// Everybody likes hooks
 	$hooks = array(
 		'integrate_pre_include' => '$sourcedir/OAward.php',
+		'integrate_admin_include' => '$sourcedir/OAwardHooks.php',
 		'integrate_actions' => 'OAward::actions',
 		'integrate_admin_areas' => 'OAward::admin_areas',
 		'integrate_modify_modifications' => 'OAward::modify_modifications',
