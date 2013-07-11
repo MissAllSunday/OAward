@@ -34,7 +34,7 @@ function OAward_modifications(&$sub_actions)
 	global $context;
 
 	$sub_actions['faq'] = 'OAward_settings';
-	$context[$context['admin_menu_name']]['tab_data']['tabs']['faq'] = array();
+	$context[$context['admin_menu_name']]['tab_data']['tabs']['oaward'] = array();
 }
 
 function OAward_settings(&$return_config = false)
@@ -43,6 +43,9 @@ function OAward_settings(&$return_config = false)
 
 	// A bunch of config settings here...
 	$config_vars = array(
+		array('desc', 'OAward_admin_desc'),
+		array('check', 'OAward_admin_enable', 'subtext' => $txt['OAward_admin_enable_sub']),
+		array('text', 'OAward_admin_images_ext', 'subtext' => $txt['OAward_admin_images_ext_sub']),
 	);
 
 	if ($return_config)
