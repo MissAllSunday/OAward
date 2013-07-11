@@ -11,7 +11,7 @@
 if (!defined('SMF'))
 	die('No direct access...');
 
-function actions(&$actions)
+function OAward_actions(&$actions)
 {
 	global $sourcedir;
 
@@ -19,7 +19,7 @@ function actions(&$actions)
 	$actions['oaward'] = array('OAward.php', 'OAward::ajax');
 }
 
-function admin_areas(&$areas)
+function OAward_admin_areas(&$areas)
 {
 	global $txt;
 
@@ -29,15 +29,15 @@ function admin_areas(&$areas)
 	$areas['config']['areas']['modsettings']['subsections']['oaward'] = array($txt['OAward_main']);
 }
 
-function faq_modify_modifications(&$sub_actions)
+function OAward_modifications(&$sub_actions)
 {
 	global $context;
 
-	$sub_actions['faq'] = 'modify_faq_post_settings';
+	$sub_actions['faq'] = 'OAward_settings';
 	$context[$context['admin_menu_name']]['tab_data']['tabs']['faq'] = array();
 }
 
-function modify_faq_post_settings(&$return_config = false)
+function OAward_settings(&$return_config = false)
 {
 	global $context, $scripturl, $txt;
 
