@@ -9,22 +9,21 @@
  */
 
 
-function template_display_awards()
+function template_display_awards($output)
 {
-	global $txt, $context, $settings, $scripturl;
+	global $txt, $context, $settings, $scripturl, $modSettings;
 
 	// Set a nice empty var, named it return because I like to state the obvious...
 	$return = '
 	<div class="OAward">
-		<ul class="reset">';
+		<ul>';
 
 	// A bunch of HTML here
 	if (!empty($context['OAwards']))
 		foreach ($context['OAwards'] as $award)
 		{
 			$return .= '<li>';
-			$return .=  '<img src="'. $settings['default_images_url'] . '/medals/'. $award['award_image'] . '"<br />';
-			$return .=  $award['award_name'] . '<br />';
+			$return .=  '<img src="'. $settings['default_images_url'] . '/medals/'. $award['award_image'] .'.'. $modSettings['OAward_admin_images_ext'] .'" width="15px;" />';
 
 			// End the li
 			$return .= '</li>';
@@ -39,7 +38,7 @@ function template_display_awards()
 		<a onmousedown="toggleDiv(\'oa_add_'. $context['unique_id'] .'\', this);">'. $txt['OAward_ui_add_new_award'] .'</a><br />
 		<div id="oa_add_'. $context['unique_id'] .'" style="display:none;">
 			<form method="post" action="'. $scripturl .'?action=oaward;sa=create">
-				award_user_id: <input type="text" name="award_user_id">
+				<input type="hidden" name="award_user_id" value="'. $output['member']['id'] .'">
 				'. $txt['OAward_ui_name'] .' <input type="text" name="award_name">
 				'. $txt['OAward_ui_image'] .' <input type="text" name="award_image">
 				'. $txt['OAward_ui_desc'] .' <input type="text" name="award_description">

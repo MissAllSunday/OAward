@@ -53,7 +53,7 @@ class OAward
 		// Done
 		return array(
 			'placement' => 1,
-			'value' =>  template_display_awards() . (!empty($output['member']['custom_fields']) && count($output['member']['custom_fields']) > 0 ? '<hr />' : ''),
+			'value' =>  template_display_awards($output),
 		);
 	}
 
