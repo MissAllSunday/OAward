@@ -46,7 +46,7 @@ function OAward_settings(&$return_config = false)
 		array('desc', 'OAward_admin_desc'),
 		array('check', 'OAward_admin_enable', 'subtext' => $txt['OAward_admin_enable_sub']),
 		array('text', 'OAward_admin_images_ext', 'subtext' => $txt['OAward_admin_images_ext_sub']),
-		array('text', 'OAward_admin_folder_path', 'subtext' => $txt['OAward_admin_folder_path_sub']),
+		array('text', 'OAward_admin_folder_url', 'size'=> 45, 'subtext' => $txt['OAward_admin_folder_url_sub']),
 	);
 
 	if ($return_config)
@@ -74,8 +74,8 @@ function OAward_settings(&$return_config = false)
 			$_POST['OAward_admin_images_ext'] = str_replace('.', '', $_POST['OAward_admin_images_ext']);
 
 		// If there isn't a custom folder path, set the default one
-		if (empty($_POST['OAward_admin_folder_path']))
-			$_POST['OAward_admin_folder_path'] = $settings['default_images_url'] . '/medals/';
+		if (empty($_POST['OAward_admin_folder_url']))
+			$_POST['OAward_admin_folder_url'] = $settings['default_images_url'] . '/medals/';
 
 		checkSession();
 		$save_vars = $config_vars;
