@@ -39,13 +39,14 @@ function OAward_modifications(&$sub_actions)
 
 function OAward_settings(&$return_config = false)
 {
-	global $context, $scripturl, $txt;
+	global $context, $scripturl, $txt, $settings;
 
 	// A bunch of config settings here...
 	$config_vars = array(
 		array('desc', 'OAward_admin_desc'),
 		array('check', 'OAward_admin_enable', 'subtext' => $txt['OAward_admin_enable_sub']),
 		array('text', 'OAward_admin_images_ext', 'subtext' => $txt['OAward_admin_images_ext_sub']),
+		array('text', 'OAward_admin_folder_path', 'subtext' => $txt['OAward_admin_folder_path_sub']),
 	);
 
 	if ($return_config)
@@ -64,9 +65,17 @@ function OAward_settings(&$return_config = false)
 
 	if (isset($_GET['save']))
 	{
+		// Sorry, but this is mandatory...
+		if (empty($_POST['OAward_admin_images_ext']))
+			$_POST['OAward_admin_images_ext'] = 'png';
+
 		// Gotta check if the user typed a dot...
 		if (strstr($_POST['OAward_admin_images_ext'], '.') !== false)
 			$_POST['OAward_admin_images_ext'] = str_replace('.', '', $_POST['OAward_admin_images_ext']);
+
+		// If there isn't a custom folder path, set the default one
+		if (empty($_POST['OAward_admin_folder_path']))
+			$_POST['OAward_admin_folder_path'] = $settings['default_images_url'] . '/medals/';
 
 		checkSession();
 		$save_vars = $config_vars;

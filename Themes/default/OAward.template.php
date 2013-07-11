@@ -23,7 +23,7 @@ function template_display_awards()
 		foreach ($context['OAwards'] as $award)
 		{
 			$return .= '<li>';
-			$return .=  $settings['default_images_url'] . '/medals/'. $award['award_image'] . '<br />';
+			$return .=  '<img src="'. $settings['default_images_url'] . '/medals/'. $award['award_image'] . '"<br />';
 			$return .=  $award['award_name'] . '<br />';
 
 			// End the li
@@ -40,9 +40,9 @@ function template_display_awards()
 		<div id="oa_add_'. $context['unique_id'] .'" style="display:none;">
 			<form method="post" action="'. $scripturl .'?action=oaward;sa=create">
 				award_user_id: <input type="text" name="award_user_id">
-				name: <input type="text" name="award_name">
-				image: <input type="text" name="award_image">
-				description: <input type="text" name="award_description">
+				'. $txt['OAward_ui_name'] .' <input type="text" name="award_name">
+				'. $txt['OAward_ui_image'] .' <input type="text" name="award_image">
+				'. $txt['OAward_ui_desc'] .' <input type="text" name="award_description">
 				<input type="submit" value="Submit">
 			</form>
 		</div>';
