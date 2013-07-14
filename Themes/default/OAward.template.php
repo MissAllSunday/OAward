@@ -18,6 +18,8 @@ function template_display_awards($output)
 	<div class="OAward">
 		<ul>';
 
+
+
 	// A bunch of HTML here
 	if (!empty($context['OAwards']))
 		foreach ($context['OAwards'] as $award)
