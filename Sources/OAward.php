@@ -210,7 +210,9 @@ class OAward
 
 	protected function respond()
 	{
-		global $modSettings;
+		global $modSettings, $txt;
+
+		loadLanguage(self::$name);
 
 		// Kill anything else
 		ob_end_clean();
@@ -224,15 +226,7 @@ class OAward
 		// Send the header
 		header('Content-Type: application/json');
 
-		// Check whats the current action
-		
-
-		// No? then show the standard error message
-		else
-			echo json_encode(array(
-				'data' => $this->_text->getText('error_message'),
-				'type' => 'error'
-			));
+		echo json_encode($txt['OAward_response_'. !empty($this->_data['sa']) ? $this->_data['sa'] : 'default']);
 
 		// Done
 		obExit(false);
