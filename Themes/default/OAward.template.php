@@ -58,10 +58,34 @@ function template_display_awards($output)
 			<script type="text/javascript"><!-- // --><![CDATA[
 				$(\'.oward_'. $context['unique_id'] .'\').click(function()
 				{
-					var award_user_id = jQuery(\'#award_user_id_'. $context['unique_id'] .'\').val();
-					var award_name = jQuery(\'#award_name_'. $context['unique_id'] .'\').val();
-					var award_image = jQuery(\'#award_image_'. $context['unique_id'] .'\').val();
-					var award_description = jQuery(\'#award_description_'. $context['unique_id'] .'\').val();
+					var award_user_id = $(\'#award_user_id_'. $context['unique_id'] .'\').val();
+					var award_name = $(\'#award_name_'. $context['unique_id'] .'\').val();
+					var award_image = $(\'#award_image_'. $context['unique_id'] .'\').val();
+					var award_description = $(\'#award_description_'. $context['unique_id'] .'\').val();
+
+					$(this).attr(\'disabled\', \'disabled\');
+
+					jQuery.ajax(
+					{
+						type: \'POST\',
+						url: smf_scripturl + \'?action=oaward;sa=create\',
+						data: ({award_user_id : award_user_id, award_name : award_name, award_image : award_image, award_description : award_description}),
+						cache: false,
+						dataType: \'json\',
+						success: function(html)
+						{
+							noty({
+								text: breeze_success_message,
+								timeout: 3500, type: \'success\',
+							});
+
+							// Enable the button again...
+							$(this).removeAttr(\'disabled\');
+						},
+						error: function (html)
+						{},
+					});
+
 					return false;
 				});
 			// ]]></script>
