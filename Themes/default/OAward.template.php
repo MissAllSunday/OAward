@@ -18,8 +18,6 @@ function template_display_awards($output)
 	<div class="OAward">
 		<ul>';
 
-
-
 	// A bunch of HTML here
 	if (!empty($context['OAwards']))
 		foreach ($context['OAwards'] as $award)
@@ -44,11 +42,24 @@ function template_display_awards($output)
 	$return .= '
 		</ul>';
 
+	// Close the entire div
+	$return .= '
+	</div>';
+
+
+	// Return the data... you don't say!
+	return $return;
+}
+
+function template_display_profile()
+{
+
+
 	// Add a nice form
 	$return .= '
 		<a onmousedown="toggleDiv(\'oa_add_'. $context['unique_id'] .'\', this);">'. $txt['OAward_ui_add_new_award'] .'</a><br />
 		<div id="oa_add_'. $context['unique_id'] .'" style="display:none;">
-			<form method="post" action="'. $scripturl .'?action=oaward;sa=create">
+			<form method="post" action="#">
 				<input type="hidden" name="award_user_id" id="award_user_id_'. $context['unique_id'] .'" value="'. $output['member']['id'] .'">
 				'. $txt['OAward_ui_name'] .' <input type="text" name="award_name" id ="award_name_'. $context['unique_id'] .'">
 				'. $txt['OAward_ui_image'] .' <input type="text" name="award_image" id ="award_image_'. $context['unique_id'] .'">
@@ -91,11 +102,4 @@ function template_display_awards($output)
 			// ]]></script>
 		</div>';
 
-	// Close the entire div
-	$return .= '
-	</div>';
-
-
-	// Return the data... you don't say!
-	return $return;
 }
