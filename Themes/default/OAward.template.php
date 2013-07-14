@@ -75,12 +75,12 @@ function template_display_awards($output)
 						success: function(html)
 						{
 							noty({
-								text: breeze_success_message,
+								text: html,
 								timeout: 3500, type: \'success\',
 							});
 
 							// Enable the button again...
-							$(this).removeAttr(\'disabled\');
+							$(\'.oward_'. $context['unique_id'] .'\').removeAttr(\'disabled\');
 						},
 						error: function (html)
 						{},

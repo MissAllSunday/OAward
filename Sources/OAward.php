@@ -23,6 +23,7 @@ class OAward
 	protected $user = 0;
 	public $awards = array();
 	protected $currentAction = '';
+	public $sa = 'default';
 
 	public function __construct($user = false)
 	{
@@ -72,7 +73,10 @@ class OAward
 
 		// Leave to each case to solve things on their own...
 		else
+		{
+			$do->setSA($sa);
 			$do->$sa();
+		}
 
 		// Everything went better than expected, send the response back to the client
 		$do->respond();
@@ -226,7 +230,7 @@ class OAward
 		// Send the header
 		header('Content-Type: application/json');
 
-		echo json_encode($txt['OAward_response_'. !empty($this->_data['sa']) ? $this->_data['sa'] : 'default']);
+		echo json_encode($txt['OAward_response_'. $this->sa]);
 
 		// Done
 		obExit(false);
@@ -245,6 +249,11 @@ class OAward
 
 		else
 			fatal_lang_error(self::$name .'_error_'. $error, false);
+	}
+
+	public function setSA($sa)
+	{
+		$this->sa = !empty($sa) ? $sa : 'default';
 	}
 
 	public function sanitize($var)
