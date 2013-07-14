@@ -210,16 +210,32 @@ class OAward
 
 	protected function respond()
 	{
-		global $context;
+		global $modSettings;
 
-		loadTemplate(self::$name);
+		// Kill anything else
+		ob_end_clean();
 
-		// Pass everything to the template
-		$context['template_layers'] = array();
-		$context['sub_template'] = 'respond';
+		if (!empty($modSettings['enableCompressedOutput']))
+			@ob_start('ob_gzhandler');
 
-		// Done, keep the MVC thingy as much as we can!
-		return template_respond();
+		else
+			ob_start();
+
+		// Send the header
+		header('Content-Type: application/json');
+
+		// Check whats the current action
+		
+
+		// No? then show the standard error message
+		else
+			echo json_encode(array(
+				'data' => $this->_text->getText('error_message'),
+				'type' => 'error'
+			));
+
+		// Done
+		obExit(false);
 	}
 
 	protected function setError($error, $optionalData = array())
