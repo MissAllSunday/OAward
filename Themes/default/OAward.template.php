@@ -49,12 +49,22 @@ function template_display_awards($output)
 		<a onmousedown="toggleDiv(\'oa_add_'. $context['unique_id'] .'\', this);">'. $txt['OAward_ui_add_new_award'] .'</a><br />
 		<div id="oa_add_'. $context['unique_id'] .'" style="display:none;">
 			<form method="post" action="'. $scripturl .'?action=oaward;sa=create">
-				<input type="hidden" name="award_user_id" value="'. $output['member']['id'] .'">
-				'. $txt['OAward_ui_name'] .' <input type="text" name="award_name">
-				'. $txt['OAward_ui_image'] .' <input type="text" name="award_image">
-				'. $txt['OAward_ui_desc'] .' <input type="text" name="award_description">
-				<input type="submit" value="Submit">
+				<input type="hidden" name="award_user_id" id="award_user_id_'. $context['unique_id'] .'" value="'. $output['member']['id'] .'">
+				'. $txt['OAward_ui_name'] .' <input type="text" name="award_name" id ="award_name_'. $context['unique_id'] .'">
+				'. $txt['OAward_ui_image'] .' <input type="text" name="award_image" id ="award_image_'. $context['unique_id'] .'">
+				'. $txt['OAward_ui_desc'] .' <input type="text" name="award_description" id="award_description_'. $context['unique_id'] .'">
+				<input type="submit" value="Submit" class="oward_'. $context['unique_id'] .'">
 			</form>
+			<script type="text/javascript"><!-- // --><![CDATA[
+				$(\'.oward_'. $context['unique_id'] .'\').click(function()
+				{
+					var award_user_id = jQuery(\'#award_user_id_'. $context['unique_id'] .'\').val();
+					var award_name = jQuery(\'#award_name_'. $context['unique_id'] .'\').val();
+					var award_image = jQuery(\'#award_image_'. $context['unique_id'] .'\').val();
+					var award_description = jQuery(\'#award_description_'. $context['unique_id'] .'\').val();
+					return false;
+				});
+			// ]]></script>
 		</div>';
 
 	// Close the entire div
@@ -64,9 +74,4 @@ function template_display_awards($output)
 
 	// Return the data... you don't say!
 	return $return;
-}
-
-function template_respond()
-{
-
 }
