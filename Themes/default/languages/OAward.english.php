@@ -19,6 +19,11 @@ $txt['OAward_ui_name'] = 'Name: ';
 $txt['OAward_ui_image'] = 'Image: ';
 $txt['OAward_ui_desc'] = 'Desc: ';
 
+// Server response
+$txt['OAward_response_create'] = 'You have succesfully created a new award';
+$txt['OAward_response_update'] = 'You have succesfully updated a new award';
+$txt['OAward_response_delete'] = 'You have succesfully deleted a new award';
+
 // Admin
 $txt['OAward_admin_desc'] = 'This is the main O Award admin panel.';
 $txt['OAward_admin_enable'] = 'Enable the OAward mod';
