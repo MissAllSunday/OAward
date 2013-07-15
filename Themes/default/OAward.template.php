@@ -53,7 +53,27 @@ function template_display_awards($output)
 
 function template_display_profile()
 {
+	global $txt, $context;
 
+	// A bunch of HTML here
+	if (!empty($context['OAwards']))
+		foreach ($context['OAwards'] as $award)
+		{
+			$return .= '<li>';
+			$return .=  '<img src="'. $settings['default_images_url'] . '/medals/'. $award['award_image'] .'.'. $modSettings['OAward_admin_images_ext'] .'" width="15px;" class="oatoolTip_'. $award['award_id'] .'"/>
+			<script type="text/javascript"><!-- // --><![CDATA[
+				$(\'img.oatoolTip_'. $award['award_id'] .'\').aToolTip({
+					clickIt: false,
+					tipContent: \'<span style="font-weight:bold;">'. $award['award_name'] .'</span><p />'. $award['award_description'] .'\',
+					toolTipClass: \'plainbox\',
+					xOffset: 15,
+					yOffset: 5,
+				});
+	// ]]></script>';
+
+			// End the li
+			$return .= '</li>';
+		}
 
 	// Add a nice form
 	$return .= '
@@ -102,4 +122,5 @@ function template_display_profile()
 			// ]]></script>
 		</div>';
 
+	return $return;
 }

@@ -60,17 +60,23 @@ class OAward
 
 	public function showProfileAwards()
 	{
-		global $context;
+		global $context, $txt;
+
+		// Load the text strings
+		loadLanguage(self::$name);
 
 		// Get the awards
 		$this->read();
 
 		// Assign them to a context var
 		$context['OAwards'] = $this->awards;
-		$context['unique_id'] = $output['id'];
 
 		// Done
-		return template_display_profile();
+		return array(
+			'name' => $txt['OAward_name'],
+			'placement' => 0,
+			'output_html' => template_display_profile(),
+		);
 	}
 
 	public static function ajax()

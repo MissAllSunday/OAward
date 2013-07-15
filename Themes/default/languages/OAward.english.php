@@ -11,6 +11,7 @@
 global $txt, $settings;
 
 $txt['OAward_main'] = 'O Award mod';
+$txt['OAward_name'] = 'Awards received';
 
 // UI
 $txt['OAward_ui_add_new_award'] = 'Add a new award';
