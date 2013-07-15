@@ -58,6 +58,21 @@ class OAward
 		);
 	}
 
+	public function showProfileAwards()
+	{
+		global $context;
+
+		// Get the awards
+		$this->read();
+
+		// Assign them to a context var
+		$context['OAwards'] = $this->awards;
+		$context['unique_id'] = $output['id'];
+
+		// Done
+		return template_display_profile();
+	}
+
 	public static function ajax()
 	{
 		// Time to instantiate yourself pal...
