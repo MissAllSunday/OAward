@@ -59,31 +59,39 @@ function template_display_profile()
 	if (!$context['user']['is_admin'] || empty($context['OAwards']))
 		return '';
 
-	$return = '<ul class="reset">';
+	$return = '';
 
 	// Show the awards
 	if (!empty($context['OAwards']))
+	{
+		$return = '
+		<ul class="reset">';
+
 		foreach ($context['OAwards'] as $award)
 		{
-			$return .= '<li style="display: inline;">';
-			$return .=  '<img src="'. $settings['default_images_url'] . '/medals/'. $award['award_image'] .'.'. $modSettings['OAward_admin_images_ext'] .'" width="15px;" class="oatoolTip_'. $award['award_id'] .'"/>
-			<script type="text/javascript"><!-- // --><![CDATA[
-				$(\'img.oatoolTip_'. $award['award_id'] .'\').aToolTip({
-					clickIt: false,
-					tipContent: \'<span style="font-weight:bold;">'. $award['award_name'] .'</span><p />'. $award['award_description'] .'\',
-					toolTipClass: \'plainbox\',
-					xOffset: 15,
-					yOffset: 5,
-				});
-	// ]]></script>';
+			$return .= '
+			<li style="display: inline;">';
+			$return .=  '
+				<img src="'. $settings['default_images_url'] . '/medals/'. $award['award_image'] .'.'. $modSettings['OAward_admin_images_ext'] .'" width="15px;" class="oatoolTip_'. $award['award_id'] .'"/>
+				<script type="text/javascript"><!-- // --><![CDATA[
+					$(\'img.oatoolTip_'. $award['award_id'] .'\').aToolTip({
+						clickIt: false,
+						tipContent: \'<span style="font-weight:bold;">'. $award['award_name'] .'</span><p />'. $award['award_description'] .'\',
+						toolTipClass: \'plainbox\',
+						xOffset: 15,
+						yOffset: 5,
+					});
+				// ]]></script>';
 
 			// End the li
-			$return .= '</li>';
+			$return .= '
+			</li>';
 		}
 
-	// End the list
-	$return .= '
+		// End the list
+		$return .= '
 		</ul>';
+	}
 
 	// Add a nice form so the admis can add more goodies
 	if ($context['user']['is_admin'])
