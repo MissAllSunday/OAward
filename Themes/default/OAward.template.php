@@ -55,11 +55,13 @@ function template_display_profile()
 {
 	global $txt, $context, $settings, $modSettings, $scripturl;
 
-	$return = '<ul class="reset">';
-	
-	var_Dump($context['user']['is_admin']);
+	// There has to be at least 1 award or you must be an admin.
+	if (!$context['user']['is_admin'] || empty($context['OAwards']))
+		return '';
 
-	// A bunch of HTML here
+	$return = '<ul class="reset">';
+
+	// Show the awards
 	if (!empty($context['OAwards']))
 		foreach ($context['OAwards'] as $award)
 		{
@@ -83,8 +85,9 @@ function template_display_profile()
 	$return .= '
 		</ul>';
 
-	// Add a nice form
-	$return .= '
+	// Add a nice form so the admis can add more goodies
+	if ($context['user']['is_admin'])
+		$return .= '
 		<a onmousedown="toggleDiv(\'oa_add\', this);" class="oaward_add">'. $txt['OAward_ui_add_new_award'] .'</a><br />
 		<div id="oa_add" style="display:none;">
 			<form method="post" action="'. $scripturl .'?action=oaward;sa=create">
