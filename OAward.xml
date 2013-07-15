@@ -43,6 +43,8 @@
 	$smcFunc['db_free_result']($request);
 
 	// Oaward mod
+	global $modSettings;
+
 	if (!empty($modSettings['OAward_admin_enable']))
 	{
 		OAward::setHeaders();
