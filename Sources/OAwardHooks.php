@@ -39,7 +39,11 @@ function OAward_modifications(&$sub_actions)
 
 function OAward_settings(&$return_config = false)
 {
-	global $context, $scripturl, $txt, $settings;
+	global $context, $scripturl, $txt, $settings, $modSettings;
+
+	// Set a nice message in case there is no images folder...
+	if (!file_exists($modSettings['OAward_admin_folder_url']))
+		$context['settings_insert_above'] = '<div class="errorbox">' . $txt['OAward_error_no_valid_path'] . '</div>';
 
 	// A bunch of config settings here...
 	$config_vars = array(
