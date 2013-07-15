@@ -11,6 +11,9 @@
 if (!defined('SMF'))
 	die('No direct access...');
 
+	global $sourcedir;
+	require_once($sourcedir .'/OAwardHooks.php');
+
 class OAward
 {
 	// Set a nice name to avoid having to write the same thing over and over again...

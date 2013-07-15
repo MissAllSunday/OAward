@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <!DOCTYPE package-info SYSTEM "http://www.simplemachines.org/xml/package-info">
 <package-info xmlns="http://www.simplemachines.org/xml/package-info" xmlns:smf="http://www.simplemachines.org/">
-	<id>Suki:breeze</id>
-	<name>Breeze</name>
-	<version>1.0 Beta 3</version>
+	<id>Suki:OA</id>
+	<name>O Award mod</name>
+	<version>1.0</version>
 	<type>modification</type>
 
 	<install for="2.0 - 2.0.99">
@@ -18,6 +18,7 @@
 		<code>remove.php</code>
 		<database>install.php</database>
 		<remove-file name="$sourcedir/OAward.php" />
+		<remove-file name="$sourcedir/OAwardHooks.php" />
 		<remove-file name="$languagedir/OAward.english.php" />
 		<remove-file name="$themedir/scripts/jquery.atooltip.min.js" />
 		<remove-dir name="$themedir/scripts/noty" />
