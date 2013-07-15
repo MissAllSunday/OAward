@@ -53,9 +53,11 @@ function template_display_awards($output)
 
 function template_display_profile()
 {
-	global $txt, $context, $memID, $settings, $modSettings;
+	global $txt, $context, $settings, $modSettings, $scripturl;
 
 	$return = '<ul class="reset">';
+	
+	var_Dump($context['user']['is_admin']);
 
 	// A bunch of HTML here
 	if (!empty($context['OAwards']))
@@ -83,11 +85,11 @@ function template_display_profile()
 
 	// Add a nice form
 	$return .= '
-		<a onmousedown="toggleDiv(\'oa_add\', this);">'. $txt['OAward_ui_add_new_award'] .'</a><br />
+		<a onmousedown="toggleDiv(\'oa_add\', this);" class="oaward_add">'. $txt['OAward_ui_add_new_award'] .'</a><br />
 		<div id="oa_add" style="display:none;">
-			<form method="post" action="#">
-				<input type="hidden" name="award_user_id" id="award_user_id" value="'. $memID .'">
-				<label>'. $txt['OAward_ui_name'] .'</label> 
+			<form method="post" action="'. $scripturl .'?action=oaward;sa=create">
+				<input type="hidden" name="award_user_id" id="award_user_id" value="'. $context['member']['id'] .'">
+				<label>'. $txt['OAward_ui_name'] .'</label>
 				<input type="text" name="award_name" id ="award_name">
 				<label>'. $txt['OAward_ui_image'] .'</label>
 				<input type="text" name="award_image" id ="award_image">
@@ -96,16 +98,16 @@ function template_display_profile()
 				<input type="submit" value="Submit" class="oward_button">
 			</form>
 			<script type="text/javascript"><!-- // --><![CDATA[
-				$(\'.oward\').click(function()
+				$(\'.oward_button\').click(function()
 				{
 					var award_user_id = $(\'#award_user_id\').val();
 					var award_name = $(\'#award_name\').val();
 					var award_image = $(\'#award_image\').val();
 					var award_description = $(\'#award_description\').val();
 
-					$(this).attr(\'disabled\', \'disabled\');
+					$(\'.oward_button\').attr(\'disabled\', \'disabled\');
 
-					jQuery.ajax(
+					$.ajax(
 					{
 						type: \'POST\',
 						url: smf_scripturl + \'?action=oaward;sa=create\',
@@ -114,13 +116,25 @@ function template_display_profile()
 						dataType: \'json\',
 						success: function(html)
 						{
+							$(\'#award_user_id\').val(\'\');
+							$(\'#award_name\').val(\'\');
+							$(\'#award_image\').val(\'\');
+							$(\'#award_description\').val(\'\');
+							jQuery(\'#oa_add\').slideToggle();
+
 							noty({
+								layout: \'top\',
+								theme: \'defaultTheme\',
+								type: \'success\',
 								text: html,
-								timeout: 3500, type: \'success\',
+								timeout: 1000, type: \'success\',
+								callback: {
+									afterClose: function() { location.reload(); }
+								},
 							});
 
-							// Enable the button again...
-							$(\'.oward\').removeAttr(\'disabled\');
+							// Refresh the page...
+							$(\'.oward_button\').removeAttr(\'disabled\');
 						},
 						error: function (html)
 						{},
