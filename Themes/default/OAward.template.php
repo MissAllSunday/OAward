@@ -55,13 +55,13 @@ function template_display_profile()
 {
 	global $txt, $context, $memID, $settings, $modSettings;
 
-	$return = '';
+	$return = '<ul class="reset">';
 
 	// A bunch of HTML here
 	if (!empty($context['OAwards']))
 		foreach ($context['OAwards'] as $award)
 		{
-			$return .= '<li>';
+			$return .= '<li style="display: inline;">';
 			$return .=  '<img src="'. $settings['default_images_url'] . '/medals/'. $award['award_image'] .'.'. $modSettings['OAward_admin_images_ext'] .'" width="15px;" class="oatoolTip_'. $award['award_id'] .'"/>
 			<script type="text/javascript"><!-- // --><![CDATA[
 				$(\'img.oatoolTip_'. $award['award_id'] .'\').aToolTip({
@@ -77,16 +77,23 @@ function template_display_profile()
 			$return .= '</li>';
 		}
 
+	// End the list
+	$return .= '
+		</ul>';
+
 	// Add a nice form
 	$return .= '
 		<a onmousedown="toggleDiv(\'oa_add\', this);">'. $txt['OAward_ui_add_new_award'] .'</a><br />
 		<div id="oa_add" style="display:none;">
 			<form method="post" action="#">
 				<input type="hidden" name="award_user_id" id="award_user_id" value="'. $memID .'">
-				'. $txt['OAward_ui_name'] .' <input type="text" name="award_name" id ="award_name">
-				'. $txt['OAward_ui_image'] .' <input type="text" name="award_image" id ="award_image">
-				'. $txt['OAward_ui_desc'] .' <input type="text" name="award_description" id="award_description">
-				<input type="submit" value="Submit" class="oward">
+				<label>'. $txt['OAward_ui_name'] .'</label> 
+				<input type="text" name="award_name" id ="award_name">
+				<label>'. $txt['OAward_ui_image'] .'</label>
+				<input type="text" name="award_image" id ="award_image">
+				<label>'. $txt['OAward_ui_desc'] .'</label>
+				<input type="text" name="award_description" id="award_description">
+				<input type="submit" value="Submit" class="oward_button">
 			</form>
 			<script type="text/javascript"><!-- // --><![CDATA[
 				$(\'.oward\').click(function()

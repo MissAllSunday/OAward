@@ -377,6 +377,30 @@ class OAward
 		margin:0;
 		padding:0;
 	}
+
+	#oa_add form
+	{
+	 width: 300px;
+	 overflow:hidden;
+	}
+
+	#oa_add label
+	{
+	 clear: both;
+	 float: left;
+	}
+
+	#oa_add input
+	{
+	 float: right;
+	}
+
+	.oward_button
+	{
+		clear:both !important;
+		padding:3px;
+		margin: 3px;
+	}
 	</style>';
 
 		// Load the template
