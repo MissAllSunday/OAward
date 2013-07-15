@@ -7,9 +7,9 @@
 	<type>modification</type>
 
 	<install for="2.0 - 2.0.99">
-	<readme parsebbc="true">README.txt</readme>
 		<database>install.php</database>
 		<code>hooks.php</code>
+		<modification>OAward.xml</modification>
 		<require-dir name="Themes" destination="$boarddir">Source files</require-dir>
 		<require-dir name="Sources" destination="$boarddir">Source files</require-dir>
 	</install>
@@ -19,6 +19,9 @@
 		<database>install.php</database>
 		<remove-file name="$sourcedir/OAward.php" />
 		<remove-file name="$languagedir/OAward.english.php" />
+		<remove-file name="$themedir/scripts/jquery.atooltip.min.js" />
+		<remove-dir name="$themedir/scripts/noty" />
+		<modification reverse="true">OAward.xml</modification>
 	</uninstall>
 
 </package-info>
