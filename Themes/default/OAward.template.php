@@ -53,7 +53,9 @@ function template_display_awards($output)
 
 function template_display_profile()
 {
-	global $txt, $context;
+	global $txt, $context, $memID, $settings, $modSettings;
+
+	$return = '';
 
 	// A bunch of HTML here
 	if (!empty($context['OAwards']))
@@ -77,22 +79,22 @@ function template_display_profile()
 
 	// Add a nice form
 	$return .= '
-		<a onmousedown="toggleDiv(\'oa_add_'. $context['unique_id'] .'\', this);">'. $txt['OAward_ui_add_new_award'] .'</a><br />
-		<div id="oa_add_'. $context['unique_id'] .'" style="display:none;">
+		<a onmousedown="toggleDiv(\'oa_add\', this);">'. $txt['OAward_ui_add_new_award'] .'</a><br />
+		<div id="oa_add" style="display:none;">
 			<form method="post" action="#">
-				<input type="hidden" name="award_user_id" id="award_user_id_'. $context['unique_id'] .'" value="'. $output['member']['id'] .'">
-				'. $txt['OAward_ui_name'] .' <input type="text" name="award_name" id ="award_name_'. $context['unique_id'] .'">
-				'. $txt['OAward_ui_image'] .' <input type="text" name="award_image" id ="award_image_'. $context['unique_id'] .'">
-				'. $txt['OAward_ui_desc'] .' <input type="text" name="award_description" id="award_description_'. $context['unique_id'] .'">
-				<input type="submit" value="Submit" class="oward_'. $context['unique_id'] .'">
+				<input type="hidden" name="award_user_id" id="award_user_id" value="'. $memID .'">
+				'. $txt['OAward_ui_name'] .' <input type="text" name="award_name" id ="award_name">
+				'. $txt['OAward_ui_image'] .' <input type="text" name="award_image" id ="award_image">
+				'. $txt['OAward_ui_desc'] .' <input type="text" name="award_description" id="award_description">
+				<input type="submit" value="Submit" class="oward">
 			</form>
 			<script type="text/javascript"><!-- // --><![CDATA[
-				$(\'.oward_'. $context['unique_id'] .'\').click(function()
+				$(\'.oward\').click(function()
 				{
-					var award_user_id = $(\'#award_user_id_'. $context['unique_id'] .'\').val();
-					var award_name = $(\'#award_name_'. $context['unique_id'] .'\').val();
-					var award_image = $(\'#award_image_'. $context['unique_id'] .'\').val();
-					var award_description = $(\'#award_description_'. $context['unique_id'] .'\').val();
+					var award_user_id = $(\'#award_user_id\').val();
+					var award_name = $(\'#award_name\').val();
+					var award_image = $(\'#award_image\').val();
+					var award_description = $(\'#award_description\').val();
 
 					$(this).attr(\'disabled\', \'disabled\');
 
@@ -111,7 +113,7 @@ function template_display_profile()
 							});
 
 							// Enable the button again...
-							$(\'.oward_'. $context['unique_id'] .'\').removeAttr(\'disabled\');
+							$(\'.oward\').removeAttr(\'disabled\');
 						},
 						error: function (html)
 						{},
