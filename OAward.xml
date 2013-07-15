@@ -7,7 +7,7 @@
 
 	<file name="$sourcedir/Display.php">
 		<operation>
-			<search position="before"><![CDATA[// Set the callback.  (do you REALIZE how much memory all the messages would take?!?)]]></search>
+			<search position="replace"><![CDATA[// Set the callback.  (do you REALIZE how much memory all the messages would take?!?)]]></search>
 			<add><![CDATA[// OAward mod
 	if (!empty($modSettings['OAward_admin_enable']))
 		OAward::setHeaders();
@@ -16,7 +16,7 @@
 	// Set the callback.  (do you REALIZE how much memory all the messages would take?!?)]]></add>
 		</operation>
 		<operation>
-			<search position="before"><![CDATA[// Is this user the message author?]]></search>
+			<search position="replace"><![CDATA[// Is this user the message author?]]></search>
 			<add><![CDATA[// OAward mod
 	if (!empty($modSettings['OAward_admin_enable']))
 	{
@@ -33,7 +33,7 @@
 
 	<file name="$sourcedir/Profile.php">
 		<operation>
-			<search position="before"><![CDATA['value' => $value,
+			<search position="replace"><![CDATA['value' => $value,
 		);
 	}
 	$smcFunc['db_free_result']($request);]]></search>
@@ -42,7 +42,7 @@
 	}
 	$smcFunc['db_free_result']($request);
 
-	/ Oaward mod
+	// Oaward mod
 	if (!empty($modSettings['OAward_admin_enable']))
 	{
 		OAward::setHeaders();
