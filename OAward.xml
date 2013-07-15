@@ -30,8 +30,19 @@
 
 	<file name="$sourcedir/Profile.php">
 		<operation>
-			<search position="before"><![CDATA[]]></search>
-			<add><![CDATA[]]></add>
+			<search position="before"><![CDATA['value' => $value,
+		);
+	}
+	$smcFunc['db_free_result']($request);]]></search>
+			<add><![CDATA['value' => $value,
+		);
+	}
+	$smcFunc['db_free_result']($request);
+
+	// Oaward mod
+	$OAward = new OAward($memID);
+	$context['custom_fields']['-1'] = $Oaward->showProfileAwards();
+	// OAward mod end]]></add>
 		</operation>
 	</file>
 
