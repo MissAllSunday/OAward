@@ -55,8 +55,8 @@ function template_display_profile()
 {
 	global $txt, $context, $settings, $modSettings, $scripturl;
 
-	// There has to be at least 1 award or you must be an admin.
-	if (!$context['user']['is_admin'] || empty($context['OAwards']))
+	// If you're not an admin and there is no awards, then theres nothing for you to see...
+	if (!$context['user']['is_admin'] && empty($context['OAwards']))
 		return '';
 
 	$return = '';
