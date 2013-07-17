@@ -37,9 +37,65 @@ function OAward_modifications(&$sub_actions)
 	$context[$context['admin_menu_name']]['tab_data']['tabs']['oaward'] = array();
 }
 
+function OAward_admin($admin_menu)
+{
+	global $txt;
+
+	if (!isset($txt['OAward_main']))
+		loadLanguage(OAward::$name);
+
+	$admin_menu['config']['areas']['oaward'] = array(
+		'label' => $txt['OAward_main'],
+		'file' => 'OAwardHooks.php',
+		'function' => 'OAward_index',
+		'icon' => 'administration.gif',
+		'subsections' => array(
+			'general' => $txt['OAward_admin_title_general'],
+			'awards' => $txt['OAward_admin_title_edit'],
+		),
+	);
+}
+
+function OAward_index()
+{
+	global $txt, $scripturl, $context, $sourcedir;
+
+	require_once($sourcedir . '/ManageSettings.php');
+	loadLanguage(OAward::$name);
+	$context['page_title'] = $txt['Breeze_admin_settings_admin_panel'];
+
+	$subActions = array(
+		'general' => 'OAward_settings',
+		'awards' => 'OAward_settings_awards',
+	);
+
+	loadGeneralSettingParameters($subActions, 'general');
+
+	$context[$context['admin_menu_name']]['tab_data'] = array(
+		'tabs' => array(
+			'general' => array(),
+			'awards' => array(),
+		),
+	);
+
+	call_user_func($subActions[$_REQUEST['sa']]);
+}
+
 function OAward_settings(&$return_config = false)
 {
-	global $context, $scripturl, $txt, $settings, $modSettings;
+	global $scripturl, $context, $sourcedir, $settings, $txt;
+
+	loadtemplate('Admin');
+
+	// Load stuff
+	$context['sub_template'] = 'show_settings';
+	$context['page_title'] = $text->getText('admin_settings_main');
+	$context[$context['admin_menu_name']]['tab_data'] = array(
+		'title' => Breeze::$name .' - '. $text->getText('admin_settings_settings'),
+		'description' => $text->getText('admin_settings_settings_desc'),
+	);
+
+	require_once($sourcedir . '/ManageServer.php');
 
 	// Set a nice message in case there is no images folder...
 	if (!file_get_contents($modSettings['OAward_admin_folder_url']))
@@ -88,23 +144,4 @@ function OAward_settings(&$return_config = false)
 	}
 
 	prepareDBSettingContext($config_vars);
-}
-
-function OAward_admin($admin_menu)
-{
-	global $txt;
-
-	if (!isset($txt['OAward_main']))
-		loadLanguage(OAward::$name);
-
-	$admin_menu['config']['areas']['oaward'] = array(
-		'label' => $txt['OAward_main'],
-		'file' => 'OAwardHooks.php',
-		'function' => 'OAward_index',
-		'icon' => 'administration.gif',
-		'subsections' => array(
-			'general' => 'General',
-			'awards' => 'Edit Awards',
-		),
-	);
 }

@@ -27,6 +27,8 @@ $txt['OAward_response_delete'] = 'You have succesfully deleted the award';
 $txt['OAward_response_empty'] = 'You have succesfully completed this action';
 
 // Admin
+$txt['OAward_admin_title_general'] = 'General settings';
+$txt['OAward_admin_title_edit'] = 'Edit awards';
 $txt['OAward_admin_desc'] = 'This is the main O Award admin panel.';
 $txt['OAward_admin_enable'] = 'Enable the OAward mod';
 $txt['OAward_admin_enable_sub'] = 'The master setting, check it to enable the mod.';
