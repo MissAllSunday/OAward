@@ -19,16 +19,6 @@ function OAward_actions(&$actions)
 	$actions['oaward'] = array('OAward.php', 'OAward::ajax');
 }
 
-function OAward_admin_areas(&$areas)
-{
-	global $txt;
-
-	if (!isset($txt['OAward_main']))
-		loadLanguage(OAward::$name);
-
-	$areas['config']['areas']['modsettings']['subsections']['oaward'] = array($txt['OAward_main']);
-}
-
 function OAward_modifications(&$sub_actions)
 {
 	global $context;
@@ -37,14 +27,14 @@ function OAward_modifications(&$sub_actions)
 	$context[$context['admin_menu_name']]['tab_data']['tabs']['oaward'] = array();
 }
 
-function OAward_admin($admin_menu)
+function OAward_admin_areas(&$areas)
 {
 	global $txt;
 
 	if (!isset($txt['OAward_main']))
 		loadLanguage(OAward::$name);
 
-	$admin_menu['config']['areas']['oaward'] = array(
+	$areas['config']['areas']['oaward'] = array(
 		'label' => $txt['OAward_main'],
 		'file' => 'OAwardHooks.php',
 		'function' => 'OAward_index',
@@ -140,7 +130,7 @@ function OAward_settings(&$return_config = false)
 		checkSession();
 		$save_vars = $config_vars;
 		saveDBSettings($save_vars);
-		redirectexit('action=admin;area=modsettings;sa=oaward');
+		redirectexit('action=admin;area=oaward;sa=general');
 	}
 
 	prepareDBSettingContext($config_vars);
