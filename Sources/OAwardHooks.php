@@ -40,8 +40,8 @@ function OAward_admin_areas(&$areas)
 		'function' => 'OAward_index',
 		'icon' => 'administration.gif',
 		'subsections' => array(
-			'general' => $txt['OAward_admin_title_general'],
-			'awards' => $txt['OAward_admin_title_edit'],
+			'general' => array($txt['OAward_admin_title_general']),
+			'awards' => array($txt['OAward_admin_title_edit']),
 		),
 	);
 }
@@ -52,7 +52,7 @@ function OAward_index()
 
 	require_once($sourcedir . '/ManageSettings.php');
 	loadLanguage(OAward::$name);
-	$context['page_title'] = $txt['Breeze_admin_settings_admin_panel'];
+	$context['page_title'] = $txt['OAward_admin_desc'];
 
 	$subActions = array(
 		'general' => 'OAward_settings',
@@ -61,28 +61,22 @@ function OAward_index()
 
 	loadGeneralSettingParameters($subActions, 'general');
 
-	$context[$context['admin_menu_name']]['tab_data'] = array(
-		'tabs' => array(
-			'general' => array(),
-			'awards' => array(),
-		),
-	);
-
 	call_user_func($subActions[$_REQUEST['sa']]);
 }
 
 function OAward_settings(&$return_config = false)
 {
-	global $scripturl, $context, $sourcedir, $settings, $txt;
+	global $scripturl, $context, $sourcedir, $settings, $txt, $modSettings;
 
 	loadtemplate('Admin');
+	loadLanguage(OAward::$name);
 
 	// Load stuff
 	$context['sub_template'] = 'show_settings';
-	$context['page_title'] = $text->getText('admin_settings_main');
+	$context['page_title'] = $txt['OAward_admin_title_general'];
 	$context[$context['admin_menu_name']]['tab_data'] = array(
-		'title' => Breeze::$name .' - '. $text->getText('admin_settings_settings'),
-		'description' => $text->getText('admin_settings_settings_desc'),
+		'title' => $txt['OAward_admin_title_general'],
+		'description' => $txt['OAward_admin_desc'],
 	);
 
 	require_once($sourcedir . '/ManageServer.php');
