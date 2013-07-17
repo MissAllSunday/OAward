@@ -89,3 +89,22 @@ function OAward_settings(&$return_config = false)
 
 	prepareDBSettingContext($config_vars);
 }
+
+function OAward_admin($admin_menu)
+{
+	global $txt;
+
+	if (!isset($txt['OAward_main']))
+		loadLanguage(OAward::$name);
+
+	$admin_menu['config']['areas']['oaward'] = array(
+		'label' => $txt['OAward_main'],
+		'file' => 'OAwardHooks.php',
+		'function' => 'OAward_index',
+		'icon' => 'administration.gif',
+		'subsections' => array(
+			'general' => 'General',
+			'awards' => 'Edit Awards',
+		),
+	);
+}
