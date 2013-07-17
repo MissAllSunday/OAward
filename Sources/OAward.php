@@ -125,6 +125,12 @@ class OAward
 		if (!empty($tempError) && is_array($tempError))
 			$this->setError('multiple_empty_values', implode(',', $tempError));
 
+		// One last check, the extension...
+		$dot = strrpos($this->_data['award_image'], '.');
+
+		if (!$dot)
+			$this->setError('no_image_ext');
+
 		// Everything is nice and dandy, now remove the stuff we don't need, SMF need the exact same amount of fields, blame array_combine()...
 		$insert = array_splice($this->data(), 0, - count($temp) + 1);
 
