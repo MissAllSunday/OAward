@@ -89,14 +89,15 @@ function OAward_settings(&$return_config = false)
 	$config_vars = array(
 		array('desc', 'OAward_admin_desc'),
 		array('check', 'OAward_admin_enable', 'subtext' => $txt['OAward_admin_enable_sub']),
-		array('text', 'OAward_admin_images_ext', 'subtext' => $txt['OAward_admin_images_ext_sub']),
+		array('int', 'OAward_admin_images_display_size', 'size'=> 3, 'subtext' => $txt['OAward_admin_images_display_size_sub']),
+		array('int', 'OAward_admin_images_profile_size', 'size'=> 3, 'subtext' => $txt['OAward_admin_images_profile_size_sub']),
 		array('text', 'OAward_admin_folder_url', 'size'=> 45, 'subtext' => $txt['OAward_admin_folder_url_sub']),
 	);
 
 	if ($return_config)
 		return $config_vars;
 
-	$context['post_url'] = $scripturl . '?action=admin;area=modsettings;save;sa=oaward';
+	$context['post_url'] = $scripturl . '?action=admin;area=oaward;save;sa=general';
 	$context['settings_title'] = $txt['OAward_main'];
 
 	if (empty($config_vars))
@@ -109,17 +110,16 @@ function OAward_settings(&$return_config = false)
 
 	if (isset($_GET['save']))
 	{
-		// Sorry, but this is mandatory...
-		if (empty($_POST['OAward_admin_images_ext']))
-			$_POST['OAward_admin_images_ext'] = 'png';
-
-		// Gotta check if the user typed a dot...
-		if (strstr($_POST['OAward_admin_images_ext'], '.') !== false)
-			$_POST['OAward_admin_images_ext'] = str_replace('.', '', $_POST['OAward_admin_images_ext']);
-
 		// If there isn't a custom folder path, set the default one
 		if (empty($_POST['OAward_admin_folder_url']))
 			$_POST['OAward_admin_folder_url'] = $settings['default_images_url'] . '/medals/';
+			
+		// Gotta set a default value if the setting is empty
+		if (empty($_POST['OAward_admin_images_display_size']))
+			$_POST['OAward_admin_images_display_size'] = 15;
+			
+		if (empty($_POST['OAward_admin_images_profile_size']))
+			$_POST['OAward_admin_images_profile_size'] = 40;
 
 		checkSession();
 		$save_vars = $config_vars;

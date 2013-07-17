@@ -23,7 +23,7 @@ function template_display_awards($output)
 		foreach ($context['OAwards'] as $award)
 		{
 			$return .= '<li>';
-			$return .=  '<img src="'. $settings['default_images_url'] . '/medals/'. $award['award_image'] .'.'. $modSettings['OAward_admin_images_ext'] .'" width="15px;" class="oatoolTip_'. $award['award_id'] .'"/>
+			$return .=  '<img src="'. $settings['default_images_url'] . '/medals/'. $award['award_image'] .'" width="'. $modSettings['OAward_admin_images_display_size'] .'px;" class="oatoolTip_'. $award['award_id'] .'"/>
 			<script type="text/javascript"><!-- // --><![CDATA[
 				$(\'img.oatoolTip_'. $award['award_id'] .'\').aToolTip({
 					clickIt: false,
@@ -72,7 +72,7 @@ function template_display_profile()
 			$return .= '
 			<li style="display: inline;">';
 			$return .=  '
-				<img src="'. $settings['default_images_url'] . '/medals/'. $award['award_image'] .'.'. $modSettings['OAward_admin_images_ext'] .'" width="15px;" class="oatoolTip_'. $award['award_id'] .'"/>
+				<img src="'. $settings['default_images_url'] . '/medals/'. $award['award_image'] .'" width="'. $modSettings['OAward_admin_images_profile_size'] .'px;" class="oatoolTip_'. $award['award_id'] .'"/>
 				<script type="text/javascript"><!-- // --><![CDATA[
 					$(\'img.oatoolTip_'. $award['award_id'] .'\').aToolTip({
 						clickIt: false,
