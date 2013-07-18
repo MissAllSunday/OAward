@@ -93,7 +93,7 @@ function template_display_profile()
 		</ul>';
 	}
 
-	// Add a nice form so the admis can add more goodies
+	// Add a nice form so the admins can add more goodies
 	if ($context['user']['is_admin'])
 		$return .= '
 		<a onmousedown="toggleDiv(\'oa_add\', this);" class="oaward_add">'. $txt['OAward_ui_add_new_award'] .'</a><br />

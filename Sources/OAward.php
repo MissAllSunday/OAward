@@ -271,6 +271,23 @@ class OAward
 		$this->cleanCache();
 	}
 
+	public function deleteMulti($IDs)
+	{
+		if (empty($IDs) || !is_array($IDs))
+			return false;
+
+		if (empty($this->awards[$this->_data['award_id']]))
+			$this->setError('no_valid_id');
+
+		// All  good!
+		$this->_smcFunc['db_query']('', '
+			DELETE FROM {db_prefix}' . (strtolower(self::$name)) . '
+			WHERE award_id = IN ({array_int:user})', array('ids' => ($IDs));
+
+		// Clean the cache
+		$this->cleanCache($IDs);
+	}
+
 	protected function respond()
 	{
 		global $modSettings, $txt;
@@ -365,9 +382,14 @@ class OAward
 		}
 	}
 
-	protected function cleanCache()
+	protected function cleanCache($arrayIDs = false)
 	{
-		cache_put_data(OAward::$name .'-User-' . $this->user, null, 120);
+		if ($arrayIDs)
+			foreach ($arrayIDs as $user)
+				cache_put_data(OAward::$name .'-User-' . $user, null, 120);
+
+		else
+			cache_put_data(OAward::$name .'-User-' . $this->user, null, 120);
 	}
 
 	public function data($var = false)

@@ -234,7 +234,13 @@ function OAward_manage_images()
 
 		// All nice and dandy... call the method
 		if (OAward::deleteImage($imagesPath, urldecode($image)))
+		{
+			// Get all associated awards, if there are some of course
+			if (!empty($context['OAward']['images'][$image]['associated_ids']))
+			$toRemove = array_keys($context['OAward']['images'][$image]['associated_ids']);
+		
 			redirectexit('action=admin;area=oaward;sa=manageImages;response=success');
+		}
 
 		else
 			redirectexit('action=admin;area=oaward;sa=manageImages;response=error');
