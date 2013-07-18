@@ -137,7 +137,7 @@ function OAward_settings(&$return_config = false)
 
 function OAward_manage_images()
 {
-	global $context, $txt, $scripturl, $settings;
+	global $context, $txt, $scripturl, $settings, $memberContext;
 
 	loadTemplate(OAward::$name);
 	$context['sub_template'] = 'manage_images';
@@ -189,6 +189,34 @@ function OAward_manage_images()
 	// Get rid of the dots...
 	unset($context['OAward']['images']['.']);
 	unset($context['OAward']['images']['..']);
+
+	// Load the users data
+	$loaded_ids = loadMemberData(array_unique($tempUsersIDs), false, 'profile');
+
+	// Set the context var
+	foreach ($tempUsersIDs as $u)
+	{
+		// Avoid SMF showing an awful error message
+		if (in_array($u, $loaded_ids))
+		{
+			loadMemberContext($u);
+
+			// Normal context var
+			$context['OAward']['usersData'][$u] = array(
+				'name' => $memberContext[$u]['name'],
+				'id' => $memberContext[$u]['id'],
+				'link' => '<a href="'. $scripturl .'?action=profile;u='. $memberContext[$u]['id'] .'">'. $memberContext[$u]['name'] .'</a>',
+			);
+		}
+
+		// Award receiver is a guest...
+		else
+			$context['OAward']['usersData'][$u] = array(
+				'name' => $txt['guest_title'],
+				'id' => 0,
+				'link' => $txt['guest_title'],
+			);
+	}
 
 	// Handle deletion, each subaction sholud get its own separate function but I'm lazy...
 	if (isset($_GET['deleteImage']))
