@@ -385,7 +385,7 @@ class OAward
 			return false;
 
 		// Merge!
-		$file = $path . $image;
+		$file = $path .'/'. $image;
 
 		if (!file_exists($file))
 			return false;

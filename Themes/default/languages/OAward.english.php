@@ -34,6 +34,8 @@ $txt['OAward_admin_manageAwards_desc'] = 'From ehre you can add/edit/delete awar
 $txt['OAward_admin_manageImages_title'] = 'Manage images';
 $txt['OAward_admin_manageImages_desc'] = 'From here you can add/remove new images, if you delete an image, all awards associated with it will also be removed.';
 $txt['OAward_admin_manageImages_warning'] = 'If you chose to delete an already associated image, all awards associated with it will be deleted too. Be careful with that.';
+$txt['OAward_admin_manageAwards_serverResponse_success'] = 'You have succesfully deleted the image.';
+$txt['OAward_admin_manageAwards_serverResponse_error'] = 'There was an error. Please try again later.';
 
 $txt['OAward_admin_desc'] = 'This is the main O Award admin panel.';
 $txt['OAward_admin_enable'] = 'Enable the OAward mod';

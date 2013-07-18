@@ -177,6 +177,10 @@ function template_manage_images()
 	}
 	</script>';
 
+	// Show the response from the server
+	if (!empty($_GET['response']))
+		echo '<div ', ($_GET['response'] == 'success' ? 'class="windowbg" id="profile_success"' : 'class="errorbox"') ,'>', $txt['OAward_admin_manageAwards_serverResponse_'. $_GET['response']] ,'</div>';
+
 	// The dir is not writeable, tell the admin about it
 	if (!$context['OAward']['is_writeable'])
 		echo '<div class="errorbox">some error here...</div>';
