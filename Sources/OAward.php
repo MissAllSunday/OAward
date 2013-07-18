@@ -381,7 +381,17 @@ class OAward
 
 	public static function deleteImage($path, $image)
 	{
-		return false;
+		if (empty($path) || empty($image))
+			return false;
+
+		// Merge!
+		$file = $path . $image;
+
+		if (!file_exists($file))
+			return false;
+
+		// I should create an error log entry if unlink failed...
+		return unlink($file);
 	}
 
 	public static function setHeaders()

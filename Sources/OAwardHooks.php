@@ -222,7 +222,7 @@ function OAward_manage_images()
 			);
 	}
 
-	// Handle deletion, each subaction sholud get its own separate function but I'm lazy...
+	// Handle deletion, each subaction sholud have its own separate function but I'm lazy...
 	if (isset($_GET['deleteImage']))
 	{
 		$context['OAward']['object']->sanitize('image');

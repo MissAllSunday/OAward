@@ -177,13 +177,16 @@ function template_manage_images()
 	}
 	</script>';
 
-	// The dir is not writeable, tell the admi about it
+	// The dir is not writeable, tell the admin about it
 	if (!$context['OAward']['is_writeable'])
 		echo '<div class="errorbox">some error here...</div>';
 
 	// Show all the images the user has uploaded
 	if (!empty($context['OAward']['images']))
 	{
+		// Tell the suer that all associated awards will be deleted
+		echo '<div class="errorbox">', $txt['OAward_admin_manageImages_warning']  ,'</div>';
+
 		echo '
 		<div class="cat_bar">
 			<h3 class="catbg">', $txt['OAward_admin_images_assigned_desc'] ,'</h3>

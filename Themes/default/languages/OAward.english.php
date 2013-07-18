@@ -32,7 +32,8 @@ $txt['OAward_admin_title_general'] = 'OAward General settings';
 $txt['OAward_admin_manageAwards_title'] = 'Manage awards';
 $txt['OAward_admin_manageAwards_desc'] = 'From ehre you can add/edit/delete awards given.';
 $txt['OAward_admin_manageImages_title'] = 'Manage images';
-$txt['OAward_admin_manageImages_desc'] = 'From here you can add/remove new images, if you delete an image, all awards associated with it will also be removed. Be careful with that.';
+$txt['OAward_admin_manageImages_desc'] = 'From here you can add/remove new images, if you delete an image, all awards associated with it will also be removed.';
+$txt['OAward_admin_manageImages_warning'] = 'If you chose to delete an already associated image, all awards associated with it will be deleted too. Be careful with that.';
 
 $txt['OAward_admin_desc'] = 'This is the main O Award admin panel.';
 $txt['OAward_admin_enable'] = 'Enable the OAward mod';
