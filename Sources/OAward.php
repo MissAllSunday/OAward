@@ -279,7 +279,9 @@ class OAward
 		// All  good!
 		$this->_smcFunc['db_query']('', '
 			DELETE FROM {db_prefix}' . (strtolower(self::$name)) . '
-			WHERE award_id = IN ({array_int:user})', array('ids' => ($IDs));
+			WHERE award_id = IN ({array_int:user})',
+			array('ids' => ($IDs))
+		);
 
 		// Clean the cache
 		$this->cleanCache($IDs);
