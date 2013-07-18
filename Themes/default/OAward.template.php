@@ -111,6 +111,7 @@ function template_display_profile()
 			<script type="text/javascript"><!-- // --><![CDATA[
 				$(\'.oward_button\').click(function()
 				{
+					var award_user_id = $(\'#award_user_id\').val();
 					var award_name = $(\'#award_name\').val();
 					var award_image = $(\'#award_image\').val();
 					var award_description = $(\'#award_description\').val();
@@ -126,7 +127,6 @@ function template_display_profile()
 						dataType: \'json\',
 						success: function(html)
 						{
-							$(\'#award_user_id\').val(\'\');
 							$(\'#award_name\').val(\'\');
 							$(\'#award_image\').val(\'\');
 							$(\'#award_description\').val(\'\');
