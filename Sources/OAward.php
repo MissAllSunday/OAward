@@ -178,6 +178,38 @@ class OAward
 		}
 	}
 
+	public function readAll()
+	{
+		$return = array();
+
+		// Use the cache please...
+		if (($this->awards = cache_get_data(OAward::$name .'-All', 120)) == null)
+		{
+			$result = $this->_smcFunc['db_query']('', '
+				SELECT '. (implode(',', $this->columns)) .'
+				FROM {db_prefix}' . (strtolower(self::$name)) . '
+				', array()
+			);
+
+			// Populate the array
+			while ($row = $this->_smcFunc['db_fetch_assoc']($result))
+				$return[$row['award_id']] = array(
+				'award_id' => $row['award_id'],
+				'award_user_id' => $row['award_user_id'],
+				'award_name' => $row['award_name'],
+				'award_image' => $row['award_image'],
+				'award_description' => $row['award_description'],
+			);
+
+			$this->_smcFunc['db_free_result']($result);
+
+			// Cache this beauty
+			cache_put_data(OAward::$name .'-All', $return, 120);
+		}
+
+		return $return;
+	}
+
 	public function update()
 	{
 		// Used for collecting possible errors
@@ -345,6 +377,31 @@ class OAward
 
 		else
 			return $this->_data;
+	}
+
+	public stativ function deleteImage($path, $image)
+	{
+		if (empty($path))
+			return false;
+
+		if(!$dh = @opendir($dir))
+			 {
+				 return;
+			 }
+			 while (false !== ($obj = readdir($dh)))
+			 {
+				 if($obj == '.' || $obj == '..')
+				 {
+					 continue;
+				 }
+
+				 if (!@unlink($dir . '/' . $obj))
+				 {
+					 unlinkRecursive($dir.'/'.$obj, true);
+				 }
+			 }
+
+			 closedir($dh);
 	}
 
 	public static function setHeaders()

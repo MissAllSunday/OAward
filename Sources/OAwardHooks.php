@@ -169,11 +169,11 @@ function OAward_manage_images()
 	if (isset($_GET['deleteImage']))
 	{
 		// Get the file and the ext
-		if (!isset($_GET['image']) && empty(trim(htmlspecialchars($_GET['image'], ENT_QUOTES))))
+		if (!isset($_GET['image']) && empty(trim(htmlspecialchars(urldecode($_GET['image']), ENT_QUOTES))))
 			redirectexit('action=admin;area=oaward;sa=manageImages');
 
 		// All nice and dandy... call the method
-		if (OAward::deleteImage())
+		if (OAward::deleteImage($imagesPath, urldecode($_GET['image']))
 			redirectexit('action=admin;area=oaward;sa=manageImages;response=success');
 
 		else
