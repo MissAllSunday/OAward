@@ -164,7 +164,46 @@ function template_display_profile()
 	return $return;
 }
 
-function template_settings_awards()
+function template_manage_images()
 {
-	echo 'LOL';
+	global $context, $txt;
+
+	// The dir is not writeable, tell the admi about it
+	if (!$context['OAward']['is_writeable'])
+		echo '<div class="errorbox">some error here...</div>';
+
+	// Show all the images the user has uploaded
+	if (!empty($context['OAward']['images']))
+	{
+		echo '
+			<table class="table_grid" cellspacing="0" width="100%">
+				<thead>
+					<tr class="catbg">
+						<th scope="col" class="first_th">', $txt['OAward_admin_images_name'] ,'</th>
+						<th scope="col">', $txt['OAward_admin_images_ext'] ,'</th>
+						<th scope="col" class="last_th">', $txt['OAward_admin_images_delete'] ,'</th>
+					</tr>
+				</thead>
+			<tbody>';
+
+		foreach($context['OAward']['images'] as $image)
+		{
+			echo '
+				<tr class="windowbg" style="text-align: center">
+					<td>
+						', $image['filename'] ,'
+					</td>
+					<td>
+						', $image['extension'] ,'
+					</td>
+					<td>
+						delete
+					</td>
+				</tr>';
+		}
+
+		echo '
+			</tbody>
+		</table><hr /><br />';
+	}
 }

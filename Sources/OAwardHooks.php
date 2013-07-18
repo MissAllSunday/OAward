@@ -41,7 +41,8 @@ function OAward_admin_areas(&$areas)
 		'icon' => 'administration.gif',
 		'subsections' => array(
 			'general' => array($txt['OAward_admin_title_general']),
-			'awards' => array($txt['OAward_admin_title_edit']),
+			'manageAwards' => array($txt['OAward_admin_manageAwards_title']),
+			'manageImages' => array($txt['OAward_admin_manageImages_title']),
 		),
 	);
 }
@@ -56,7 +57,8 @@ function OAward_index()
 
 	$subActions = array(
 		'general' => 'OAward_settings',
-		'awards' => 'OAward_settings_awards',
+		'manageAwards' => 'OAward_manage_awards',
+		'manageImages' => 'OAward_manage_images',
 	);
 
 	loadGeneralSettingParameters($subActions, 'general');
@@ -130,18 +132,35 @@ function OAward_settings(&$return_config = false)
 	prepareDBSettingContext($config_vars);
 }
 
-function OAward_settings_awards()
+function OAward_manage_images()
 {
-	global $context, $txt, $scripturl;
+	global $context, $txt, $scripturl, $settings;
 
 	loadTemplate(OAward::$name);
-	$context['sub_template'] = 'settings_awards';
-	$context['post_url'] = $scripturl . '?action=admin;area=oaward;save;sa=awards';
-	$context['settings_title'] = 'some title here';
-	$context['settings_message'] = 'some dec here';
-	$context['page_title'] = $txt['OAward_admin_title_general'];
+	$context['sub_template'] = 'manage_images';
+	$context['post_url'] = $scripturl . '?action=admin;area=oaward;save;sa=manageImages';
+	$context['page_title'] = $txt['OAward_admin_manageImages_title'];
 	$context[$context['admin_menu_name']]['tab_data'] = array(
-		'title' => $txt['OAward_admin_title_general'],
-		'description' => $txt['OAward_admin_desc'],
+		'title' => $context['page_title'],
+		'description' => $txt['OAward_admin_manageImages_desc'],
 	);
+
+	// Get all images in the image folder, there isn't a var for the path to the default images folder so we assume a couple of things here...
+	$imagesPath = $settings['default_theme_dir'] .'/images/medals';
+
+	// Scan the dir
+	if (is_dir($imagesPath) && is_writable($imagesPath))
+		if ($openDir = opendir($imagesPath))
+		{
+			while (($file = readdir($openDir)) !== false)
+				$context['OAward']['images'][$file] = pathinfo($imagesPath .'/'. $file);
+
+			closedir($openDir);
+		}
+
+	// Get rid of the dots...
+	unset($context['OAward']['images']['.']);
+	unset($context['OAward']['images']['..']);
+
+	// echo '<pre>';print_r($context['OAward']['images']);die;
 }

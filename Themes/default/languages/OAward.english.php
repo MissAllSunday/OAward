@@ -28,7 +28,11 @@ $txt['OAward_response_empty'] = 'You have succesfully completed this action';
 
 // Admin
 $txt['OAward_admin_title_general'] = 'OAward General settings';
-$txt['OAward_admin_title_edit'] = 'Edit awards';
+$txt['OAward_admin_manageAwards_title'] = 'Manage awards';
+$txt['OAward_admin_manageAwards_desc'] = 'From ehre you can add/edit/delete awards given.';
+$txt['OAward_admin_manageImages_title'] = 'Manage images';
+$txt['OAward_admin_manageImages_desc'] = 'From here you can add/remove new images';
+
 $txt['OAward_admin_desc'] = 'This is the main O Award admin panel.';
 $txt['OAward_admin_enable'] = 'Enable the OAward mod';
 $txt['OAward_admin_enable_sub'] = 'The master setting, check it to enable the mod.';
@@ -39,9 +43,9 @@ $txt['OAward_admin_images_display_size_sub'] = 'If left empty the mod will set a
 $txt['OAward_admin_images_ext_sub'] = 'All images needs to be in the same file format. Just type the extension, without the dot. If left empty the mod will use png as the file format.';
 $txt['OAward_admin_folder_url'] = 'The url to the image\'s folder';
 $txt['OAward_admin_folder_url_sub'] = 'This gotta be a valid folder url, if left empty the mod will use the default value: '. $settings['default_images_url'] . '/medals/';
-$txt['OAward_admin_'] = '';
-$txt['OAward_admin_'] = '';
-$txt['OAward_admin_'] = '';
+$txt['OAward_admin_images_name'] = 'Name';
+$txt['OAward_admin_images_ext'] = 'Extension';
+$txt['OAward_admin_images_delete'] = 'Delete';
 $txt['OAward_admin_'] = '';
 $txt['OAward_admin_'] = '';
 $txt['OAward_admin_'] = '';
