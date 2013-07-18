@@ -32,7 +32,7 @@ $txt['OAward_admin_title_general'] = 'OAward General settings';
 $txt['OAward_admin_manageAwards_title'] = 'Manage awards';
 $txt['OAward_admin_manageAwards_desc'] = 'From ehre you can add/edit/delete awards given.';
 $txt['OAward_admin_manageImages_title'] = 'Manage images';
-$txt['OAward_admin_manageImages_desc'] = 'From here you can add/remove new images';
+$txt['OAward_admin_manageImages_desc'] = 'From here you can add/remove new images, if you delete an image, all awards associated with it will also be removed. Be careful with that.';
 
 $txt['OAward_admin_desc'] = 'This is the main O Award admin panel.';
 $txt['OAward_admin_enable'] = 'Enable the OAward mod';
@@ -41,15 +41,14 @@ $txt['OAward_admin_images_profile_size'] = 'Set the image size fr the profile pa
 $txt['OAward_admin_images_profile_size_sub'] = 'If left empty the mod will set a size of 40px';
 $txt['OAward_admin_images_display_size'] = 'Set the image size for the display page';
 $txt['OAward_admin_images_display_size_sub'] = 'If left empty the mod will set a default size of 15px;';
-$txt['OAward_admin_images_ext_sub'] = 'All images needs to be in the same file format. Just type the extension, without the dot. If left empty the mod will use png as the file format.';
 $txt['OAward_admin_folder_url'] = 'The url to the image\'s folder';
 $txt['OAward_admin_folder_url_sub'] = 'This gotta be a valid folder url, if left empty the mod will use the default value: '. $settings['default_images_url'] . '/medals/';
 $txt['OAward_admin_images_name'] = 'Name';
 $txt['OAward_admin_images_ext'] = 'Extension';
 $txt['OAward_admin_images_delete'] = 'Delete';
-$txt['OAward_admin_'] = '';
-$txt['OAward_admin_'] = '';
-$txt['OAward_admin_'] = '';
+$txt['OAward_admin_images_associated_ids'] = 'Awards associated with this image:';
+$txt['OAward_admin_images_image'] = 'Image';
+$txt['OAward_admin_ssigned'] = ' assigned to ';
 
 // Errors
 $txt['OAward_error_multiple_empty_values'] = 'The following fields were left empty: %s';

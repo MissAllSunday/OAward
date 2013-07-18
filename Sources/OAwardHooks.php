@@ -29,7 +29,7 @@ function OAward_modifications(&$sub_actions)
 
 function OAward_admin_areas(&$areas)
 {
-	global $txt, $context;
+	global $txt;
 
 	if (!isset($txt['OAward_main']))
 		loadLanguage(OAward::$name);
@@ -45,9 +45,6 @@ function OAward_admin_areas(&$areas)
 			'manageImages' => array($txt['OAward_admin_manageImages_title']),
 		),
 	);
-
-	// Time to overheat the server...
-	$context['OAward']['object'] = new OAward();
 }
 
 function OAward_index()
@@ -63,6 +60,9 @@ function OAward_index()
 		'manageAwards' => 'OAward_manage_awards',
 		'manageImages' => 'OAward_manage_images',
 	);
+
+	// Time to overheat the server...
+	$context['OAward']['object'] = new OAward();
 
 	loadGeneralSettingParameters($subActions, 'general');
 
@@ -154,12 +154,34 @@ function OAward_manage_images()
 	// Is writable?
 	$context['OAward']['is_writeable'] = is_writable($imagesPath);
 
+	// Get all the awards!
+	$allAwards = $context['OAward']['object']->readAll();
+	$tempUsersIDs = array();
+
 	// Scan the dir
 	if (is_dir($imagesPath) && is_writable($imagesPath))
 		if ($openDir = opendir($imagesPath))
 		{
 			while (($file = readdir($openDir)) !== false)
-				$context['OAward']['images'][$file] = pathinfo($imagesPath .'/'. $file);
+			{
+				// Associate the file name with a record in the DB
+				foreach ($allAwards as $a)
+					if ($a['award_image'] == $file)
+					{
+						$context['OAward']['images'][$file] = array(
+							'image_info' => pathinfo($imagesPath .'/'. $file),
+						);
+						$context['OAward']['images'][$file]['associated_ids'][$a['award_id']] = array(
+							'name' => $a['award_name'],
+							'id' => $a['award_id'],
+							'desc' => $a['award_description'],
+							'user' => $a['award_user_id'],
+						);
+
+						// While we're at it, collect the users IDs...
+						$tempUsersIDs[] = $a['award_user_id'];
+					}
+			}
 
 			closedir($openDir);
 		}

@@ -183,7 +183,7 @@ class OAward
 		$return = array();
 
 		// Use the cache please...
-		if (($this->awards = cache_get_data(OAward::$name .'-All', 120)) == null)
+		if (($return = cache_get_data(OAward::$name .'-All', 120)) == null)
 		{
 			$result = $this->_smcFunc['db_query']('', '
 				SELECT '. (implode(',', $this->columns)) .'

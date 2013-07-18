@@ -166,7 +166,7 @@ function template_display_profile()
 
 function template_manage_images()
 {
-	global $context, $txt;
+	global $context, $txt, $modSettings, $scripturl;
 
 	// A nice confirm message
 	echo '
@@ -188,8 +188,10 @@ function template_manage_images()
 			<table class="table_grid" cellspacing="0" width="100%">
 				<thead>
 					<tr class="catbg">
-						<th scope="col" class="first_th">', $txt['OAward_admin_images_name'] ,'</th>
+						<th scope="col" class="first_th">', $txt['OAward_admin_images_image'] ,'</th>
+						<th scope="col" >', $txt['OAward_admin_images_name'] ,'</th>
 						<th scope="col">', $txt['OAward_admin_images_ext'] ,'</th>
+						<th scope="col">', $txt['OAward_admin_images_associated_ids'] ,'</th>
 						<th scope="col" class="last_th">', $txt['OAward_admin_images_delete'] ,'</th>
 					</tr>
 				</thead>
@@ -200,10 +202,20 @@ function template_manage_images()
 			echo '
 				<tr class="windowbg" style="text-align: center">
 					<td>
-						', $image['filename'] ,'
+						<img src="', $modSettings['OAward_admin_folder_url'] . $image['image_info']['basename'] ,'" />
 					</td>
 					<td>
-						', $image['extension'] ,'
+						', $image['image_info']['filename'] ,'
+					</td>
+					<td>
+						', $image['image_info']['extension'] ,'
+					</td>
+					<td>';
+
+			foreach ($image['associated_ids'] as $id)
+				echo $id['name'] . $txt['OAward_admin_ssigned'] . ,'<br />';
+
+				echo '
 					</td>
 					<td>
 						<a href="', $context['OAward']['deleteImage'] ,';image=', urlencode($image['basename']) ,'" onclick="return oa_youSure();">', $txt['OAward_admin_images_delete'] ,'</a>
