@@ -49,6 +49,8 @@ $txt['OAward_admin_images_delete'] = 'Delete';
 $txt['OAward_admin_images_associated_ids'] = 'Awards associated with this image:';
 $txt['OAward_admin_images_image'] = 'Image';
 $txt['OAward_admin_ssigned'] = ' assigned to ';
+$txt['OAward_admin_images_unassigned_desc'] = 'The follow images does exists in the images dir but haven\'t been assigned to an award yet';
+$txt['OAward_admin_images_assigned_desc'] = 'The follow images has been assigned to an award';
 
 // Errors
 $txt['OAward_error_multiple_empty_values'] = 'The following fields were left empty: %s';

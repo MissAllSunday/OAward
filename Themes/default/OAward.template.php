@@ -185,6 +185,11 @@ function template_manage_images()
 	if (!empty($context['OAward']['images']))
 	{
 		echo '
+		<div class="cat_bar">
+			<h3 class="catbg">', $txt['OAward_admin_images_assigned_desc'] ,'</h3>
+		</div>';
+
+		echo '
 			<table class="table_grid" cellspacing="0" width="100%">
 				<thead>
 					<tr class="catbg">
@@ -213,12 +218,12 @@ function template_manage_images()
 					<td>';
 
 			foreach ($image['associated_ids'] as $id)
-				echo $id['name'] . $txt['OAward_admin_ssigned'] . ,'<br />';
+				echo $id['name'] . $txt['OAward_admin_ssigned'] . $context['OAward']['usersData'][$id['user']]['link'],'<br />';
 
 				echo '
 					</td>
 					<td>
-						<a href="', $context['OAward']['deleteImage'] ,';image=', urlencode($image['basename']) ,'" onclick="return oa_youSure();">', $txt['OAward_admin_images_delete'] ,'</a>
+						<a href="', $context['OAward']['deleteImage'] ,';image=', urlencode($image['image_info']['basename']) ,'" onclick="return oa_youSure();">', $txt['OAward_admin_images_delete'] ,'</a>
 					</td>
 				</tr>';
 		}
@@ -226,5 +231,50 @@ function template_manage_images()
 		echo '
 			</tbody>
 		</table><hr /><br />';
+	}
+
+	// Show the unassigned table
+	if (!empty($context['OAward']['unassigned_images']))
+	{
+		echo '
+		<div class="cat_bar">
+			<h3 class="catbg">', $txt['OAward_admin_images_unassigned_desc'] ,'</h3>
+		</div>';
+
+		echo '
+			<table class="table_grid" cellspacing="0" width="100%">
+				<thead>
+					<tr class="catbg">
+						<th scope="col" class="first_th">', $txt['OAward_admin_images_image'] ,'</th>
+						<th scope="col" >', $txt['OAward_admin_images_name'] ,'</th>
+						<th scope="col">', $txt['OAward_admin_images_ext'] ,'</th>
+						<th scope="col" class="last_th">', $txt['OAward_admin_images_delete'] ,'</th>
+					</tr>
+				</thead>
+			<tbody>';
+
+		foreach($context['OAward']['unassigned_images'] as $unassigned)
+		{
+			echo '
+				<tr class="windowbg" style="text-align: center">
+					<td>
+						<img src="', $modSettings['OAward_admin_folder_url'] . $unassigned['basename'] ,'" />
+					</td>
+					<td>
+						', $unassigned['filename'] ,'
+					</td>
+					<td>
+						', $unassigned['extension'] ,'
+					</td>
+					<td>
+						<a href="', $context['OAward']['deleteImage'] ,';image=', urlencode($unassigned['basename']) ,'" onclick="return oa_youSure();">', $txt['OAward_admin_images_delete'] ,'</a>
+					</td>
+				</tr>';
+		}
+
+		echo '
+			</tbody>
+		</table><hr /><br />';
+
 	}
 }

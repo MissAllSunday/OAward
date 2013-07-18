@@ -181,14 +181,18 @@ function OAward_manage_images()
 						// While we're at it, collect the users IDs...
 						$tempUsersIDs[] = $a['award_user_id'];
 					}
+
+				// Fill out the unassigned ones...
+					else
+						$context['OAward']['unassigned_images'][$file] = pathinfo($imagesPath .'/'. $file);
 			}
 
 			closedir($openDir);
 		}
 
 	// Get rid of the dots...
-	unset($context['OAward']['images']['.']);
-	unset($context['OAward']['images']['..']);
+	unset($context['OAward']['unassigned_images']['.']);
+	unset($context['OAward']['unassigned_images']['..']);
 
 	// Load the users data
 	$loaded_ids = loadMemberData(array_unique($tempUsersIDs), false, 'profile');
