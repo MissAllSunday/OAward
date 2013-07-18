@@ -276,9 +276,6 @@ class OAward
 		if (empty($IDs) || !is_array($IDs))
 			return false;
 
-		if (empty($this->awards[$this->_data['award_id']]))
-			$this->setError('no_valid_id');
-
 		// All  good!
 		$this->_smcFunc['db_query']('', '
 			DELETE FROM {db_prefix}' . (strtolower(self::$name)) . '
