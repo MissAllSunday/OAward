@@ -29,7 +29,7 @@ function OAward_modifications(&$sub_actions)
 
 function OAward_admin_areas(&$areas)
 {
-	global $txt;
+	global $txt, $context;
 
 	if (!isset($txt['OAward_main']))
 		loadLanguage(OAward::$name);
@@ -45,6 +45,9 @@ function OAward_admin_areas(&$areas)
 			'manageImages' => array($txt['OAward_admin_manageImages_title']),
 		),
 	);
+
+	// Time to overheat the server...
+	$context['OAward']['object'] = new OAward();
 }
 
 function OAward_index()
@@ -168,12 +171,15 @@ function OAward_manage_images()
 	// Handle deletion, each subaction sholud get its own separate function but I'm lazy...
 	if (isset($_GET['deleteImage']))
 	{
+		$context['OAward']['object']->sanitize('image');
+		$image = $context['OAward']['object']->data('image');
+
 		// Get the file and the ext
-		if (!isset($_GET['image']) && empty(trim(htmlspecialchars(urldecode($_GET['image']), ENT_QUOTES))))
+		if (empty($image))
 			redirectexit('action=admin;area=oaward;sa=manageImages');
 
 		// All nice and dandy... call the method
-		if (OAward::deleteImage($imagesPath, urldecode($_GET['image']))
+		if (OAward::deleteImage($imagesPath, urldecode($image)))
 			redirectexit('action=admin;area=oaward;sa=manageImages;response=success');
 
 		else
