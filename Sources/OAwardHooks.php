@@ -148,6 +148,9 @@ function OAward_manage_images()
 	// Get all images in the image folder, there isn't a var for the path to the default images folder so we assume a couple of things here...
 	$imagesPath = $settings['default_theme_dir'] .'/images/medals';
 
+	// Is writable?
+	$context['OAward']['is_writeable'] = is_writable($imagesPath);
+
 	// Scan the dir
 	if (is_dir($imagesPath) && is_writable($imagesPath))
 		if ($openDir = opendir($imagesPath))
