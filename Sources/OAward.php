@@ -123,13 +123,10 @@ class OAward
 
 		// Are there any errors? if so, send them all at once!
 		if (!empty($tempError) && is_array($tempError))
+		{
 			$this->setError('multiple_empty_values', implode(',', $tempError));
-
-		// One last check, the extension...
-		$dot = strrpos($this->_data['award_image'], '.');
-
-		if (!$dot)
-			$this->setError('no_image_ext');
+			return;
+		}
 
 		// Everything is nice and dandy, now remove the stuff we don't need, SMF need the exact same amount of fields, blame array_combine()...
 		$insert = array_splice($this->data(), 0, - count($temp) + 1);
@@ -260,7 +257,10 @@ class OAward
 		// Send the header
 		header('Content-Type: application/json');
 
-		echo json_encode($txt['OAward_response_'. $this->sa]);
+		echo json_encode(array(
+			'type' => !empty($this->error) ? 'error' : 'success',
+			'message' => !empty($this->error) ? $this->error : $txt['OAward_response_'. $this->sa]
+		));
 
 		// Done
 		obExit(false);
@@ -268,17 +268,17 @@ class OAward
 
 	protected function setError($error, $optionalData = array())
 	{
-		global $xt;
+		global $txt;
 
 		// Load the very useful language strings
 		loadLanguage(self::$name);
 
 		// Is there any special cases?
 		if (!empty($optionalData))
-			fatal_lang_error(self::$name .'_error_'. $error, false, $optionalData);
+			$this->error = vsprintf($txt[self::$name .'_error_'. $error], $optionalData);
 
 		else
-			fatal_lang_error(self::$name .'_error_'. $error, false);
+			$this->error = $txt[self::$name .'_error_'. $error];
 	}
 
 	public function setSA($sa)

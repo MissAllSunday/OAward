@@ -136,11 +136,17 @@ function template_display_profile()
 							noty({
 								layout: \'top\',
 								theme: \'defaultTheme\',
-								type: \'success\',
-								text: html,
-								timeout: 1000, type: \'success\',
+								type: html.type,
+								text: html.message,
+								timeout: 2500,
 								callback: {
-									afterClose: function() { location.reload(); }
+									afterClose: function() {
+										if (html.type == \'success\'){
+											location.reload();}
+
+										else{
+											$(\'.oaward_add\').html(oa_add_new_award);}
+									}
 								},
 							});
 
