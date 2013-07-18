@@ -138,7 +138,7 @@ function OAward_manage_images()
 
 	loadTemplate(OAward::$name);
 	$context['sub_template'] = 'manage_images';
-	$context['OAward']['deleteImage'] = $scripturl . '?action=admin;area=oaward;sa=manageImages;delete';
+	$context['OAward']['deleteImage'] = $scripturl . '?action=admin;area=oaward;sa=manageImages;deleteImage';
 	$context['page_title'] = $txt['OAward_admin_manageImages_title'];
 	$context[$context['admin_menu_name']]['tab_data'] = array(
 		'title' => $context['page_title'],
@@ -165,5 +165,18 @@ function OAward_manage_images()
 	unset($context['OAward']['images']['.']);
 	unset($context['OAward']['images']['..']);
 
-	// echo '<pre>';print_r($context['OAward']['images']);die;
+	// Handle deletion, each subaction sholud get its own separate function but I'm lazy...
+	if (isset($_GET['deleteImage']))
+	{
+		// Get the file and the ext
+		if (!isset($_GET['image']) && empty(trim(htmlspecialchars($_GET['image'], ENT_QUOTES))))
+			redirectexit('action=admin;area=oaward;sa=manageImages');
+
+		// All nice and dandy... call the method
+		if (OAward::deleteImage())
+			redirectexit('action=admin;area=oaward;sa=manageImages;response=success');
+
+		else
+			redirectexit('action=admin;area=oaward;sa=manageImages;response=error');
+	}
 }
