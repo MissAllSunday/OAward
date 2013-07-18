@@ -113,11 +113,11 @@ function OAward_settings(&$return_config = false)
 		// If there isn't a custom folder path, set the default one
 		if (empty($_POST['OAward_admin_folder_url']))
 			$_POST['OAward_admin_folder_url'] = $settings['default_images_url'] . '/medals/';
-			
+
 		// Gotta set a default value if the setting is empty
 		if (empty($_POST['OAward_admin_images_display_size']))
 			$_POST['OAward_admin_images_display_size'] = 15;
-			
+
 		if (empty($_POST['OAward_admin_images_profile_size']))
 			$_POST['OAward_admin_images_profile_size'] = 40;
 
@@ -128,4 +128,20 @@ function OAward_settings(&$return_config = false)
 	}
 
 	prepareDBSettingContext($config_vars);
+}
+
+function OAward_settings_awards()
+{
+	global $context, $txt, $scripturl;
+
+	loadTemplate(OAward::$name);
+	$context['sub_template'] = 'settings_awards';
+	$context['post_url'] = $scripturl . '?action=admin;area=oaward;save;sa=awards';
+	$context['settings_title'] = 'some title here';
+	$context['settings_message'] = 'some dec here';
+	$context['page_title'] = $txt['OAward_admin_title_general'];
+	$context[$context['admin_menu_name']]['tab_data'] = array(
+		'title' => $txt['OAward_admin_title_general'],
+		'description' => $txt['OAward_admin_desc'],
+	);
 }

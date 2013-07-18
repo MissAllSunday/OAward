@@ -163,3 +163,8 @@ function template_display_profile()
 
 	return $return;
 }
+
+function template_settings_awards()
+{
+	echo 'LOL';
+}
