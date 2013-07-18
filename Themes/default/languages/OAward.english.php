@@ -19,6 +19,7 @@ $txt['OAward_ui_cancel'] = 'Cancel';
 $txt['OAward_ui_name'] = 'Name: ';
 $txt['OAward_ui_image'] = 'Image: ';
 $txt['OAward_ui_desc'] = 'Desc: ';
+$txt['OAward_ui_confirm'] = 'Are you sure you wan to delete this?';
 
 // Server response
 $txt['OAward_response_create'] = 'You have succesfully created a new award';

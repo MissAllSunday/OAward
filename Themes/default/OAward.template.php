@@ -168,6 +168,15 @@ function template_manage_images()
 {
 	global $context, $txt;
 
+	// A nice confirm message
+	echo '
+	<script type="text/javascript">
+	function oa_youSure()
+	{
+		return confirm("', $txt['OAward_ui_confirm'] ,'");
+	}
+	</script>';
+
 	// The dir is not writeable, tell the admi about it
 	if (!$context['OAward']['is_writeable'])
 		echo '<div class="errorbox">some error here...</div>';
@@ -197,7 +206,7 @@ function template_manage_images()
 						', $image['extension'] ,'
 					</td>
 					<td>
-						delete
+						<a href="', $context['OAward']['deleteImage'] ,';image=', urlencode($image['basename']) ,'" onclick="return oa_youSure();">', $txt['OAward_admin_images_delete'] ,'</a>
 					</td>
 				</tr>';
 		}

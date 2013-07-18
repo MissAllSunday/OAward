@@ -138,7 +138,7 @@ function OAward_manage_images()
 
 	loadTemplate(OAward::$name);
 	$context['sub_template'] = 'manage_images';
-	$context['post_url'] = $scripturl . '?action=admin;area=oaward;save;sa=manageImages';
+	$context['OAward']['deleteImage'] = $scripturl . '?action=admin;area=oaward;sa=manageImages;delete';
 	$context['page_title'] = $txt['OAward_admin_manageImages_title'];
 	$context[$context['admin_menu_name']]['tab_data'] = array(
 		'title' => $context['page_title'],
