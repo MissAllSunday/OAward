@@ -5,7 +5,7 @@
  * @version 1.0
  * @author Jessica González <suki@missallsunday.com>
  * @copyright Copyright (c) 2013, Jessica González
- * @license http://www.mozilla.org/MPL/MPL-1.1.html
+ * @license http://www.mozilla.org/MPL/ MPL 2.0
  */
 
 
@@ -184,6 +184,8 @@ function template_manage_images()
 	// The dir is not writeable, tell the admin about it
 	if (!$context['OAward']['is_writeable'])
 		echo '<div class="errorbox">some error here...</div>';
+
+	// A nice upload box
 
 	// Show all the images the user has uploaded
 	if (!empty($context['OAward']['images']))
