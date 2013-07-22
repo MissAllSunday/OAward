@@ -27,10 +27,12 @@ class OAward
 	public $awards = array();
 	protected $currentAction = '';
 	public $sa = 'default';
+	public $allowedExtensions = array('gif','jpeg','png','bmp','tiff',);
+	protected $customResponse = false;
 
 	public function __construct($user = false)
 	{
-		global $smcFunc, $user_info, $themedir;
+		global $smcFunc, $user_info, $themedir, $modSettings;
 
 		// Load the text strings
 		loadLanguage(self::$name);
@@ -303,12 +305,16 @@ class OAward
 			ob_start();
 
 		// Send the header
-		header('Content-Type: application/json');
+		header('Content-Type:' . $this->customResponse ? 'text/plain' : 'application/json');
 
-		echo json_encode(array(
-			'type' => !empty($this->error) ? 'error' : 'success',
-			'message' => !empty($this->error) ? $this->error : $txt['OAward_response_'. $this->sa]
-		));
+		if (!$this->customResponse)
+			echo json_encode(array(
+				'type' => !empty($this->error) ? 'error' : 'success',
+				'message' => !empty($this->error) ? $this->error : $txt['OAward_response_'. $this->sa]
+			));
+
+		else
+			echo $this->customResponse;
 
 		// Done
 		obExit(false);
@@ -423,6 +429,7 @@ class OAward
 		loadLanguage(self::$name);
 
 		$context['html_headers'] .= '
+	<link rel="stylesheet" type="text/css" href="'. $settings['default_theme_url'] .'/css/fineuploader.css" />
 	<script type="text/javascript">!window.jQuery && document.write(unescape(\'%3Cscript src="http://code.jquery.com/jquery-1.10.2.min.js"%3E%3C/script%3E\'))</script>
 	<script type="text/javascript" src="'. $settings['default_theme_url'] .'/scripts/jquery.atooltip.min.js"></script>
 	<script type="text/javascript" src="'. $settings['default_theme_url'] .'/scripts/noty/jquery.noty.js"></script>

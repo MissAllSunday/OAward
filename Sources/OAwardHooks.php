@@ -139,6 +139,7 @@ function OAward_manage_images()
 {
 	global $context, $txt, $scripturl, $settings, $memberContext;
 
+	OAward::setHeaders();
 	loadTemplate(OAward::$name);
 	$context['sub_template'] = 'manage_images';
 	$context['OAward']['deleteImage'] = $scripturl . '?action=admin;area=oaward;sa=manageImages;deleteImage';

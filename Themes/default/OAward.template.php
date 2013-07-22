@@ -166,7 +166,7 @@ function template_display_profile()
 
 function template_manage_images()
 {
-	global $context, $txt, $modSettings, $scripturl;
+	global $context, $txt, $modSettings, $scripturl, $settings;
 
 	// A nice confirm message
 	echo '
@@ -184,8 +184,6 @@ function template_manage_images()
 	// The dir is not writeable, tell the admin about it
 	if (!$context['OAward']['is_writeable'])
 		echo '<div class="errorbox">some error here...</div>';
-
-	// A nice upload box
 
 	// Show all the images the user has uploaded
 	if (!empty($context['OAward']['images']))
