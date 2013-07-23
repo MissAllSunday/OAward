@@ -306,7 +306,7 @@ function template_manage_awards()
 					<span>', $txt['OAward_ui_user'] , '</span>
 				</dt>
 				<dd>
-					<input type="text" name="award_user_id" id="award_user_id" tabindex="', $context['tabindex']++, '"  size="40" maxlength="80" class="input_text" />
+					<input type="text" name="recipient_to" id="recipient_to" tabindex="', $context['tabindex']++, '"  size="40" maxlength="80" class="input_text" />
 					<div id="to_item_list_container"></div>
 				</dd>
 				<dt class="clear_left">
@@ -351,9 +351,9 @@ function suggestMemberO()
 		sSelf: \'oAmemberSuggest\',
 		sSessionId: \'', $context['session_id'], '\',
 		sSessionVar: \'', $context['session_var'], '\',
-		sControlId: \'award_user_id\',
+		sControlId: \'recipient_to\',
 		sSearchType: \'member\',
-		sPostName: \'recipient_to\',
+		sPostName: \'award_user_id\',
 		sURLMask: \'action=profile;u=%item_id%\',
 		sTextDeleteItem: \'', $txt['autosuggest_delete_item'], '\',
 		bItemList: true,

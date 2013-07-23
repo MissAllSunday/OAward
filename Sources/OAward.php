@@ -38,7 +38,7 @@ class OAward
 		loadLanguage(self::$name);
 
 		// Yeah, we're using superglobals directly, ugly but when in Rome, do as the Romans do...
-		$this->_data = $_REQUEST;
+		$this->_globalData = $_REQUEST;
 		$this->_smcFunc = $smcFunc;
 
 		// The user we're handling the awards for
@@ -149,30 +149,21 @@ class OAward
 		$this->cleanCache();
 	}
 
-	public function createMulti()
+	public function createMulti($users, $data)
 	{
-		// Used for collecting possible errors
-		$tempError = array();
-
-		// Get the data, we don't need the ID as it doesn't exists yet!
-		$temp = $this->columns;
-		$cast_away = array_shift($temp);
-		$this->sanitize($temp);
-
-		// Lets check if everything is in order...
-		foreach ($temp as $value)
-			if (empty($this->_data[$value]))
-				$tempError[] = $value;
-
-		// Are there any errors? if so, send them all at once!
-		if (!empty($tempError) && is_array($tempError))
+		// Checks!
+		if (empty($users) || empty($data) || !is_array($users) || !is_array($data))
 			return false;
 
-		// Everything is nice and dandy, now remove the stuff we don't need, SMF need the exact same amount of fields, blame array_combine()...
-		$insert = array_splice($this->data(), 0, - count($temp) + 1);
+		// Used for collecting possible errors
+		$tempError = array();
+		$insertedIDs = array();
+
+		// Get the data
+		$insert = $this->getData($data);
 
 		// Insert
-		foreach ($this->_data['recipient_to'] as $u)
+		foreach ($users as $u)
 		{
 			// Insert the user ID key
 			$insert = array('award_user_id' => $u) + $insert;
@@ -188,12 +179,18 @@ class OAward
 				),
 				$insert, array('award_id', )
 			);
+
+			$insertedIDs[] = $this->_smcFunc['db_insert_id']('{db_prefix}' . (strtolower(self::$name)), 'award_id');
 		}
 
 		// Clean the cache
-		$this->cleanCache($this->_data['recipient_to']);
+		$this->cleanCache($users);
 
-		return true;
+		if (!empty($insertedIDs))
+			return $insertedIDs;
+
+		else
+			return false;
 	}
 
 	public function read()
@@ -386,26 +383,20 @@ class OAward
 	public function sanitize($var)
 	{
 		if (empty($var))
-			return $this->_data = $_REQUEST;
+			return false;
 
 		// Is this an array?
 		if (is_array($var))
 			foreach ($var as $item)
 			{
-				if (!$this->_data[$item])
+				if (!in_array($item, $_REQUEST))
 					continue;
 
-				// Delete stuff we don't need...
-				foreach ($this->_data as $all)
-					if (!in_array($all, $var))
-						unset($this->_data[$all]);
-
 				if (is_numeric($item))
-					$this->_data[$item] = (int) trim($this->_data[$item]);
+					$this->_data[$item] = (int) trim($_REQUEST[$item]);
 
 				elseif (is_string($item))
-					$this->_data[$item] = trim(htmlspecialchars($this->_data[$item], ENT_QUOTES));
-
+					$this->_data[$item] = trim(htmlspecialchars($_REQUEST[$item], ENT_QUOTES));
 			}
 
 		// No? a single item then, check it boy, check it!
@@ -437,13 +428,19 @@ class OAward
 			cache_put_data(OAward::$name .'-User-' . $this->user, null, 120);
 	}
 
-	public function data($var = false)
+	public function getData($var = false)
 	{
-		if ($var)
-			return !empty($this->_data[$var]) ? $this->_data[$var] : false;
+		if (empty($var))
+			return false;
 
-		else
-			return $this->_data;
+		$this->sanitize($var);
+
+		return is_array($var) ? $this->_data : $this->_data[$var];
+	}
+
+	public function getGlobalData()
+	{
+		return $this->_globalData;
 	}
 
 	public function getColumns()

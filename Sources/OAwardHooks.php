@@ -265,7 +265,10 @@ function OAward_manage_awards()
 	// Create awards
 	if (isset($_GET['newAward']))
 	{
-		$result = $context['OAward']['object']->createMulti();
+		// Get the data
+		$data = array('award_name','award_image','award_description',);
+		$users = $_GET['award_user_id'];
+		$result = $context['OAward']['object']->createMulti($users, $data);
 
 		if ($result)
 			redirectexit('action=admin;area=oaward;sa=manageImages;response=success');
