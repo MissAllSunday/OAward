@@ -149,6 +149,53 @@ class OAward
 		$this->cleanCache();
 	}
 
+	public function createMulti()
+	{
+		// Used for collecting possible errors
+		$tempError = array();
+
+		// Get the data, we don't need the ID as it doesn't exists yet!
+		$temp = $this->columns;
+		$cast_away = array_shift($temp);
+		$this->sanitize($temp);
+
+		// Lets check if everything is in order...
+		foreach ($temp as $value)
+			if (empty($this->_data[$value]))
+				$tempError[] = $value;
+
+		// Are there any errors? if so, send them all at once!
+		if (!empty($tempError) && is_array($tempError))
+			return false;
+
+		// Everything is nice and dandy, now remove the stuff we don't need, SMF need the exact same amount of fields, blame array_combine()...
+		$insert = array_splice($this->data(), 0, - count($temp) + 1);
+
+		// Insert
+		foreach ($this->_data['recipient_to'] as $u)
+		{
+			// Insert the user ID key
+			$insert = array('award_user_id' => $u) + $insert;
+
+			// Insert!
+			$this->_smcFunc['db_insert']('replace', '{db_prefix}' . (strtolower(self::$name)) .
+				'',
+				array(
+					'award_user_id' => 'int',
+					'award_name' => 'string',
+					'award_image' => 'string',
+					'award_description' => 'string',
+				),
+				$insert, array('award_id', )
+			);
+		}
+
+		// Clean the cache
+		$this->cleanCache($this->_data['recipient_to']);
+
+		return true;
+	}
+
 	public function read()
 	{
 		// Use the cache please...
@@ -305,16 +352,12 @@ class OAward
 			ob_start();
 
 		// Send the header
-		header('Content-Type:' . $this->customResponse ? 'text/plain' : 'application/json');
+		header('Content-Type: application/json');
 
-		if (!$this->customResponse)
-			echo json_encode(array(
-				'type' => !empty($this->error) ? 'error' : 'success',
-				'message' => !empty($this->error) ? $this->error : $txt['OAward_response_'. $this->sa]
-			));
-
-		else
-			echo $this->customResponse;
+		echo json_encode(array(
+			'type' => !empty($this->error) ? 'error' : 'success',
+			'message' => !empty($this->error) ? $this->error : $txt['OAward_response_'. $this->sa]
+		));
 
 		// Done
 		obExit(false);
@@ -343,10 +386,7 @@ class OAward
 	public function sanitize($var)
 	{
 		if (empty($var))
-			return false;
-
-		// An extra check!
-		$this->_data = $_REQUEST;
+			return $this->_data = $_REQUEST;
 
 		// Is this an array?
 		if (is_array($var))
@@ -404,6 +444,11 @@ class OAward
 
 		else
 			return $this->_data;
+	}
+
+	public function getColumns()
+	{
+		return $this->columns;
 	}
 
 	public static function deleteImage($path, $image)

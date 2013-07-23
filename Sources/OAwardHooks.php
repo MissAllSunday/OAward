@@ -239,7 +239,7 @@ function OAward_manage_images()
 			// Get all associated awards, if there are some of course
 			if (!empty($context['OAward']['images'][$image]['associated_ids']))
 			$toRemove = array_keys($context['OAward']['images'][$image]['associated_ids']);
-		
+
 			redirectexit('action=admin;area=oaward;sa=manageImages;response=success');
 		}
 
@@ -260,4 +260,14 @@ function OAward_manage_awards()
 		'title' => $context['page_title'],
 		'description' => $txt['OAward_admin_manageAwards_desc'],
 	);
+
+
+	// Create awards
+	if (isset($_GET['newAward']))
+	{
+		$result = $context['OAward']['object']->createMulti();
+
+		if ($result)
+			redirectexit('action=admin;area=oaward;sa=manageImages;response=success');
+	}
 }
