@@ -64,3 +64,4 @@ $txt['OAward_error_multiple_empty_values'] = 'You need to Fill all fields in the
 $txt['OAward_error_no_valid_action'] = 'There\'s no such action';
 $txt['OAward_error_no_valid_path'] = 'The folder for the images does not exists. <br />If this is your first time setting up the mod then please write a valid url for the images folder or leave it empty and save the settings, the mod will use the default folder: '. $settings['default_images_url'] . '/medals/';
 $txt['OAward_error_no_image_ext'] = 'You must especify an image extension';
+$txt['OAward_error_no_image_in_server'] = 'The image %s does not exists in the images folder';

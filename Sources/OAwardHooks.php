@@ -279,6 +279,10 @@ function OAward_manage_awards()
 		if (!$context['OAward']['object']->checkExt($check['award_image']))
 			fatal_lang_error('OAward_error_no_image_ext', 0);
 
+		// Does the file exists?
+		if (!file_exists($context['OAward']['object']->imagesPath .'/'. $check['award_image']))
+			fatal_lang_error('OAward_error_no_image_in_server', 0, $check['award_image']);
+
 		// Finally, create the award
 		$context['OAward']['object']->createMulti($users, $data);
 		redirectexit('action=admin;area=oaward;sa=manageAwards;innerType=success;innerMessage=addAward');

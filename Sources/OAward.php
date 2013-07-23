@@ -31,10 +31,11 @@ class OAward
 	protected $customResponse = false;
 	protected $_data = array();
 	protected $_globalData = array();
+	public $imagesPath;
 
 	public function __construct($user = false)
 	{
-		global $smcFunc, $user_info, $themedir, $modSettings;
+		global $smcFunc, $user_info, $themedir, $modSettings, $settings;
 
 		// Load the text strings
 		loadLanguage(self::$name);
@@ -42,6 +43,7 @@ class OAward
 		// Yeah, we're using superglobals directly, ugly but when in Rome, do as the Romans do...
 		$this->_globalData = $_REQUEST;
 		$this->_smcFunc = $smcFunc;
+		$this->imagesPath = $settings['default_theme_dir'] .'/images/medals';
 
 		// The user we're handling the awards for
 		$this->user = !empty($user) ? $user : $user_info['id'];
@@ -392,6 +394,17 @@ class OAward
 
 		else
 			return true;
+	}
+
+	public function checkImage($image)
+	{
+		if (empty($image))
+			return false;
+
+		if (!$this->checkExt($image))
+			return false;
+
+		return file_exists($this->imagesPath .'/'. $image)
 	}
 
 	public function sanitize($var)
