@@ -404,7 +404,7 @@ class OAward
 		if (!$this->checkExt($image))
 			return false;
 
-		return file_exists($this->imagesPath .'/'. $image)
+		return file_exists($this->imagesPath .'/'. $image);
 	}
 
 	public function sanitize($var)

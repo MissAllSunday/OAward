@@ -280,7 +280,7 @@ function OAward_manage_awards()
 			fatal_lang_error('OAward_error_no_image_ext', 0);
 
 		// Does the file exists?
-		if (!file_exists($context['OAward']['object']->imagesPath .'/'. $check['award_image']))
+		if (!$context['OAward']['object']->checkImage($check['award_image']))
 			fatal_lang_error('OAward_error_no_image_in_server', 0, $check['award_image']);
 
 		// Finally, create the award
