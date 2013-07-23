@@ -449,27 +449,21 @@ class OAward
 		return $this->sanitize($var);
 	}
 
-	public function getGlobalData()
-	{
-		if (empty($this->_globalData))
-			$this->_globalData = $_REQUEST;
-
-		return $this->_globalData;
-	}
-
 	public function getColumns()
 	{
 		return $this->columns;
 	}
 
-	protected function cleanCache($arrayIDs = false)
+	protected function cleanCache($arrayIDs)
 	{
-		if ($arrayIDs)
-			foreach ($arrayIDs as $user)
-				cache_put_data(OAward::$name .'-User-' . $user, null, 120);
+		if (empty($arrayIDs))
+			$arrayIDs = array($this->user);
 
-		else
-			cache_put_data(OAward::$name .'-User-' . $this->user, null, 120);
+		$arrayIDs = !is_array($arrayIDs) = array($arrayIDs) : $arrayIDs;
+
+		foreach ($arrayIDs as $user)
+			cache_put_data(OAward::$name .'-User-' . $user, null, 120);
+
 	}
 
 	public static function deleteImage($path, $image)
