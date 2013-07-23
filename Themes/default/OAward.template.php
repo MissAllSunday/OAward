@@ -315,7 +315,23 @@ function template_manage_awards()
 				<dd>
 					<input type="text" name="award_name" id="award_name" tabindex="', $context['tabindex']++, '"  size="40" maxlength="80" class="input_text" />
 				</dd>
+				<dt class="clear_left">
+					<span>', $txt['OAward_ui_image'] , '</span>
+				</dt>
+				<dd>
+					<input type="text" name="award_image" id="award_image" tabindex="', $context['tabindex']++, '"  size="40" maxlength="80" class="input_text" />
+				</dd>
+				<dt class="clear_left">
+					<span>', $txt['OAward_ui_desc'] , '</span>
+				</dt>
+				<dd>
+					<input type="text" name="award_description" id="award_description" tabindex="', $context['tabindex']++, '"  size="50" maxlength="255" class="input_text" />
+				</dd>
 			</dl>
+			<div style="float:right;">
+				<input type="submit" name="send" class="sbtn" value="Submit" />
+			</div>
+			<div style="clear:both;"></div>
 		</form>
 		</div>
 		<span class="botslice"><span></span></span>
