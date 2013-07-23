@@ -29,6 +29,8 @@ class OAward
 	public $sa = 'default';
 	public $allowedExtensions = array('gif','jpeg','png','bmp','tiff',);
 	protected $customResponse = false;
+	protected $_data = array();
+	protected $_globalData = array();
 
 	public function __construct($user = false)
 	{
@@ -380,10 +382,24 @@ class OAward
 		$this->sa = !empty($sa) ? $sa : 'default';
 	}
 
+	public function checkExt($var)
+	{
+		if (empty($var))
+			return false;
+
+		if (!in_array(strtolower(substr(strrchr($var, '.'), 1)), $this->allowedExtensions))
+			return false;
+
+		else
+			return true;
+	}
+
 	public function sanitize($var)
 	{
 		if (empty($var))
 			return false;
+
+		$return = false;
 
 		// Is this an array?
 		if (is_array($var))
@@ -392,30 +408,51 @@ class OAward
 				if (!in_array($item, $_REQUEST))
 					continue;
 
-				if (is_numeric($item))
-					$this->_data[$item] = (int) trim($_REQUEST[$item]);
+				if (empty($_REQUEST[$item]))
+					$return[$item] = '';
 
-				elseif (is_string($item))
-					$this->_data[$item] = trim(htmlspecialchars($_REQUEST[$item], ENT_QUOTES));
+				if (is_numeric($_REQUEST[$item]))
+					$return[$item] = (int) trim($_REQUEST[$item]);
+
+				elseif (is_string($_REQUEST[$item]))
+					$return[$item] = trim(htmlspecialchars($_REQUEST[$item], ENT_QUOTES));
 			}
 
 		// No? a single item then, check it boy, check it!
-		elseif (empty($this->_data[$var]))
+		elseif (empty($_REQUEST[$var]))
 			return false;
 
 		else
 		{
-			// Delete stuff we don't need...
-			foreach ($this->_data as $all)
-				if ($all != $var)
-					unset($this->_data[$all]);
+			if (is_numeric($_REQUEST[$var]))
+				$return = (int) trim($_REQUEST[$var]);
 
-			if (is_numeric($var))
-				$this->_data[$var] = (int) trim($this->_data[$var]);
-
-			elseif (is_string($var))
-				$this->_data[$var] = trim(htmlspecialchars($this->_data[$var], ENT_QUOTES));
+			elseif (is_string($_REQUEST[$var]))
+				$return = trim(htmlspecialchars($_REQUEST[$var], ENT_QUOTES));
 		}
+
+		return $return;
+	}
+
+	public function getData($var = false)
+	{
+		if (empty($var))
+			return false;
+
+		return $this->sanitize($var);
+	}
+
+	public function getGlobalData()
+	{
+		if (empty($this->_globalData))
+			$this->_globalData = $_REQUEST;
+
+		return $this->_globalData;
+	}
+
+	public function getColumns()
+	{
+		return $this->columns;
 	}
 
 	protected function cleanCache($arrayIDs = false)
@@ -426,26 +463,6 @@ class OAward
 
 		else
 			cache_put_data(OAward::$name .'-User-' . $this->user, null, 120);
-	}
-
-	public function getData($var = false)
-	{
-		if (empty($var))
-			return false;
-
-		$this->sanitize($var);
-
-		return is_array($var) ? $this->_data : $this->_data[$var];
-	}
-
-	public function getGlobalData()
-	{
-		return $this->_globalData;
-	}
-
-	public function getColumns()
-	{
-		return $this->columns;
 	}
 
 	public static function deleteImage($path, $image)

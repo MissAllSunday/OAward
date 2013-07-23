@@ -261,16 +261,26 @@ function OAward_manage_awards()
 		'description' => $txt['OAward_admin_manageAwards_desc'],
 	);
 
-
 	// Create awards
-	if (isset($_GET['newAward']))
+	if (isset($_GET['newAward']) && !empty($_POST['award_user_id']))
 	{
 		// Get the data
 		$data = array('award_name','award_image','award_description',);
-		$users = $_GET['award_user_id'];
-		$result = $context['OAward']['object']->createMulti($users, $data);
+		$users = $_POST['award_user_id'];
+		$emptyField = array();
 
-		if ($result)
-			redirectexit('action=admin;area=oaward;sa=manageImages;response=success');
+		$check = $context['OAward']['object']->getData($data);
+
+		foreach ($check as $c)
+		if (empty($c))
+			fatal_lang_error('OAward_error_multiple_empty_values', 0);
+
+		// Check if the image field has a valid extention
+		if (!$context['OAward']['object']->checkExt($check['award_image']))
+			fatal_lang_error('OAward_error_no_image_ext', 0);
+
+		// Finally, create the award
+		$context['OAward']['object']->createMulti($users, $data);
+		redirectexit('action=admin;area=oaward;sa=manageAwards;innerType=success;innerMessage=addAward');
 	}
 }

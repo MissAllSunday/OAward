@@ -38,6 +38,8 @@ $txt['OAward_admin_manageImages_desc'] = 'From here you can remove images, if yo
 $txt['OAward_admin_manageImages_warning'] = 'If you chose to delete an already associated image, all awards associated with it will be deleted too. Be careful with that.';
 $txt['OAward_admin_manageAwards_serverResponse_success'] = 'You have succesfully deleted the image.';
 $txt['OAward_admin_manageAwards_serverResponse_error'] = 'There was an error. Please try again later.';
+$txt['OAward_admin_serverResponse_addAward_success'] = 'You have succesfully created the awards.';
+$txt['OAward_admin_serverResponse_addAward_error'] = 'There was an error while trying to create the awards, please try again later.';
 
 $txt['OAward_admin_desc'] = 'This is the main O Award admin panel.';
 $txt['OAward_admin_enable'] = 'Enable the OAward mod';
@@ -58,7 +60,7 @@ $txt['OAward_admin_images_unassigned_desc'] = 'The follow images does exists in 
 $txt['OAward_admin_images_assigned_desc'] = 'The follow images has been assigned to an award';
 
 // Errors
-$txt['OAward_error_multiple_empty_values'] = 'The following fields were left empty: %s';
+$txt['OAward_error_multiple_empty_values'] = 'You need to Fill all fields in the form, make sure to include an image extension in the image field';
 $txt['OAward_error_no_valid_action'] = 'There\'s no such action';
 $txt['OAward_error_no_valid_path'] = 'The folder for the images does not exists. <br />If this is your first time setting up the mod then please write a valid url for the images folder or leave it empty and save the settings, the mod will use the default folder: '. $settings['default_images_url'] . '/medals/';
 $txt['OAward_error_no_image_ext'] = 'You must especify an image extension';
