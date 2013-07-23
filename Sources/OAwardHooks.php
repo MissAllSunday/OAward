@@ -247,3 +247,17 @@ function OAward_manage_images()
 			redirectexit('action=admin;area=oaward;sa=manageImages;response=error');
 	}
 }
+
+function OAward_manage_awards()
+{
+	global $context, $txt, $scripturl, $settings, $memberContext;
+
+	OAward::setHeaders();
+	loadTemplate(OAward::$name);
+	$context['sub_template'] = 'manage_awards';
+	$context['page_title'] = $txt['OAward_admin_manageAwards_title'];
+	$context[$context['admin_menu_name']]['tab_data'] = array(
+		'title' => $context['page_title'],
+		'description' => $txt['OAward_admin_manageAwards_desc'],
+	);
+}

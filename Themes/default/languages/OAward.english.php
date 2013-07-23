@@ -16,6 +16,8 @@ $txt['OAward_name'] = 'Awards received';
 // UI
 $txt['OAward_ui_add_new_award'] = 'Add a new award';
 $txt['OAward_ui_cancel'] = 'Cancel';
+$txt['OAward_ui_user'] = 'User(s): ';
+$txt['OAward_ui_user_desc'] = ' - You can assign the same award to multiple users by including their names on thie field.';
 $txt['OAward_ui_name'] = 'Name: ';
 $txt['OAward_ui_image'] = 'Image: ';
 $txt['OAward_ui_desc'] = 'Desc: ';
@@ -30,9 +32,9 @@ $txt['OAward_response_empty'] = 'You have succesfully completed this action';
 // Admin
 $txt['OAward_admin_title_general'] = 'OAward General settings';
 $txt['OAward_admin_manageAwards_title'] = 'Manage awards';
-$txt['OAward_admin_manageAwards_desc'] = 'From here you can add/edit/delete awards given.';
+$txt['OAward_admin_manageAwards_desc'] = 'From here you can add/delete awards given.';
 $txt['OAward_admin_manageImages_title'] = 'Manage images';
-$txt['OAward_admin_manageImages_desc'] = 'From here you can add/remove new images, if you delete an image, all awards associated with it will also be removed.';
+$txt['OAward_admin_manageImages_desc'] = 'From here you can remove images, if you delete an image, all awards associated with it will also be removed.';
 $txt['OAward_admin_manageImages_warning'] = 'If you chose to delete an already associated image, all awards associated with it will be deleted too. Be careful with that.';
 $txt['OAward_admin_manageAwards_serverResponse_success'] = 'You have succesfully deleted the image.';
 $txt['OAward_admin_manageAwards_serverResponse_error'] = 'There was an error. Please try again later.';

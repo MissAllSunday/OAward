@@ -285,3 +285,65 @@ function template_manage_images()
 
 	}
 }
+
+function template_manage_awards()
+{
+	global $context, $txt, $modSettings, $scripturl, $settings;
+
+	// Add an award to a single or multiple users
+	echo '
+	<div class="cat_bar">
+		<h3 class="catbg">
+			<span class="ie6_header floatleft">', $txt['OAward_ui_add_new_award'] . $txt['OAward_ui_user_desc'],'</span>
+		</h3>
+	</div>
+	<div class="windowbg">
+		<span class="topslice"><span></span></span>
+		<div class="content">
+		<form action="', $scripturl, '?action=admin;area=oaward;sa=manageAwards;newAward" method="post" target="_self">
+			<dl id="post_header">
+				<dt class="clear_left">
+					<span>', $txt['OAward_ui_user'] , '</span>
+				</dt>
+				<dd>
+					<input type="text" name="award_user_id" id="award_user_id" tabindex="', $context['tabindex']++, '"  size="40" maxlength="80" class="input_text" />
+					<div id="to_item_list_container"></div>
+				</dd>
+				<dt class="clear_left">
+					<span>', $txt['OAward_ui_name'] , '</span>
+				</dt>
+				<dd>
+					<input type="text" name="award_name" id="award_name" tabindex="', $context['tabindex']++, '"  size="40" maxlength="80" class="input_text" />
+				</dd>
+			</dl>
+		</form>
+		</div>
+		<span class="botslice"><span></span></span>
+	</div>
+
+	<br />';
+
+	// Auto suggest script
+	echo '
+		<script type="text/javascript" src="', $settings['default_theme_url'], '/scripts/PersonalMessage.js"></script>
+		<script type="text/javascript" src="', $settings['default_theme_url'], '/scripts/suggest.js"></script>
+		<script type="text/javascript">
+
+function suggestMemberO()
+{
+	oAmemberSuggest = new smc_AutoSuggest({
+		sSelf: \'oAmemberSuggest\',
+		sSessionId: \'', $context['session_id'], '\',
+		sSessionVar: \'', $context['session_var'], '\',
+		sControlId: \'award_user_id\',
+		sSearchType: \'member\',
+		sPostName: \'recipient_to\',
+		sURLMask: \'action=profile;u=%item_id%\',
+		sTextDeleteItem: \'', $txt['autosuggest_delete_item'], '\',
+		bItemList: true,
+		sItemListContainerId: \'to_item_list_container\',
+	});
+}
+suggestMemberO();
+</script>';
+}
