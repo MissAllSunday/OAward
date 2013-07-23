@@ -292,7 +292,7 @@ function template_manage_awards()
 
 	if (isset($_GET['innerType']))
 		echo '<div ', ($_GET['innerType'] == 'success' ? 'class="windowbg" id="profile_success"' : 'class="errorbox"') ,'>', $txt['OAward_admin_serverResponse_'. $_GET['innerMessage'] .'_'. $_GET['innerType'] .'']  ,'</div>';
-	
+
 	// Add an award to a single or multiple users
 	echo '
 	<div class="cat_bar">

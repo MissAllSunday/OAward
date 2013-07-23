@@ -28,9 +28,6 @@ class OAward
 	protected $currentAction = '';
 	public $sa = 'default';
 	public $allowedExtensions = array('gif','jpeg','png','bmp','tiff',);
-	protected $customResponse = false;
-	protected $_data = array();
-	protected $_globalData = array();
 	public $imagesPath;
 
 	public function __construct($user = false)
@@ -94,8 +91,7 @@ class OAward
 		$do = new self();
 
 		// Call the inquisition squad!
-		$do->sanitize('sa');
-		$sa = $do->data('sa');
+		$sa = $do->getData('sa');
 
 		// Nothing to see here, move on...
 		if (!$sa or !in_array($sa, self::$actions))
@@ -118,24 +114,22 @@ class OAward
 		$tempError = array();
 
 		// Get the data, we don't need the ID as it doesn't exists yet!
-		$temp = $this->columns;
-		$cast_away = array_shift($temp);
-		$this->sanitize($temp);
+		$data = array('award_user_id', 'award_name','award_image','award_description',);
+
+		$insert = $this->getData($data);
 
 		// Lets check if everything is in order...
-		foreach ($temp as $value)
-			if (empty($this->_data[$value]))
-				$tempError[] = $value;
+		foreach ($insert as $value)
+			if (empty($value))
+				return $this->setError('multiple_empty_values');
 
-		// Are there any errors? if so, send them all at once!
-		if (!empty($tempError) && is_array($tempError))
-		{
-			$this->setError('multiple_empty_values', implode(',', $tempError));
-			return;
-		}
+		// Check the image extension
+		if (!$this->checkExt($insert['award_image']))
+			return $this->setError('no_image_ext');
 
-		// Everything is nice and dandy, now remove the stuff we don't need, SMF need the exact same amount of fields, blame array_combine()...
-		$insert = array_splice($this->data(), 0, - count($temp) + 1);
+		// Does the award exists in the images folder?
+		if (!$this->checkImage($insert['award_image']))
+			return $this->setError('no_image_in_server', $insert['award_image']);
 
 		// Insert!
 		$this->_smcFunc['db_insert']('replace', '{db_prefix}' . (strtolower(self::$name)) .
@@ -150,7 +144,7 @@ class OAward
 		);
 
 		// Clean the cache
-		$this->cleanCache();
+		$this->cleanCache($insert['award_user_id']);
 	}
 
 	public function createMulti($users, $data)
@@ -353,7 +347,7 @@ class OAward
 			ob_start();
 
 		// Send the header
-		header('Content-Type: application/json');
+		header('Content-Type:application/json');
 
 		echo json_encode(array(
 			'type' => !empty($this->error) ? 'error' : 'success',

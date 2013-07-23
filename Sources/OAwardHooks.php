@@ -271,6 +271,7 @@ function OAward_manage_awards()
 
 		$check = $context['OAward']['object']->getData($data);
 
+		// User must fill all fields
 		foreach ($check as $c)
 		if (empty($c))
 			fatal_lang_error('OAward_error_multiple_empty_values', 0);
