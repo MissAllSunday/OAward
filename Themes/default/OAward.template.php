@@ -23,7 +23,7 @@ function template_display_awards($output)
 		foreach ($context['OAwards'] as $award)
 		{
 			$return .= '<li id="'. $award['award_id'] .'">';
-			$return .=  '<img src="'. $settings['default_images_url'] . '/medals/'. $award['award_image'] .'" width="'. $modSettings['OAward_admin_images_display_size'] .'px;" class="oatoolTip_'. $award['award_id'] .'" id="oAward_'. $award['award_id'] .'"/>';
+			$return .=  '<img src="'. $context['imageUrl'] .'/'. $award['award_image'] .'" width="'. $modSettings['OAward_admin_images_display_size'] .'px;" class="oatoolTip_'. $award['award_id'] .'" id="oAward_'. $award['award_id'] .'"/>';
 
 			$return .=  '<script type="text/javascript"><!-- // --><![CDATA[
 				$(\'img.oatoolTip_'. $award['award_id'] .'\').aToolTip({
@@ -73,7 +73,7 @@ function template_display_profile()
 			$return .= '
 			<li style="display:inline-block;" id="_'. $award['award_id'] .'">';
 			$return .=  '
-				<img src="'. $settings['default_images_url'] . '/medals/'. $award['award_image'] .'" width="'. $modSettings['OAward_admin_images_profile_size'] .'px;" class="oatoolTip_'. $award['award_id'] .'" style="display:inline-block;"/>';
+				<img src="'. $context['imageUrl'] . '/'. $award['award_image'] .'" width="'. $modSettings['OAward_admin_images_profile_size'] .'px;" class="oatoolTip_'. $award['award_id'] .'" style="display:inline-block;"/>';
 
 			// Show a nice icon for deletion
 			if ($context['user']['is_admin'])

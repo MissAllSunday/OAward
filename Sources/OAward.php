@@ -29,6 +29,7 @@ class OAward
 	public $sa = 'default';
 	public $allowedExtensions = array('gif','jpeg','png','bmp','tiff',);
 	public $imagesPath;
+	public $imagesUrl;
 
 	public function __construct($user = false)
 	{
@@ -41,6 +42,7 @@ class OAward
 		$this->_globalData = $_REQUEST;
 		$this->_smcFunc = $smcFunc;
 		$this->imagesPath = $settings['default_theme_dir'] .'/images/medals';
+		$this->imagesUrl = $settings['default_images_url'] .'/medals';
 
 		// The user we're handling the awards for
 		$this->user = !empty($user) ? $user : $user_info['id'];
@@ -56,6 +58,8 @@ class OAward
 		// Assign them to a context var
 		$context['OAwards'] = $this->awards;
 		$context['unique_id'] = $output['id'];
+		$context['imagePath'] = $this->imagesPath;
+		$context['imageUrl'] = $this->imagesUrl;
 
 		// Done
 		return array(
@@ -76,6 +80,8 @@ class OAward
 
 		// Assign them to a context var
 		$context['OAwards'] = $this->awards;
+		$context['imagePath'] = $this->imagesPath;
+		$context['imageUrl'] = $this->imagesUrl;
 
 		// Done
 		return array(
