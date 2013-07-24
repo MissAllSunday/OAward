@@ -217,7 +217,7 @@ function template_manage_images()
 
 	// The dir is not writeable, tell the admin about it
 	if (!$context['OAward']['object']->isDirWritable())
-		echo '<div class="errorbox">some error here...</div>';
+		echo '<div class="errorbox">', $txt['OAward_error_no_valid_path'] ,'</div><br />';
 
 	// Show all the images the user has uploaded
 	if (!empty($context['OAward']['images']))

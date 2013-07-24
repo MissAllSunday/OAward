@@ -218,6 +218,10 @@ function OAward_manage_images()
 			}
 		}
 
+		// Couldn't connect to the dir, theres no images to show
+		else
+			$context['OAward']['images'] = false;
+
 	// Handle deletion, each subaction sholud have its own separate function but I'm lazy...
 	if (isset($_GET['deleteImage']))
 	{
@@ -287,7 +291,7 @@ function OAward_manage_awards()
 	// Delete awards
 	if (isset($_GET['deleteAward']) && !empty($_POST['delete_id']))
 	{
-		$context['OAward']['object']->deleteMulti($_POST['delete_id']);
+		$context['OAward']['object']->deleteBy($_POST['delete_id'], 'award_user_id');
 		redirectexit('action=admin;area=oaward;sa=manageAwards;innerType=success;innerMessage=deleteAward');
 	}
 }
