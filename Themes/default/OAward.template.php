@@ -22,9 +22,10 @@ function template_display_awards($output)
 	if (!empty($context['OAwards']))
 		foreach ($context['OAwards'] as $award)
 		{
-			$return .= '<li>';
-			$return .=  '<img src="'. $settings['default_images_url'] . '/medals/'. $award['award_image'] .'" width="'. $modSettings['OAward_admin_images_display_size'] .'px;" class="oatoolTip_'. $award['award_id'] .'"/>
-			<script type="text/javascript"><!-- // --><![CDATA[
+			$return .= '<li id="'. $award['award_id'] .'">';
+			$return .=  '<img src="'. $settings['default_images_url'] . '/medals/'. $award['award_image'] .'" width="'. $modSettings['OAward_admin_images_display_size'] .'px;" class="oatoolTip_'. $award['award_id'] .'" id="oAward_'. $award['award_id'] .'"/>';
+
+			$return .=  '<script type="text/javascript"><!-- // --><![CDATA[
 				$(\'img.oatoolTip_'. $award['award_id'] .'\').aToolTip({
 					clickIt: false,
 					tipContent: \'<span style="font-weight:bold;">'. $award['award_name'] .'</span><p />'. $award['award_description'] .'\',
@@ -70,10 +71,15 @@ function template_display_profile()
 		foreach ($context['OAwards'] as $award)
 		{
 			$return .= '
-			<li style="display: inline;">';
+			<li style="display: inline;" id="'. $award['award_id'] .'">';
 			$return .=  '
-				<img src="'. $settings['default_images_url'] . '/medals/'. $award['award_image'] .'" width="'. $modSettings['OAward_admin_images_profile_size'] .'px;" class="oatoolTip_'. $award['award_id'] .'"/>
-				<script type="text/javascript"><!-- // --><![CDATA[
+				<img src="'. $settings['default_images_url'] . '/medals/'. $award['award_image'] .'" width="'. $modSettings['OAward_admin_images_profile_size'] .'px;" class="oatoolTip_'. $award['award_id'] .'"/>';
+
+			// Show a nice icon for deletion
+			if ($context['user']['is_admin'])
+			$return .= '<img src="'. $settings['default_images_url'] . '/pm_recipient_delete.gif" id="deleteOAward" />';
+
+			$return .= '<script type="text/javascript"><!-- // --><![CDATA[
 					$(\'img.oatoolTip_'. $award['award_id'] .'\').aToolTip({
 						clickIt: false,
 						tipContent: \'<span style="font-weight:bold;">'. $award['award_name'] .'</span><p />'. $award['award_description'] .'\',

@@ -377,7 +377,7 @@ class OAward
 	public function deleteBy($id, $column)
 	{
 		if (empty($id) || empty($column))
-			return false,
+			return false;
 
 		// Let's work with arrays to avoid annoyances...
 		$id = !is_array($id) ? array($id) : $id;
