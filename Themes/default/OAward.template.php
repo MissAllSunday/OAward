@@ -248,7 +248,7 @@ function template_manage_images()
 			echo '
 				<tr class="windowbg" style="text-align: center">
 					<td>
-						<img src="', $modSettings['OAward_admin_directory_url'] . $image['image_info']['basename'] ,'" />
+						<img src="', $context['imageUrl'] .'/', $image['image_info']['basename'] ,'" />
 					</td>
 					<td>
 						', $image['image_info']['filename'] ,'
@@ -299,7 +299,7 @@ function template_manage_images()
 			echo '
 				<tr class="windowbg" style="text-align: center">
 					<td>
-						<img src="', $modSettings['OAward_admin_directory_url'] . $unassigned['basename'] ,'" />
+						<img src="', $context['imageUrl'] .'/'. $unassigned['basename'] ,'" />
 					</td>
 					<td>
 						', $unassigned['filename'] ,'

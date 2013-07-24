@@ -25,7 +25,6 @@ class OAward
 	protected $columns = array('award_id', 'award_user_id', 'award_name', 'award_image', 'award_description');
 	protected $user = 0;
 	public $awards = array();
-	protected $currentAction = '';
 	public $sa = 'default';
 	public $allowedExtensions = array('gif','jpeg','png','bmp','tiff',);
 	public $imagesPath;
@@ -38,8 +37,7 @@ class OAward
 		// Load the text strings
 		loadLanguage(self::$name);
 
-		// Yeah, we're using superglobals directly, ugly but when in Rome, do as the Romans do...
-		$this->_globalData = $_REQUEST;
+		// A few things we might or might not need...
 		$this->_smcFunc = $smcFunc;
 		$this->imagesPath = $settings['default_theme_dir'] .'/images/medals';
 		$this->imagesUrl = $settings['default_images_url'] .'/medals';

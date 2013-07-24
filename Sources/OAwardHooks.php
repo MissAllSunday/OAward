@@ -53,7 +53,7 @@ function OAward_index()
 
 	require_once($sourcedir . '/ManageSettings.php');
 	loadLanguage(OAward::$name);
-	$context['page_title'] = $txt['OAward_admin_desc'];
+	$context['page_title'] = $txt['OAward_main'];
 
 	$subActions = array(
 		'general' => 'OAward_settings',
@@ -63,10 +63,16 @@ function OAward_index()
 
 	// Time to overheat the server...
 	$context['OAward']['object'] = new OAward();
+	$context['imagePath'] = $context['OAward']['object']->imagesPath;
+	$context['imageUrl'] = $context['OAward']['object']->imagesUrl;
 
 	loadGeneralSettingParameters($subActions, 'general');
 
-	call_user_func($subActions[$_REQUEST['sa']]);
+	if (is_callable($subActions[$_REQUEST['sa']]))
+		call_user_func($subActions[$_REQUEST['sa']]);
+
+	else
+		redirectexit('action=admin;area=oaward');
 }
 
 function OAward_settings(&$return_config = false)
@@ -286,7 +292,7 @@ function OAward_manage_awards()
 
 	// Delete awards
 	if (isset($_GET['deleteAward']) && !empty($_POST['delete_id']))
-	{print_r($_POST);die;
+	{
 		$context['OAward']['object']->deleteMulti($_POST['delete_id']);
 		redirectexit('action=admin;area=oaward;sa=manageAwards;innerType=success;innerMessage=deleteAward');
 	}
