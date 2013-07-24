@@ -86,8 +86,8 @@ function OAward_settings(&$return_config = false)
 
 	require_once($sourcedir . '/ManageServer.php');
 
-	// Set a nice message in case there is no images folder...
-	if (!file_get_contents($modSettings['OAward_admin_folder_url']))
+	// Set a nice message in case there is no images directory...
+	if (!$context['OAward']['object']->checkDir())
 		$context['settings_insert_above'] = '<div class="errorbox">' . $txt['OAward_error_no_valid_path'] . '</div>';
 
 	// A bunch of config settings here...
@@ -96,7 +96,7 @@ function OAward_settings(&$return_config = false)
 		array('check', 'OAward_admin_enable', 'subtext' => $txt['OAward_admin_enable_sub']),
 		array('int', 'OAward_admin_images_display_size', 'size'=> 3, 'subtext' => $txt['OAward_admin_images_display_size_sub']),
 		array('int', 'OAward_admin_images_profile_size', 'size'=> 3, 'subtext' => $txt['OAward_admin_images_profile_size_sub']),
-		array('text', 'OAward_admin_folder_url', 'size'=> 45, 'subtext' => $txt['OAward_admin_folder_url_sub']),
+		array('text', 'OAward_admin_directory_url', 'size'=> 45, 'subtext' => $txt['OAward_admin_directory_url_sub']),
 	);
 
 	if ($return_config)
@@ -115,9 +115,9 @@ function OAward_settings(&$return_config = false)
 
 	if (isset($_GET['save']))
 	{
-		// If there isn't a custom folder path, set the default one
-		if (empty($_POST['OAward_admin_folder_url']))
-			$_POST['OAward_admin_folder_url'] = $settings['default_images_url'] . '/medals/';
+		// If there isn't a custom directory path, set the default one
+		if (empty($_POST['OAward_admin_directory_url']))
+			$_POST['OAward_admin_directory_url'] = $settings['default_images_url'] . '/medals/';
 
 		// Gotta set a default value if the setting is empty
 		if (empty($_POST['OAward_admin_images_display_size']))
@@ -149,7 +149,7 @@ function OAward_manage_images()
 		'description' => $txt['OAward_admin_manageImages_desc'],
 	);
 
-	// Get all images in the image folder, there isn't a var for the path to the default images folder so we assume a couple of things here...
+	// Get all images in the image directory, there isn't a var for the path to the default images directory so we assume a couple of things here...
 	$imagesPath = $settings['default_theme_dir'] .'/images/medals';
 
 	// Is writable?

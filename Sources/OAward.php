@@ -127,7 +127,7 @@ class OAward
 		if (!$this->checkExt($insert['award_image']))
 			return $this->setError('no_image_ext');
 
-		// Does the award exists in the images folder?
+		// Does the award exists in the images directory?
 		if (!$this->checkImage($insert['award_image']))
 			return $this->setError('no_image_in_server', $insert['award_image']);
 
