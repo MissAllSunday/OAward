@@ -488,6 +488,16 @@ class OAward
 		return file_exists($this->imagesPath .'/'. $image);
 	}
 
+	public function checkDir()
+	{
+		return file_exists($this->imagesPath);
+	}
+
+	public function isDirWritable()
+	{
+		return is_writable($this->imagesPath);
+	}
+
 	public function sanitize($var)
 	{
 		if (empty($var))
