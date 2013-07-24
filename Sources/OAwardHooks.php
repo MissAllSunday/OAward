@@ -96,7 +96,6 @@ function OAward_settings(&$return_config = false)
 		array('check', 'OAward_admin_enable', 'subtext' => $txt['OAward_admin_enable_sub']),
 		array('int', 'OAward_admin_images_display_size', 'size'=> 3, 'subtext' => $txt['OAward_admin_images_display_size_sub']),
 		array('int', 'OAward_admin_images_profile_size', 'size'=> 3, 'subtext' => $txt['OAward_admin_images_profile_size_sub']),
-		array('text', 'OAward_admin_directory_url', 'size'=> 45, 'subtext' => $txt['OAward_admin_directory_url_sub']),
 	);
 
 	if ($return_config)
@@ -115,10 +114,6 @@ function OAward_settings(&$return_config = false)
 
 	if (isset($_GET['save']))
 	{
-		// If there isn't a custom directory path, set the default one
-		if (empty($_POST['OAward_admin_directory_url']))
-			$_POST['OAward_admin_directory_url'] = $settings['default_images_url'] . '/medals/';
-
 		// Gotta set a default value if the setting is empty
 		if (empty($_POST['OAward_admin_images_display_size']))
 			$_POST['OAward_admin_images_display_size'] = 15;

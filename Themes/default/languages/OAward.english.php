@@ -66,6 +66,6 @@ $txt['OAward_admin_images_assigned_desc'] = 'The follow images has been assigned
 // Errors
 $txt['OAward_error_multiple_empty_values'] = 'You need to fill all fields in the form, make sure to include an image extension in the image field';
 $txt['OAward_error_no_valid_action'] = 'There\'s no such action';
-$txt['OAward_error_no_valid_path'] = 'The directory for the images does not exists. <br />If this is your first time setting up the mod then please write a valid url for the images directory or leave it empty and save the settings, the mod will use the default directory: '. $settings['default_images_url'] . '/medals/';
+$txt['OAward_error_no_valid_path'] = 'The directory for the images does not exists. The mod uses the follow url to access the images<br />'. $settings['default_images_url'] . '/medals/<br /> Make sur ethis directory does exists inside the default/images/ directory.';
 $txt['OAward_error_no_image_ext'] = 'You must especify an image extension';
 $txt['OAward_error_no_image_in_server'] = 'The image %s does not exists in the images directory';
