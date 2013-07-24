@@ -290,7 +290,7 @@ class OAward
 				'award_name' => $row['award_name'],
 				'award_image' => $row['award_image'],
 				'award_description' => $row['award_description'],
-		);
+			);
 
 		$this->_smcFunc['db_free_result']($result);
 
@@ -382,8 +382,16 @@ class OAward
 		// Let's work with arrays to avoid annoyances...
 		$id = !is_array($id) ? array($id) : $id;
 
+		// Use ints by default
+		$isString = false;
+
 		// Used to collect data
 		$usersIDs = array();
+
+		// The id var can be a string or an array of strings too, the method will blindly assume all values are strings, so be nice and don't pass mixed values... you big meanie!
+		foreach ($id as $i)
+			if (is_string($i))
+				$isString = true;
 
 		// If the column is not the user ID, then we need to do an extra query to get the IDs and remove the cache :)
 		if ($column != 'award_user_id')
@@ -394,14 +402,19 @@ class OAward
 				$usersIDs[] = $t['award_user_id'];
 		}
 
+		// Yay, we only need to duplicate vars with the exact same data!
 		else
 			$usersIDs = $id;
 
+		// The actual delete query, finally!
 		$this->_smcFunc['db_query']('', '
 			DELETE FROM {db_prefix}' . (strtolower(self::$name)) . '
-			WHERE award_id = IN ({array_int:user})',
-			array('ids' => ($IDs))
+			WHERE '. ($column) .' IN ({array_'. ($isString ? 'string' : 'int') .':ids})',
+			array('ids' => ($id))
 		);
+
+		// We did awful things to be able to delete the cache... let it be worth...
+		$this->cleanCache($usersIDs);
 	}
 
 	protected function respond()
