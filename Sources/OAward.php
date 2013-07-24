@@ -338,21 +338,22 @@ class OAward
 
 	public function delete()
 	{
-		$this->sanitize('award_id');
+		$toDelete = $this->getData('award_id');
 
-		if (empty($this->_data['award_id']))
+		if (empty($toDelete))
 			$this->setError('no_valid_id');
 
-		// Does the entry exist?
+		// Get the data
 		$this->read();
 
-		if (empty($this->awards[$this->_data['award_id']]))
+		// Does the entry exist?
+		if (empty($this->awards[$toDelete]))
 			$this->setError('no_valid_id');
 
 		// All  good!
 		$this->_smcFunc['db_query']('', '
 			DELETE FROM {db_prefix}' . (strtolower(self::$name)) . '
-			WHERE award_id = {int:id}', array('id' => $this->_data['award_id']));
+			WHERE award_id = {int:id}', array('id' => $toDelete));
 
 		// Clean the cache
 		$this->cleanCache();
