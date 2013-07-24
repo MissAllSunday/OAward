@@ -459,11 +459,10 @@ class OAward
 		if (empty($arrayIDs))
 			$arrayIDs = array($this->user);
 
-		$arrayIDs = !is_array($arrayIDs) = array($arrayIDs) : $arrayIDs;
+		$arrayIDs = !is_array($arrayIDs) ? array($arrayIDs) : $arrayIDs;
 
 		foreach ($arrayIDs as $user)
 			cache_put_data(OAward::$name .'-User-' . $user, null, 120);
-
 	}
 
 	public static function deleteImage($path, $image)
