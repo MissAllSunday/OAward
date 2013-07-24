@@ -273,8 +273,8 @@ function OAward_manage_awards()
 
 		// User must fill all fields
 		foreach ($check as $c)
-		if (empty($c))
-			fatal_lang_error('OAward_error_multiple_empty_values', 0);
+			if (empty($c))
+				fatal_lang_error('OAward_error_multiple_empty_values', 0);
 
 		// Check if the image field has a valid extention
 		if (!$context['OAward']['object']->checkExt($check['award_image']))
@@ -287,5 +287,12 @@ function OAward_manage_awards()
 		// Finally, create the award
 		$context['OAward']['object']->createMulti($users, $data);
 		redirectexit('action=admin;area=oaward;sa=manageAwards;innerType=success;innerMessage=addAward');
+	}
+
+	// Delete awards
+	if (isset($_GET['deleteAward']) && !empty($_POST['delete_id']))
+	{print_r($_POST);die;
+		$context['OAward']['object']->deleteMulti($_POST['delete_id']);
+		redirectexit('action=admin;area=oaward;sa=manageAwards;innerType=success;innerMessage=deleteAward');
 	}
 }

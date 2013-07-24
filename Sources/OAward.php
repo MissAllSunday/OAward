@@ -331,6 +331,55 @@ class OAward
 		$this->cleanCache($IDs);
 	}
 
+	public function deleteBy($id, $column)
+	{
+		if (empty($id) || empty($column))
+			return false,
+
+		// Let's work with arrays to avoid annoyances...
+		$id = !is_array($id) ? array($id) : $id;
+
+		// Used to collect data
+		$usersIDs = array();
+
+		// By default we assume we got integers
+		$isString = false;
+
+		// The id var can be a string or an array of strings, the method will blindly assume all values are strings, so be nice and don't pass mixed values... you big meanie!
+		foreach ($id as $i)
+			if (is_string($i))
+				$isString = true;
+
+		// If the column is not the user ID, then we need to do an extra query to get the IDs and remove the cache :)
+		if ($column != 'award_user_id')
+		{
+			$result = $this->_smcFunc['db_query']('', '
+				SELECT award_user_id
+				FROM {db_prefix}' . (strtolower(self::$name)) . '
+				WHERE '. ($column) .' IN ({array_'. ($isString ? 'string' : 'int') .':ids})
+				', array(
+					'user' => $this->user,
+				)
+			);
+
+			// Populate the array
+			while ($row = $this->_smcFunc['db_fetch_assoc']($result))
+				$this->awards[$row['award_id']] = array(
+				'award_id' => $row['award_id'],
+				'award_user_id' => $row['award_user_id'],
+				'award_name' => $row['award_name'],
+				'award_image' => $row['award_image'],
+				'award_description' => $row['award_description'],
+			);
+
+		}
+		$this->_smcFunc['db_query']('', '
+			DELETE FROM {db_prefix}' . (strtolower(self::$name)) . '
+			WHERE award_id = IN ({array_int:user})',
+			array('ids' => ($IDs))
+		);
+	}
+
 	protected function respond()
 	{
 		global $modSettings, $txt;

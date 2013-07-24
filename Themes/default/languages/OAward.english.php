@@ -22,6 +22,9 @@ $txt['OAward_ui_name'] = 'Name: ';
 $txt['OAward_ui_image'] = 'Image: ';
 $txt['OAward_ui_desc'] = 'Desc: ';
 $txt['OAward_ui_confirm'] = 'Are you sure you wan to delete this?';
+$txt['OAward_ui_mass_delete_byUsers'] = 'Delete multiple awards by users';
+$txt['OAward_ui_mass_delete_desc'] = ' - You can delete all awards assigned to multiple users';
+$txt['OAward_ui_submit'] = 'Submit';
 
 // Server response
 $txt['OAward_response_create'] = 'You have succesfully created a new award';
@@ -40,6 +43,7 @@ $txt['OAward_admin_manageAwards_serverResponse_success'] = 'You have succesfully
 $txt['OAward_admin_manageAwards_serverResponse_error'] = 'There was an error. Please try again later.';
 $txt['OAward_admin_serverResponse_addAward_success'] = 'You have succesfully created the awards.';
 $txt['OAward_admin_serverResponse_addAward_error'] = 'There was an error while trying to create the awards, please try again later.';
+$txt['OAward_admin_serverResponse_deleteAward_success'] = 'You have succesfully deleted the awards.';
 
 $txt['OAward_admin_desc'] = 'This is the main O Award admin panel.';
 $txt['OAward_admin_enable'] = 'Enable the OAward mod';

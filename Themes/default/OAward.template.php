@@ -106,7 +106,7 @@ function template_display_profile()
 				<input type="text" name="award_image" id ="award_image">
 				<label>'. $txt['OAward_ui_desc'] .'</label>
 				<input type="text" name="award_description" id="award_description">
-				<input type="submit" value="Submit" class="oward_button">
+				<input type="submit" value = "'. $txt['OAward_ui_submit'] .'" class="oward_button">
 			</form>
 			<script type="text/javascript"><!-- // --><![CDATA[
 				$(\'.oward_button\').click(function()
@@ -332,7 +332,39 @@ function template_manage_awards()
 				</dd>
 			</dl>
 			<div style="float:right;">
-				<input type="submit" name="send" class="sbtn" value="Submit" />
+				<input type="submit" name="send" class="sbtn" value = "', $txt['OAward_ui_submit'] ,'" />
+			</div>
+			<div style="clear:both;"></div>
+		</form>
+		</div>
+		<span class="botslice"><span></span></span>
+	</div>
+
+	<br />';
+
+	// Handle mass deletion
+
+	echo '
+	<div class="cat_bar">
+		<h3 class="catbg">
+			<span class="ie6_header floatleft">', $txt['OAward_ui_mass_delete_byUsers'] . $txt['OAward_ui_mass_delete_desc'] ,'</span>
+		</h3>
+	</div>
+	<div class="windowbg">
+		<span class="topslice"><span></span></span>
+		<div class="content">
+		<form action="', $scripturl, '?action=admin;area=oaward;sa=manageAwards;deleteAward" method="post" target="_self">
+			<dl id="post_header">
+				<dt class="clear_left">
+					<span>', $txt['OAward_ui_user'] , '</span>
+				</dt>
+				<dd>
+					<input type="text" name="recipient_delete" id="recipient_delete" tabindex="', $context['tabindex']++, '"  size="40" maxlength="80" class="input_text" />
+					<div id="to_item_list_container_delete"></div>
+				</dd>
+			</dl>
+			<div style="float:right;">
+				<input type="submit" name="send" class="sbtn" value = "', $txt['OAward_ui_submit'] ,'" />
 			</div>
 			<div style="clear:both;"></div>
 		</form>
@@ -361,6 +393,19 @@ function suggestMemberO()
 		sTextDeleteItem: \'', $txt['autosuggest_delete_item'], '\',
 		bItemList: true,
 		sItemListContainerId: \'to_item_list_container\',
+	});
+
+	deleteAwards = new smc_AutoSuggest({
+		sSelf: \'deleteAwards\',
+		sSessionId: \'', $context['session_id'], '\',
+		sSessionVar: \'', $context['session_var'], '\',
+		sControlId: \'recipient_delete\',
+		sSearchType: \'member\',
+		sPostName: \'delete_id\',
+		sURLMask: \'action=profile;u=%item_id%\',
+		sTextDeleteItem: \'', $txt['autosuggest_delete_item'], '\',
+		bItemList: true,
+		sItemListContainerId: \'to_item_list_container_delete\',
 	});
 }
 suggestMemberO();
