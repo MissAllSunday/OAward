@@ -150,19 +150,13 @@ function OAward_manage_images()
 		'description' => $txt['OAward_admin_manageImages_desc'],
 	);
 
-	// Get all images in the image directory, there isn't a var for the path to the default images directory so we assume a couple of things here...
-	$imagesPath = $settings['default_theme_dir'] .'/images/medals';
-
-	// Is writable?
-	$context['OAward']['is_writeable'] = is_writable($imagesPath);
-
 	// Get all the awards!
 	$allAwards = $context['OAward']['object']->readAll();
 	$tempUsersIDs = array();
 
 	// Scan the dir
-	if (is_dir($imagesPath) && is_writable($imagesPath))
-		if ($openDir = opendir($imagesPath))
+	if (is_dir($context['imagePath']) && $context['OAward']['object']->isDirWritable())
+		if ($openDir = opendir($context['imagePath']))
 		{
 			while (($file = readdir($openDir)) !== false)
 			{
@@ -171,7 +165,7 @@ function OAward_manage_images()
 					if ($a['award_image'] == $file)
 					{
 						$context['OAward']['images'][$file] = array(
-							'image_info' => pathinfo($imagesPath .'/'. $file),
+							'image_info' => pathinfo($context['imagePath'] .'/'. $file),
 						);
 						$context['OAward']['images'][$file]['associated_ids'][$a['award_id']] = array(
 							'name' => $a['award_name'],
@@ -186,43 +180,43 @@ function OAward_manage_images()
 
 				// Fill out the unassigned ones...
 					else
-						$context['OAward']['unassigned_images'][$file] = pathinfo($imagesPath .'/'. $file);
+						$context['OAward']['unassigned_images'][$file] = pathinfo($context['imagePath'] .'/'. $file);
 			}
 
 			closedir($openDir);
+
+			// Get rid of the dots...
+			unset($context['OAward']['unassigned_images']['.']);
+			unset($context['OAward']['unassigned_images']['..']);
+
+			// Load the users data
+			$loaded_ids = loadMemberData(array_unique($tempUsersIDs), false, 'profile');
+
+			// Set the context var
+			foreach ($tempUsersIDs as $u)
+			{
+				// Avoid SMF showing an awful error message
+				if (in_array($u, $loaded_ids))
+				{
+					loadMemberContext($u);
+
+					// Normal context var
+					$context['OAward']['usersData'][$u] = array(
+						'name' => $memberContext[$u]['name'],
+						'id' => $memberContext[$u]['id'],
+						'link' => '<a href="'. $scripturl .'?action=profile;u='. $memberContext[$u]['id'] .'">'. $memberContext[$u]['name'] .'</a>',
+					);
+				}
+
+				// Award receiver is a guest...
+				else
+					$context['OAward']['usersData'][$u] = array(
+						'name' => $txt['guest_title'],
+						'id' => 0,
+						'link' => $txt['guest_title'],
+					);
+			}
 		}
-
-	// Get rid of the dots...
-	unset($context['OAward']['unassigned_images']['.']);
-	unset($context['OAward']['unassigned_images']['..']);
-
-	// Load the users data
-	$loaded_ids = loadMemberData(array_unique($tempUsersIDs), false, 'profile');
-
-	// Set the context var
-	foreach ($tempUsersIDs as $u)
-	{
-		// Avoid SMF showing an awful error message
-		if (in_array($u, $loaded_ids))
-		{
-			loadMemberContext($u);
-
-			// Normal context var
-			$context['OAward']['usersData'][$u] = array(
-				'name' => $memberContext[$u]['name'],
-				'id' => $memberContext[$u]['id'],
-				'link' => '<a href="'. $scripturl .'?action=profile;u='. $memberContext[$u]['id'] .'">'. $memberContext[$u]['name'] .'</a>',
-			);
-		}
-
-		// Award receiver is a guest...
-		else
-			$context['OAward']['usersData'][$u] = array(
-				'name' => $txt['guest_title'],
-				'id' => 0,
-				'link' => $txt['guest_title'],
-			);
-	}
 
 	// Handle deletion, each subaction sholud have its own separate function but I'm lazy...
 	if (isset($_GET['deleteImage']))
@@ -235,7 +229,7 @@ function OAward_manage_images()
 			redirectexit('action=admin;area=oaward;sa=manageImages');
 
 		// All nice and dandy... call the method
-		if (OAward::deleteImage($imagesPath, urldecode($image)))
+		if (OAward::deleteImage($context['imagePath'], urldecode($image)))
 		{
 			// Get all associated awards, if there are some of course
 			if (!empty($context['OAward']['images'][$image]['associated_ids']))
