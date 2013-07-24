@@ -71,13 +71,13 @@ function template_display_profile()
 		foreach ($context['OAwards'] as $award)
 		{
 			$return .= '
-			<li style="display: inline;" id="'. $award['award_id'] .'">';
+			<li style="display:inline-block;" id="'. $award['award_id'] .'">';
 			$return .=  '
-				<img src="'. $settings['default_images_url'] . '/medals/'. $award['award_image'] .'" width="'. $modSettings['OAward_admin_images_profile_size'] .'px;" class="oatoolTip_'. $award['award_id'] .'"/>';
+				<img src="'. $settings['default_images_url'] . '/medals/'. $award['award_image'] .'" width="'. $modSettings['OAward_admin_images_profile_size'] .'px;" class="oatoolTip_'. $award['award_id'] .'" style="display:inline-block;"/>';
 
 			// Show a nice icon for deletion
 			if ($context['user']['is_admin'])
-			$return .= '<img src="'. $settings['default_images_url'] . '/pm_recipient_delete.gif" id="deleteOAward" />';
+			$return .= '<br /><img src="'. $settings['default_images_url'] . '/pm_recipient_delete.gif" id="deleteOAward" style="display:inline-block;" title="'. $txt['OAward_admin_images_delete'] .'"/>';
 
 			$return .= '<script type="text/javascript"><!-- // --><![CDATA[
 					$(\'img.oatoolTip_'. $award['award_id'] .'\').aToolTip({
@@ -86,6 +86,33 @@ function template_display_profile()
 						toolTipClass: \'plainbox\',
 						xOffset: 15,
 						yOffset: 5,
+					});
+
+					$(\'#deleteOAward\').click(function()
+					{
+						var delete_id = $(this).closest("li").attr(\'id\');
+
+					$.ajax(
+					{
+						type: \'GET\',
+						url: smf_scripturl + \'?action=oaward;sa=delete\',
+						data: ({delete_id : delete_id}),
+						cache: false,
+						dataType: \'json\',
+						success: function(html)
+						{
+							jQuery(\'#\' + delete_id).fadeIn(\'slow\', \'linear\', function(){
+								noty({
+									text: oa_delete,
+									timeout: 3500, type: \'success\',
+								});
+							});
+						},
+						error: function (html)
+						{},
+					});
+
+					return false;
 					});
 				// ]]></script>';
 

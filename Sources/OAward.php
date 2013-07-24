@@ -586,6 +586,7 @@ class OAward
 		var oa_name = '. JavaScriptEscape($txt['OAward_ui_name']) .';
 		var oa_image = '. JavaScriptEscape($txt['OAward_ui_image']) .';
 		var oa_desc = '. JavaScriptEscape($txt['OAward_ui_desc']) .';
+		var oa_delete = '. JavaScriptEscape($txt['OAward_admin_manageAwards_serverResponse_success']) .';
 		function toggleDiv(divid, obj){
 			jQuery(\'#\' + divid).slideToggle();
 
