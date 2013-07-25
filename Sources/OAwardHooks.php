@@ -82,6 +82,14 @@ function OAward_settings(&$return_config = false)
 	loadtemplate('Admin');
 	loadLanguage(OAward::$name);
 
+	// Extra check
+	if (empty($context['OAward']['object']) || !is_object($context['OAward']['object']))
+	{
+		$context['OAward']['object'] = new OAward();
+		$context['imagePath'] = $context['OAward']['object']->imagesPath;
+		$context['imageUrl'] = $context['OAward']['object']->imagesUrl;
+	}
+
 	// Load stuff
 	$context['sub_template'] = 'show_settings';
 	$context['page_title'] = $txt['OAward_admin_title_general'];
@@ -149,6 +157,14 @@ function OAward_manage_images()
 		'title' => $context['page_title'],
 		'description' => $txt['OAward_admin_manageImages_desc'],
 	);
+
+	// Extra check
+	if (empty($context['OAward']['object']) || !is_object($context['OAward']['object']))
+	{
+		$context['OAward']['object'] = new OAward();
+		$context['imagePath'] = $context['OAward']['object']->imagesPath;
+		$context['imageUrl'] = $context['OAward']['object']->imagesUrl;
+	}
 
 	// Get all the awards!
 	$allAwards = $context['OAward']['object']->readAll();
@@ -264,6 +280,14 @@ function OAward_manage_awards()
 		'title' => $context['page_title'],
 		'description' => $txt['OAward_admin_manageAwards_desc'],
 	);
+
+	// Extra check
+	if (empty($context['OAward']['object']) || !is_object($context['OAward']['object']))
+	{
+		$context['OAward']['object'] = new OAward();
+		$context['imagePath'] = $context['OAward']['object']->imagesPath;
+		$context['imageUrl'] = $context['OAward']['object']->imagesUrl;
+	}
 
 	// Create awards
 	if (isset($_GET['newAward']) && !empty($_POST['award_user_id']))
