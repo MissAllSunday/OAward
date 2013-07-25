@@ -564,6 +564,9 @@ class OAward
 
 		foreach ($arrayIDs as $user)
 			cache_put_data(OAward::$name .'-User-' . $user, null, 120);
+
+		// We need to delete the "All" cache too
+			cache_put_data(OAward::$name .'-All', null, 120);
 	}
 
 	public static function deleteImage($path, $image)

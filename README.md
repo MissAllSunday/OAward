@@ -13,7 +13,7 @@ This is a very simple awards mod for SMF forum software.
 
 - No template edits.
 - Shows the awards using the custom fields system already present in SMF.
-- Can add or delete awards directly from the users profile, can delete awards directly from the users info block in the messages.
+- Can add or delete awards directly from the users profile.
 - Can mass add/delete awards from the admin panel.
 
 ######Known flaws

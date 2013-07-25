@@ -153,6 +153,7 @@ function OAward_manage_images()
 	// Get all the awards!
 	$allAwards = $context['OAward']['object']->readAll();
 	$tempUsersIDs = array();
+	$associated_ids = array();
 
 	// Scan the dir
 	if (is_dir($context['imagePath']) && $context['OAward']['object']->isDirWritable())
@@ -167,7 +168,8 @@ function OAward_manage_images()
 						$context['OAward']['images'][$file] = array(
 							'image_info' => pathinfo($context['imagePath'] .'/'. $file),
 						);
-						$context['OAward']['images'][$file]['associated_ids'][$a['award_id']] = array(
+
+						$associated_ids[$file][$a['award_id']] = array(
 							'name' => $a['award_name'],
 							'id' => $a['award_id'],
 							'desc' => $a['award_description'],
@@ -181,6 +183,9 @@ function OAward_manage_images()
 				// Fill out the unassigned ones...
 					else
 						$context['OAward']['unassigned_images'][$file] = pathinfo($context['imagePath'] .'/'. $file);
+
+				if (!empty($associated_ids[$file]))
+					$context['OAward']['images'][$file]['associated_ids'] = $associated_ids[$file];
 			}
 
 			closedir($openDir);
