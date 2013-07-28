@@ -247,7 +247,7 @@ function OAward_manage_images()
 	if (isset($_GET['deleteImage']))
 	{
 		$context['OAward']['object']->sanitize('image');
-		$image = $context['OAward']['object']->data('image');
+		$image = $context['OAward']['object']->getData('image');
 
 		// Get the file and the ext
 		if (empty($image))
