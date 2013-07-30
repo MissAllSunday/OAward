@@ -26,7 +26,7 @@ function template_display_awards($output)
 			$return .=  '<img src="'. $context['imageUrl'] .'/'. $award['award_image'] .'" width="'. $modSettings['OAward_admin_images_display_size'] .'px;" class="oatoolTip_'. $award['award_id'] .'" id="oAward_'. $award['award_id'] .'"/>';
 
 			$return .=  '<script type="text/javascript"><!-- // --><![CDATA[
-				$(\'img.oatoolTip_'. $award['award_id'] .'\').aToolTip({
+				jQuery(\'img.oatoolTip_'. $award['award_id'] .'\').aToolTip({
 					clickIt: false,
 					tipContent: \'<span style="font-weight:bold;">'. $award['award_name'] .'</span><p />'. $award['award_description'] .'\',
 					toolTipClass: \'plainbox\',
@@ -73,49 +73,12 @@ function template_display_profile()
 			$return .= '
 			<li style="display:inline-block;" id="_'. $award['award_id'] .'">';
 			$return .=  '
-				<img src="'. $context['imageUrl'] . '/'. $award['award_image'] .'" width="'. $modSettings['OAward_admin_images_profile_size'] .'px;" class="oatoolTip_'. $award['award_id'] .'" style="display:inline-block;"/>';
+				<img src="'. $context['imageUrl'] . '/'. $award['award_image'] .'" width="'. $modSettings['OAward_admin_images_profile_size'] .'px;" id="oAward_tooltip_'. $award['award_id'] .'" class="oAward_tooltip" style="display:inline-block;"/>
+				<div id="oAward_desc_'. $award['award_id'] .'" style="display:none;"><span style="font-weight:bold;">'. $award['award_name'] .'</span><p />'. $award['award_description'] .'</div>';
 
 			// Show a nice icon for deletion
 			if ($context['user']['is_admin'])
 			$return .= '<br /><img src="'. $settings['default_images_url'] . '/pm_recipient_delete.gif" id="deleteOAward_'. $award['award_id'] .'" style="display:inline-block;" title="'. $txt['OAward_admin_images_delete'] .'"/>';
-
-			$return .= '<script type="text/javascript"><!-- // --><![CDATA[
-					$(\'img.oatoolTip_'. $award['award_id'] .'\').aToolTip({
-						clickIt: false,
-						tipContent: \'<span style="font-weight:bold;">'. $award['award_name'] .'</span><p />'. $award['award_description'] .'\',
-						toolTipClass: \'plainbox\',
-						xOffset: 15,
-						yOffset: 5,
-					});
-
-					$(\'#deleteOAward_'. $award['award_id'] .'\').click(function()
-					{
-						var award_delete_id = $(this).closest("li").attr(\'id\');
-						delete_id = award_delete_id.replace( /^\D+/g, \'\');
-
-					$.ajax(
-					{
-						type: \'GET\',
-						url: smf_scripturl + \'?action=oaward;sa=delete\',
-						data: ({award_id : delete_id}),
-						cache: false,
-						dataType: \'json\',
-						success: function(html)
-						{
-							jQuery(\'#_'. $award['award_id'] .'\').fadeOut(\'slow\', \'linear\', function(){
-								noty({
-									text: oa_delete,
-									timeout: 3500, type: \'success\',
-								});
-							});
-						},
-						error: function (html)
-						{},
-					});
-
-					return false;
-					});
-				// ]]></script>';
 
 			// End the li
 			$return .= '
@@ -125,6 +88,27 @@ function template_display_profile()
 		// End the list
 		$return .= '
 		</ul>';
+
+		// All the JavaScript trickery...
+		$return .= '
+	<script type="text/javascript"><!-- // --><![CDATA[
+		$(document).ready(function(){
+			$(\'.oAward_tooltip\').each(function()
+			{
+				var award_id = $(this).attr(\'id\');
+				var actual_id = award_id.replace( /^\D+/g, \'\');
+				var award_desc = $(\'#oAward_desc_\' + actual_id).html();
+
+				$(\'#oAward_tooltip_\' + actual_id).aToolTip({
+					clickIt: false,
+					tipContent: award_desc,
+					toolTipClass: \'plainbox\',
+					xOffset: 15,
+					yOffset: 5,
+				});
+			});
+		});
+	// ]]></script>';
 	}
 
 	// Add a nice form so the admins can add more goodies
@@ -143,16 +127,16 @@ function template_display_profile()
 				<input type="submit" value = "'. $txt['OAward_ui_submit'] .'" class="oward_button">
 			</form>
 			<script type="text/javascript"><!-- // --><![CDATA[
-				$(\'.oward_button\').click(function()
+				jQuery(\'.oward_button\').click(function()
 				{
-					var award_user_id = $(\'#award_user_id\').val();
-					var award_name = $(\'#award_name\').val();
-					var award_image = $(\'#award_image\').val();
-					var award_description = $(\'#award_description\').val();
+					var award_user_id = jQuery(\'#award_user_id\').val();
+					var award_name = jQuery(\'#award_name\').val();
+					var award_image = jQuery(\'#award_image\').val();
+					var award_description = jQuery(\'#award_description\').val();
 
-					$(\'.oward_button\').attr(\'disabled\', \'disabled\');
+					jQuery(\'.oward_button\').attr(\'disabled\', \'disabled\');
 
-					$.ajax(
+					jQuery.ajax(
 					{
 						type: \'POST\',
 						url: smf_scripturl + \'?action=oaward;sa=create\',
@@ -161,9 +145,9 @@ function template_display_profile()
 						dataType: \'json\',
 						success: function(html)
 						{
-							$(\'#award_name\').val(\'\');
-							$(\'#award_image\').val(\'\');
-							$(\'#award_description\').val(\'\');
+							jQuery(\'#award_name\').val(\'\');
+							jQuery(\'#award_image\').val(\'\');
+							jQuery(\'#award_description\').val(\'\');
 							jQuery(\'#oa_add\').slideToggle();
 
 							noty({
@@ -178,13 +162,13 @@ function template_display_profile()
 											location.reload();}
 
 										else{
-											$(\'.oaward_add\').html(oa_add_new_award);}
+											jQuery(\'.oaward_add\').html(oa_add_new_award);}
 									}
 								},
 							});
 
 							// Refresh the page...
-							$(\'.oward_button\').removeAttr(\'disabled\');
+							jQuery(\'.oward_button\').removeAttr(\'disabled\');
 						},
 						error: function (html)
 						{},
