@@ -22,18 +22,9 @@ function template_display_awards($output)
 	if (!empty($context['OAwards']))
 		foreach ($context['OAwards'] as $award)
 		{
-			$return .= '<li id="'. $award['award_id'] .'">';
-			$return .=  '<img src="'. $context['imageUrl'] .'/'. $award['award_image'] .'" width="'. $modSettings['OAward_admin_images_display_size'] .'px;" class="oatoolTip_'. $award['award_id'] .'" id="oAward_'. $award['award_id'] .'"/>';
-
-			$return .=  '<script type="text/javascript"><!-- // --><![CDATA[
-				jQuery(\'img.oatoolTip_'. $award['award_id'] .'\').aToolTip({
-					clickIt: false,
-					tipContent: \'<span style="font-weight:bold;">'. $award['award_name'] .'</span><p />'. $award['award_description'] .'\',
-					toolTipClass: \'plainbox\',
-					xOffset: 15,
-					yOffset: 5,
-				});
-	// ]]></script>';
+			$return .=  '
+				<img src="'. $context['imageUrl'] . '/'. $award['award_image'] .'" width="'. $modSettings['OAward_admin_images_display_size'] .'px;" id="oAward_tooltip_'. $award['award_id'] .'" class="oAward_tooltip" style="display:inline-block;"/>
+				<div id="oAward_desc_'. $award['award_id'] .'" style="display:none;"><span style="font-weight:bold;">'. $award['award_name'] .'</span><p />'. $award['award_description'] .'</div>';
 
 			// End the li
 			$return .= '</li>';
