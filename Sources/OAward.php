@@ -656,5 +656,26 @@ class OAward
 
 		// Load the template
 		loadTemplate('OAward');
+
+		// Set all the JavaScript trickery...
+	$context['insert_after_template'] .= '
+	<script type="text/javascript"><!-- // --><![CDATA[
+		$(document).ready(function(){
+			$(\'.oAward_tooltip\').each(function()
+			{
+				var award_id = $(this).attr(\'id\');
+				var actual_id = award_id.replace( /^\D+/g, \'\');
+				var award_desc = $(\'#oAward_desc_\' + actual_id).html();
+
+				$(\'#oAward_tooltip_\' + actual_id).aToolTip({
+					clickIt: false,
+					tipContent: award_desc,
+					toolTipClass: \'plainbox\',
+					xOffset: 15,
+					yOffset: 5,
+				});
+			});
+		});
+	// ]]></script>';
 	}
 }

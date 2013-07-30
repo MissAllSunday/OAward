@@ -88,27 +88,6 @@ function template_display_profile()
 		// End the list
 		$return .= '
 		</ul>';
-
-		// All the JavaScript trickery...
-		$return .= '
-	<script type="text/javascript"><!-- // --><![CDATA[
-		$(document).ready(function(){
-			$(\'.oAward_tooltip\').each(function()
-			{
-				var award_id = $(this).attr(\'id\');
-				var actual_id = award_id.replace( /^\D+/g, \'\');
-				var award_desc = $(\'#oAward_desc_\' + actual_id).html();
-
-				$(\'#oAward_tooltip_\' + actual_id).aToolTip({
-					clickIt: false,
-					tipContent: award_desc,
-					toolTipClass: \'plainbox\',
-					xOffset: 15,
-					yOffset: 5,
-				});
-			});
-		});
-	// ]]></script>';
 	}
 
 	// Add a nice form so the admins can add more goodies
