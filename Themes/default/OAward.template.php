@@ -69,7 +69,7 @@ function template_display_profile()
 
 			// Show a nice icon for deletion
 			if ($context['user']['is_admin'])
-			$return .= '<br /><img src="'. $settings['default_images_url'] . '/pm_recipient_delete.gif" id="deleteOAward_'. $award['award_id'] .'" style="display:inline-block;" title="'. $txt['OAward_admin_images_delete'] .'"/>';
+				$return .= '<br /><img src="'. $settings['default_images_url'] . '/pm_recipient_delete.gif" id="deleteOAward_'. $award['award_id'] .'" style="display:inline-block;" title="'. $txt['OAward_admin_images_delete'] .'" class="oAward_delete"/>';
 
 			// End the li
 			$return .= '

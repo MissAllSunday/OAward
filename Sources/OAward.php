@@ -660,19 +660,44 @@ class OAward
 		// Set all the JavaScript trickery...
 	$context['insert_after_template'] .= '
 	<script type="text/javascript"><!-- // --><![CDATA[
-		$(document).ready(function(){
-			$(\'.oAward_tooltip\').each(function()
-			{
+		jQuery(document).ready(function(){
+			jQuery(\'.oAward_tooltip\').each(function(){
 				var award_id = $(this).attr(\'id\');
 				var actual_id = award_id.replace( /^\D+/g, \'\');
 				var award_desc = $(\'#oAward_desc_\' + actual_id).html();
 
-				$(\'#oAward_tooltip_\' + actual_id).aToolTip({
+				jQuery(\'#oAward_tooltip_\' + actual_id).aToolTip({
 					clickIt: false,
 					tipContent: award_desc,
 					toolTipClass: \'plainbox\',
 					xOffset: 15,
 					yOffset: 5,
+				});
+			});
+
+			jQuery(\'.oAward_delete\').each(function(){
+				var award_id = $(this).attr(\'id\');
+				var actual_id = award_id.replace( /^\D+/g, \'\');
+
+				jQuery(\'#deleteOAward_\' + actual_id).click(function(){
+					jQuery.ajax({
+						type: \'GET\',
+						url: smf_scripturl + \'?action=oaward;sa=delete\',
+						data: ({award_id : actual_id}),
+						cache: false,
+						dataType: \'json\',
+						success: function(html){
+							jQuery(\'#_\' + actual_id).fadeOut(\'slow\', \'linear\', function(){
+								noty({
+									text: oa_delete,
+									timeout: 3500, type: \'success\',
+								});
+							});
+						},
+						error: function (html)
+						{},
+					});
+					return false;
 				});
 			});
 		});
