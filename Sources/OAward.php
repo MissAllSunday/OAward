@@ -658,7 +658,7 @@ class OAward
 		loadTemplate('OAward');
 
 		// Set all the JavaScript trickery...
-	$context['insert_after_template'] .= '
+		$context['insert_after_template'] .= '
 	<script type="text/javascript"><!-- // --><![CDATA[
 		jQuery(document).ready(function(){
 			jQuery(\'.oAward_tooltip\').each(function(){

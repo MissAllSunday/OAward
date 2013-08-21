@@ -44,7 +44,7 @@
 
 	// Oaward mod
 	global $modSettings;
-	if (!empty($modSettings['OAward_admin_enable']))
+	if (!empty($modSettings['OAward_admin_enable']) && $area == 'summary')
 	{
 		OAward::setHeaders();
 		$OAward = new OAward($memID);
