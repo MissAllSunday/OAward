@@ -11,7 +11,8 @@
 		<code>hooks.php</code>
 		<modification>OAward.xml</modification>
 		<require-dir name="Themes" destination="$boarddir">Source files</require-dir>
-		<require-dir name="Sources" destination="$boarddir">Source files</require-dir>
+		<require-file name="Sources/OAward.php" destination="$sourcedir">Source files</require-file>
+		<require-file name="Sources/OAwardHooks.php" destination="$sourcedir">Source files</require-file>
 		<redirect url="$scripturl?action=admin;area=modsettings;sa=oaward" timeout="3000">redirect.txt</redirect>
 	</install>
 
